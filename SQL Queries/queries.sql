@@ -58,9 +58,9 @@ CREATE TABLE RegisteredCustomer(
 CREATE TABLE Sale(
 	saleID integer(20),
 	advisorID integer(3) NOT NULL,
-	customerEmail email varchar(30) NULL,
+	customerEmail varchar(30) NULL,
 
-	dateSold integer(8) NOT NULL,
+	dateSold date() NOT NULL,
 	paymentType varchar(4) NOT NULL,
 	currecy varchar(5) DEFAULT "USD",
 	price decimal(15,2) NOT NULL,
@@ -76,29 +76,31 @@ CREATE TABLE Sale(
 );
 
 CREATE TABLE Ticket(
-	ticketNumber integer(11),
+	ticketType integer(3),
+	ticketNumber integer(8),
 	advisorID integer(3) NULL,
 	saleID integer(20) NULL,
 
 	isValid bool() DEFAULT False,
 	isVoid bool() DEFAULT False,
 
-	PRIMARY KEY (ticketNumber),
+	PRIMARY KEY (ticketType, ticketNumber),
 	FOREIGN KEY (advisorID) REFERENCES Advisor (advID),
 	FOREIGN KEY (saleID) REFERENCES Sale (saleID)
 );
 
 CREATE TABLE Coupon(
 	CouponID integer(1),
-	ticketNumber integer(11),
+	ticketType integer(3),
+	ticketNumber integer(8),
 
-	flightDepartureDate integer(8),
+	flightDepartureDate date(),
 	flightDepartureTime integer(4),
 	departFrom varchar(30),
 	flightTo varchar(30),
 
-	PRIMARY KEY (CouponID, ticketNumber),
-	FOREIGN KEY (ticketNumber) REFERENCES Ticket (ticketNumber)
+	PRIMARY KEY (CouponID, ticektType, ticketNumber),
+	FOREIGN KEY (ticektType, ticketNumber) REFERENCES Ticket (ticketType, ticketNumber)
 );
 
 CREATE TABLE SystemSettings(
@@ -109,3 +111,85 @@ CREATE TABLE SystemSettings(
 	autoBackupFreqDays integer(3),
 	timeSinceLastBackup integer(3) DEFAULT 0,
 );
+
+
+
+
+
+/* INSERT STATEMENTS */
+
+/*new ticket stocks added to system*/
+INSERT INTO Ticket VALUES
+	(444, 00000001, False, False, NULL, NULL),
+	(444, 00000002, False, False, NULL, NULL),
+	(444, 00000003, False, False, NULL, NULL),
+	(444, 00000004, False, False, NULL, NULL),
+	(451, 00000001, False, False, NULL, NULL);
+
+/*3 add coupons for international ticket with 3 legs for journey */
+INSERT INTO COUPON VALUES
+	(0, 444, 00000001, 26022023, 1230, 'London','Paris'),
+	(1, 444, 00000001, 26022023, 1500, 'Paris','Berlin'),
+	(2, 444, 00000001, 26022023, 1915, 'Berlin','Amsterdam');
+
+
+
+
+
+/* UPDATE STATEMENTS */
+
+/* Assign 3 tickets to an Advisor */
+UPDATE Ticket
+SET advisorID = 001
+WHERE (ticketType = 444) AND (ticketNumber BETWEEN 00000001 AND 00000004);
+
+/* An error was made on ticket 2, void this ticket*/
+UPDATE Ticket
+SET isVoid = True
+WHERE (ticketType = 444) AND (ticketNumber = 00000002);
+
+
+
+
+
+/* SELECT STATEMENTS */
+
+/* select tickets without an advisor assigned to them */
+SELECT ticketType, ticketNumber
+FROM Ticket
+WHERE advisorID == NULL;
+
+/* select overdue late payment sales*/
+SELECT customerEmail, advisorID
+FROM SALE
+WHERE (DATEDIFF(NOW(), dateSold) > 30);
+
+
+
+
+
+
+/* DELETE STATEMENTS */
+
+/* a customer would like their account to be deleted */
+DELETE FROM RegisteredCustomer
+WHERE email = 'steve@gmail.com';
+
+/* delete coupons made in error for ticket 444 00000003 */
+DELETE FROM Coupon
+WHERE ticketType = 444 AND ticketNumber = 00000003;
+
+
+
+
+
+/* STATEMENTS FOR GLOBAL SALES REPORT */
+
+
+
+
+
+
+
+
+/* STATEMENTS FOR TICKET TUROVER REPORT */
