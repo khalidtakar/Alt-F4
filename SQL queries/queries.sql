@@ -82,7 +82,6 @@ CREATE TABLE Ticket(
 	saleID integer(20) NULL,
 
 	isValid bool() DEFAULT False,
-	isVoid bool() DEFAULT False,
 	seats integer(3) DEFAULT 1,
 
 	PRIMARY KEY (ticketType, ticketNumber),
@@ -121,11 +120,11 @@ CREATE TABLE SystemSettings(
 
 /*new ticket stocks added to system*/
 INSERT INTO Ticket VALUES
-	(444, 00000001, NULL, NULL, False, False),
-	(444, 00000002, NULL, NULL, False, False),
-	(444, 00000003, NULL, NULL, False, False, 3),
-	(444, 00000004, NULL, NULL, False, False, 4),
-	(451, 00000001, NULL, NULL, False, False, 2);
+	(444, 00000001, NULL, NULL, False),
+	(444, 00000002, NULL, NULL, False),
+	(444, 00000003, NULL, NULL, False, 3),
+	(444, 00000004, NULL, NULL, False, 4),
+	(451, 00000001, NULL, NULL, False, 2);
 
 /*3 add coupons for international ticket with 3 legs for journey */
 INSERT INTO COUPON VALUES
