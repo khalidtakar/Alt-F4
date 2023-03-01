@@ -24,7 +24,7 @@ CREATE TABLE Administrator(
 	admID integer(3),
 	email varchar(30) NOT NULL,
 
-	PRIMARY KEY (manID),
+	PRIMARY KEY (admID),
 	FOREIGN KEY (email) REFERENCES Employee (email)
 );
 
@@ -40,7 +40,7 @@ CREATE TABLE Advisor(
 	advID integer(3),
 	email varchar(30) NOT NULL,
 
-	PRIMARY KEY (manID),
+	PRIMARY KEY (advID),
 	FOREIGN KEY (email) REFERENCES Employee (email)
 );
 
@@ -48,9 +48,9 @@ CREATE TABLE RegisteredCustomer(
 	email varchar(30),
 
 	name varchar(30) NOT NULL,
-	isValued bool() DEFAULT False,
-	spentThisMonth decimal(15,2) DEFAULT 0.00,
-	discountOrRefundToReturn decimal(15,2) DEFAULT 0.00,
+	isValued tinyint(1) NOT NULL DEFAULT 0,
+	spentThisMonth bigint(8) NOT NULL DEFAULT 0,
+	discountOrRefundToReturn bigint(8) NOT NULL DEFAULT 0,
 
 	PRIMARY KEY (email)
 );
@@ -60,15 +60,15 @@ CREATE TABLE Sale(
 	advisorID integer(3) NOT NULL,
 	customerEmail varchar(30) NULL,
 
-	dateSold date() NOT NULL,
-	paymentType varchar(4) NOT NULL,
-	currecy varchar(5) DEFAULT "USD",
-	price decimal(15,2) NOT NULL,
-	saleDiscountAmount decimal(15,2) DEFAULT 0.00,
-	saleCommisionAmount decimal(15,2) NOT NULL,
-	isDomestic bool() NOT NULL,
-	isPaid bool() NOT NULL,
-	isRefunded bool() DEFAULT False,
+	dateSold date,
+	paymentType varchar(4),
+	currecy varchar(5),
+	price decimal(15,2),
+	saleDiscountAmount decimal(15,2),
+	saleCommisionAmount decimal(15,2),
+	isDomestic tinyint(1),
+	isPaid tinyint(1) DEFAULT 0,
+	isRefunded tinyint(1) DEFAULT 0,
 
 	PRIMARY KEY (saleID),
 	FOREIGN KEY (advisorID) REFERENCES Advisor (advID),
@@ -78,12 +78,13 @@ CREATE TABLE Sale(
 CREATE TABLE Ticket(
 	ticketType integer(3),
 	ticketNumber integer(8),
-	advisorID integer(3) NULL,
-	saleID integer(20) NULL,
+	advisorID integer(3),
+	saleID integer(20),
 
-	isValid bool() DEFAULT False,
+	isValid tinyint(1) DEFAULT 0,
 	seats integer(3) DEFAULT 1,
 
+	UNIQUE (ticketType, ticketNumber),
 	PRIMARY KEY (ticketType, ticketNumber),
 	FOREIGN KEY (advisorID) REFERENCES Advisor (advID),
 	FOREIGN KEY (saleID) REFERENCES Sale (saleID)
@@ -94,12 +95,13 @@ CREATE TABLE Coupon(
 	ticketType integer(3),
 	ticketNumber integer(8),
 
-	flightDepartureDate date(),
+	flightDepartureDate date,
 	flightDepartureTime integer(4),
 	departFrom varchar(30),
 	flightTo varchar(30),
 
-	PRIMARY KEY (CouponID, ticektType, ticketNumber),
+	UNIQUE (CouponID, ticketType, ticketNumber),
+	PRIMARY KEY  (CouponID, ticketType, ticketNumber),
 	FOREIGN KEY (ticketType, ticketNumber) REFERENCES Ticket (ticketType, ticketNumber)
 );
 
@@ -107,9 +109,9 @@ CREATE TABLE SystemSettings(
 	commisionAmount decimal(3,2),
 	discountAmount decimal(3,2),
 	flexibleDiscountAmount decimal(3,2),
-	flexibleDiscountThreshold decimal(15,2)
-	autoBackupFreqDays integer(3),
-	timeSinceLastBackup integer(3) DEFAULT 0,
+	flexibleDiscountThreshold decimal(15,2),
+	autoBackupFreqDays integer(3) DEFAULT 30,
+	timeSinceLastBackup integer(3) DEFAULT 0
 );
 
 
@@ -120,32 +122,37 @@ CREATE TABLE SystemSettings(
 
 /*new ticket stocks added to system*/
 INSERT INTO Ticket VALUES
-	(444, 00000001, NULL, NULL, False),
-	(444, 00000002, NULL, NULL, False),
+	(444, 00000001, NULL, NULL, False, 1),
+	(444, 00000002, NULL, NULL, False, 1),
 	(444, 00000003, NULL, NULL, False, 3),
 	(444, 00000004, NULL, NULL, False, 4),
 	(451, 00000001, NULL, NULL, False, 2);
 
 /*3 add coupons for international ticket with 3 legs for journey */
-INSERT INTO COUPON VALUES
+INSERT INTO Coupon VALUES
 	(0, 444, 00000001, 26022023, 1230, 'London','Paris'),
 	(1, 444, 00000001, 26022023, 1500, 'Paris','Berlin'),
 	(2, 444, 00000001, 26022023, 1915, 'Berlin','Amsterdam');
 
 
 
-
-
 /* UPDATE STATEMENTS */
 
 /* Assign 3 tickets to an Advisor */
+INSERT INTO Employee VALUES
+	("bob@gmail.com", "password", "bob");
+
+INSERT INTO Employee VALUES
+	(1, "bob@gmail.com");
+
+
 UPDATE Ticket
 SET advisorID = 001
 WHERE (ticketType = 444) AND (ticketNumber BETWEEN 00000001 AND 00000004);
 
 /* An error was made on ticket 2, void this ticket*/
 UPDATE Ticket
-SET isVoid = True
+SET isValid = 0
 WHERE (ticketType = 444) AND (ticketNumber = 00000002);
 
 
@@ -157,7 +164,7 @@ WHERE (ticketType = 444) AND (ticketNumber = 00000002);
 /* select tickets without an advisor assigned to them */
 SELECT ticketType, ticketNumber
 FROM Ticket
-WHERE advisorID == NULL;
+WHERE advisorID IS NULL;
 
 /* select overdue late payment sales*/
 SELECT customerEmail, advisorID
