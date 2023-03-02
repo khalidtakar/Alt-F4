@@ -56,16 +56,17 @@ CREATE TABLE RegisteredCustomer(
 );
 
 CREATE TABLE Sale(
-	saleID integer(20),
+	saleID integer(20) AUTO_INCREMENT,
 	advisorID integer(3) NOT NULL,
 	customerEmail varchar(30) NULL,
 
 	dateSold date,
 	paymentType varchar(4),
 	currecy varchar(5),
-	price decimal(15,2),
-	saleDiscountAmount decimal(15,2),
-	saleCommisionAmount decimal(15,2),
+	price integer(20),
+	saleDiscountAmount integer(4),
+	saleTaxAmount integer(4),
+	saleCommissionAmount integer(4),
 	isDomestic tinyint(1),
 	isPaid tinyint(1) DEFAULT 0,
 	isRefunded tinyint(1) DEFAULT 0,
@@ -106,12 +107,13 @@ CREATE TABLE Coupon(
 );
 
 CREATE TABLE SystemSettings(
-	commisionAmount decimal(3,2),
-	discountAmount decimal(3,2),
-	flexibleDiscountAmount decimal(3,2),
-	flexibleDiscountThreshold decimal(15,2),
-	autoBackupFreqDays integer(3) DEFAULT 30,
-	timeSinceLastBackup integer(3) DEFAULT 0
+	commissionAmount integer(4),
+	saleTaxAmount integer(4),
+	discountAmount integer(4),
+	flexibleDiscountAmount integer(4),
+	flexibleDiscountThreshold integer(8),
+	autoBackupFreqDays integer(3) DEFAULT 7,
+	lastBackup date
 );
 
 
@@ -134,26 +136,37 @@ INSERT INTO Coupon VALUES
 	(1, 444, 00000001, 26022023, 1500, 'Paris','Berlin'),
 	(2, 444, 00000001, 26022023, 1915, 'Berlin','Amsterdam');
 
+/* Other assign statements for reports */
+INSERT INTO Employee VALUES
+	("bob@gmail.com", "password", "bob");
+
+INSERT INTO Advisor VALUES
+	(1, "bob@gmail.com");
+
+INSERT INTO Sale(advisorID, customerEmail, dateSold, paymentType, currecy, price, saleDiscountAmount, saleTaxAmount, saleCommissionAmount, isDomestic, isPaid, isRefunded) VALUES
+	(1, NULL, "2023-15-02", "card", "USD", 20000, 1000, 2000, 500, False, True, False),
+	(1, NULL, "1990-01-01", "card", "USD", 20000, 1000, 2000, 500, False, True, False),
+	(1, NULL, "2000-01-01", "card", "USD", 20000, 1000, 2000, 500, False, True, False),
+	(1, NULL, "2023-15-02", "card", "USD", 20000, 1000, 2000, 500, False, True, False),
+	(1, NULL, "2023-15-02", "card", "USD", 20000, 1000, 2000, 500, False, True, False);
+
+
 
 
 /* UPDATE STATEMENTS */
 
 /* Assign 3 tickets to an Advisor */
-INSERT INTO Employee VALUES
-	("bob@gmail.com", "password", "bob");
-
-INSERT INTO Employee VALUES
-	(1, "bob@gmail.com");
-
-
 UPDATE Ticket
-SET advisorID = 001
-WHERE (ticketType = 444) AND (ticketNumber BETWEEN 00000001 AND 00000004);
+SET 
+	advisorID = 001,
+WHERE (ticketType = 444) AND (ticketNumber BETWEEN 1 AND 4);
 
-/* An error was made on ticket 2, void this ticket*/
+
+/* Sell 3 tickets*/
 UPDATE Ticket
-SET isValid = 0
-WHERE (ticketType = 444) AND (ticketNumber = 00000002);
+SET isValid = True,
+	saleID = 1
+WHERE (ticketType = 444) AND (ticketNumber = 1 OR ticketNumber = 2 OR ticketNumber = 3);
 
 
 
@@ -167,8 +180,8 @@ FROM Ticket
 WHERE advisorID IS NULL;
 
 /* select overdue late payment sales*/
-SELECT customerEmail, advisorID
-FROM SALE
+SELECT saleId, customerEmail, advisorID, dateSold
+FROM Sale
 WHERE (DATEDIFF(NOW(), dateSold) > 30);
 
 
@@ -189,9 +202,32 @@ WHERE ticketType = 444 AND ticketNumber = 00000003;
 
 
 
-/* STATEMENTS FOR GLOBAL SALES REPORT */
+/* STATEMENTS FOR Induvidual Interline SALES REPORT for advisor ID 1 */
 
-
+SELECT 
+	t.ticketType, t.ticketNumber,
+	s.isPaid, s.paymentType,
+	s.price / 100,
+	(s.price * (s.saleDiscountAmount / 100)) 
+		AS 'Discount',
+	((s.price 
+		* (s.saleDiscountAmount / 100)) * (s.saleCommissionAmount / 100)) 
+		AS 'CommissionAmount',
+	((s.price 
+		* (s.saleDiscountAmount / 100)) * (s.saleTaxAmount / 100)) 
+		AS 'TaxAmount',
+	(s.price 
+		- ((s.price * (s.saleDiscountAmount / 100)) * (s.saleCommissionAmount / 100))
+		- ((s.price * (s.saleDiscountAmount / 100)) * (s.saleTaxAmount / 100))) 
+		AS 'NonAssessAmount'
+FROM Sale s, Ticket t
+WHERE
+	t.advisorID = s.advisorID
+	AND s.advisorID = 1
+	AND t.isValid = 1
+	AND s.isDomestic = False
+	AND s.isRefunded = False
+	GROUP BY ticketType, ticketNumber;
 
 
 
@@ -199,3 +235,19 @@ WHERE ticketType = 444 AND ticketNumber = 00000003;
 
 
 /* STATEMENTS FOR TICKET TUROVER REPORT */
+
+
+
+
+/* DROP TABLES */
+/*
+DROP TABLE Coupon;
+DROP TABLE Ticket;
+DROP TABLE Sale;
+DROP TABLE RegisteredCustomer;
+DROP TABLE Advisor;
+DROP TABLE Manager;
+DROP TABLE Administrator;
+DROP TABLE Employee;
+DROP TABLE SystemSettings;
+*/
