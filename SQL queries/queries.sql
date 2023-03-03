@@ -119,6 +119,16 @@ CREATE TABLE SystemSettings(
 
 
 
+
+
+
+
+
+
+
+
+
+
 /* Other assign statements for reports */
 INSERT INTO Employee VALUES
 	("bob@gmail.com", "password", "bob"),
@@ -132,6 +142,18 @@ INSERT INTO Sale(advisorID, customerEmail, dateSold, paymentType, currecy, price
 	(1, NULL, "2023-15-02", "card", "USD", 20000, 1000, 2000, 500, False, True, False),
 	(1, NULL, "1990-01-01", "cash", "USD", 20000, 1000, 2000, 500, False, True, False),
 	(2, NULL, "2023-15-02", "card", "USD", 20000, 1000, 2000, 500, False, True, False);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -154,6 +176,13 @@ INSERT INTO Coupon(ticketType, ticketNumber, flightDepartureDate, flightDepartur
 	(444, 00000007, 26022023, 1230, 'London','Paris'),
 	(444, 00000007, 26022023, 1500, 'Paris','Berlin'),
 	(444, 00000007, 26022023, 1915, 'Berlin','Amsterdam');
+
+
+
+
+
+
+
 
 
 
@@ -183,6 +212,12 @@ WHERE (ticketType = 444) AND ticketNumber = 3;
 
 
 
+
+
+
+
+
+
 /* SELECT STATEMENTS */
 
 /* select tickets without an advisor assigned to them */
@@ -200,15 +235,8 @@ WHERE (DATEDIFF(NOW(), dateSold) > 30);
 
 
 
-/* DELETE STATEMENTS */
 
-/* a customer would like their account to be deleted */
-DELETE FROM RegisteredCustomer
-WHERE email = 'steve@gmail.com';
 
-/* delete coupons made in error for ticket 444 00000003 */
-DELETE FROM Coupon
-WHERE ticketType = 444 AND ticketNumber = 00000003;
 
 
 
@@ -287,6 +315,10 @@ WHERE
 
 
 
+
+
+
+
 /* STATEMENTS FOR TICKET TUROVER REPORT */
 /* Summarised unnasigned/ received tickets */
 SELECT 
@@ -311,7 +343,7 @@ SELECT
 FROM Ticket
 WHERE 
 	advisorID IS NOT NULL
-GROUP BY ticketType
+GROUP BY advisorID, ticketType
 ORDER BY advisorID;
 
 /* Detailed assigned tickets */
@@ -387,6 +419,35 @@ WHERE
 	AND advisorID IS NOT NULL
 GROUP by advisorID
 ORDER BY ticketType, ticketNumber;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* DELETE STATEMENTS */
+
+/* a customer would like their account to be deleted */
+DELETE FROM RegisteredCustomer
+WHERE email = 'steve@gmail.com';
+
+/* delete coupons made in error for ticket 444 00000003 */
+DELETE FROM Coupon
+WHERE ticketType = 444 AND ticketNumber = 00000003;
+
+
+
+
+
+
 
 
 /* DROP TABLES */
