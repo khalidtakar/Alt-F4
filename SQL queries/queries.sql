@@ -64,6 +64,7 @@ CREATE TABLE Sale(
 	paymentType varchar(4),
 	currecy varchar(5),
 	price integer(20),
+	exchangeRate integer(20),
 	saleDiscountAmount integer(4),
 	saleTaxAmount integer(4),
 	saleCommissionAmount integer(4),
@@ -118,34 +119,42 @@ CREATE TABLE SystemSettings(
 
 
 
-
-
-/* INSERT STATEMENTS */
-
-/*new ticket stocks added to system*/
-INSERT INTO Ticket VALUES
-	(444, 00000001, NULL, NULL, False, 1),
-	(444, 00000002, NULL, NULL, False, 1),
-	(444, 00000003, NULL, NULL, False, 3),
-	(444, 00000004, NULL, NULL, False, 4),
-	(451, 00000001, NULL, NULL, False, 2);
-
-/*3 add coupons for international ticket with 3 legs for journey */
-INSERT INTO Coupon(ticketType, ticketNumber, flightDepartureDate, flightDepartureTime, departFrom, flightTo) VALUES
-	(444, 00000001, 26022023, 1230, 'London','Paris'),
-	(444, 00000001, 26022023, 1500, 'Paris','Berlin'),
-	(444, 00000001, 26022023, 1915, 'Berlin','Amsterdam');
-
 /* Other assign statements for reports */
 INSERT INTO Employee VALUES
-	("bob@gmail.com", "password", "bob");
+	("bob@gmail.com", "password", "bob"),
+	("dave@gmail.com", "password", "bob");
 
 INSERT INTO Advisor VALUES
-	(1, "bob@gmail.com");
+	(1, "bob@gmail.com"),
+	(2, "dave@gmail.com");
 
 INSERT INTO Sale(advisorID, customerEmail, dateSold, paymentType, currecy, price, saleDiscountAmount, saleTaxAmount, saleCommissionAmount, isDomestic, isPaid, isRefunded) VALUES
 	(1, NULL, "2023-15-02", "card", "USD", 20000, 1000, 2000, 500, False, True, False),
-	(1, NULL, "1990-01-01", "cash", "USD", 20000, 1000, 2000, 500, False, True, False);
+	(1, NULL, "1990-01-01", "cash", "USD", 20000, 1000, 2000, 500, False, True, False),
+	(2, NULL, "2023-15-02", "card", "USD", 20000, 1000, 2000, 500, False, True, False);
+
+
+
+/* INSERT STATEMENTS */
+/*new ticket stocks added to system*/
+INSERT INTO Ticket (ticketType, ticketNumber, advisorId, saleID, isValid, seats) VALUES
+	(444, 1, NULL, NULL, False, 1),
+	(444, 2, 1, 1, True, 1),
+	(444, 3, 2, NULL, False, 3),
+	(444, 4, NULL, NULL, False, 4),
+	(451, 1, 1, 1, True, 2),
+	(444, 5, 2, 2, True, 1),
+	(444, 6, 2, 3, True, 3),
+	(444, 7, 1, 2, True, 3),
+	(444, 8, NULL, NULL, False, 4),
+	(451, 2, 2, 3, True, 2);
+
+/* add coupons for international ticket with 3 legs for journey */
+INSERT INTO Coupon(ticketType, ticketNumber, flightDepartureDate, flightDepartureTime, departFrom, flightTo) VALUES
+	(444, 00000007, 26022023, 1230, 'London','Paris'),
+	(444, 00000007, 26022023, 1500, 'Paris','Berlin'),
+	(444, 00000007, 26022023, 1915, 'Berlin','Amsterdam');
+
 
 
 
@@ -156,7 +165,7 @@ INSERT INTO Sale(advisorID, customerEmail, dateSold, paymentType, currecy, price
 UPDATE Ticket
 SET 
 	advisorID = 001
-WHERE (ticketType = 444) AND (ticketNumber BETWEEN 1 AND 4);
+WHERE (ticketType = 444) AND (ticketNumber BETWEEN 1 AND 5);
 
 
 /* Sell 3 tickets*/
@@ -230,7 +239,7 @@ FROM Sale s, Ticket t
 WHERE
 	t.advisorID = s.advisorID
 	AND s.advisorID = 1
-	AND t.isValid = 1
+	AND t.isValid = True
 	AND s.isDomestic = False
 	AND s.isRefunded = False
 	GROUP BY s.saleID;
@@ -238,13 +247,13 @@ WHERE
 /*Sales sums */
 SELECT 
 	COUNT(*) AS 'Tickets Sold by Advisor'
-FROM Ticket t, Sale s
+FROM Sale s
+INNER JOIN Ticket t ON s.saleID = t.saleID
 WHERE
-	
 	t.advisorID = 1
 	AND t.saleID IS NOT NULL
 	AND t.advisorID = s.advisorID
-	AND t.isValid = 1
+	AND t.isValid = True
 	AND s.isDomestic = False
 	AND s.isRefunded = False
 	GROUP BY t.advisorID;
@@ -269,22 +278,115 @@ SELECT
 			* (s.saleDiscountAmount / 10000))) * (s.saleTaxAmount / 10000))) 
 		AS 'Total Remaining NonAssess Amount'
 FROM Sale s
-JOIN Ticket t ON s.saleID = t.saleID
 WHERE 
 	s.advisorID = 1
-	AND s.saleID = t.saleID
-	AND t.advisorID = s.saleID
-	AND t.isValid = 1
 	AND s.isDomestic = False
 	AND s.isRefunded = False
-GROUP BY s.advisorID;
+;
 
 
 
 
 /* STATEMENTS FOR TICKET TUROVER REPORT */
+/* Summarised unnasigned/ received tickets */
+SELECT 
+	ticketType, COUNT(*)
+FROM Ticket
+WHERE 
+	advisorID IS NULL
+GROUP by ticketType;
+
+/* Detailed unnasigned/ received tickets */
+SELECT 
+	ticketType, ticketNumber
+FROM Ticket
+WHERE 
+	advisorID IS NULL;
 
 
+
+/* Summarised assigned tickets */
+SELECT 
+	advisorID, ticketType, COUNT(*)
+FROM Ticket
+WHERE 
+	advisorID IS NOT NULL
+GROUP BY ticketType
+ORDER BY advisorID;
+
+/* Detailed assigned tickets */
+SELECT 
+	advisorID, ticketType, ticketNumber
+FROM Ticket
+WHERE 
+	advisorID IS NOT NULL
+ORDER BY advisorID;
+
+
+
+/* Summarised assigned and sold tickets */
+SELECT 
+	t.advisorId, ticketType, COUNT(*)
+FROM Ticket t, Sale s
+WHERE 
+	t.advisorID = s.saleID
+	AND t.advisorID IS NOT NULL
+	AND s.isRefunded = False
+	AND t.isValid = True
+GROUP by t.advisorID, t.ticketType
+ORDER BY t.advisorID;
+
+/* Detailed assigned and sold tickets */
+SELECT 
+	t.advisorId, ticketType, ticketNumber
+FROM Ticket t, Sale s
+WHERE 
+	t.advisorID = s.saleID
+	AND t.advisorID IS NOT NULL
+	AND s.isRefunded = False
+	AND t.isValid = True
+ORDER BY t.advisorID;
+
+
+
+/* Summarised unsold tickets */
+SELECT 
+	ticketType, COUNT(*)
+FROM Ticket
+WHERE 
+	saleID IS NULL
+GROUP by ticketType
+ORDER BY ticketType;
+
+/* Detailed unsold tickets */
+SELECT 
+	ticketType, ticketNumber
+FROM Ticket
+WHERE 
+	saleID IS NULL
+ORDER BY ticketType, ticketNumber;
+
+
+
+/* Summarised unsold assigned tickets */
+SELECT 
+	ticketType, COUNT(*) AS 'ASSIGNED UNSOLD'
+FROM Ticket t
+WHERE 
+	saleID IS NULL
+	AND advisorID IS NOT NULL
+GROUP by advisorID
+ORDER BY ticketType;
+
+/* Detailed unsold assigned tickets */
+SELECT 
+	advisorID, ticketType, ticketNumber
+FROM Ticket t
+WHERE 
+	saleID IS NULL
+	AND advisorID IS NOT NULL
+GROUP by advisorID
+ORDER BY ticketType, ticketNumber;
 
 
 /* DROP TABLES */
