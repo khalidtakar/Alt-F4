@@ -92,7 +92,7 @@ CREATE TABLE Ticket(
 );
 
 CREATE TABLE Coupon(
-	CouponID integer(1),
+	CouponID integer(1) AUTO_INCREMENT,
 	ticketType integer(3),
 	ticketNumber integer(8),
 
@@ -131,10 +131,10 @@ INSERT INTO Ticket VALUES
 	(451, 00000001, NULL, NULL, False, 2);
 
 /*3 add coupons for international ticket with 3 legs for journey */
-INSERT INTO Coupon VALUES
-	(0, 444, 00000001, 26022023, 1230, 'London','Paris'),
-	(1, 444, 00000001, 26022023, 1500, 'Paris','Berlin'),
-	(2, 444, 00000001, 26022023, 1915, 'Berlin','Amsterdam');
+INSERT INTO Coupon(ticketType, ticketNumber, flightDepartureDate, flightDepartureTime, departFrom, flightTo) VALUES
+	(444, 00000001, 26022023, 1230, 'London','Paris'),
+	(444, 00000001, 26022023, 1500, 'Paris','Berlin'),
+	(444, 00000001, 26022023, 1915, 'Berlin','Amsterdam');
 
 /* Other assign statements for reports */
 INSERT INTO Employee VALUES
@@ -145,10 +145,7 @@ INSERT INTO Advisor VALUES
 
 INSERT INTO Sale(advisorID, customerEmail, dateSold, paymentType, currecy, price, saleDiscountAmount, saleTaxAmount, saleCommissionAmount, isDomestic, isPaid, isRefunded) VALUES
 	(1, NULL, "2023-15-02", "card", "USD", 20000, 1000, 2000, 500, False, True, False),
-	(1, NULL, "1990-01-01", "card", "USD", 20000, 1000, 2000, 500, False, True, False),
-	(1, NULL, "2000-01-01", "card", "USD", 20000, 1000, 2000, 500, False, True, False),
-	(1, NULL, "2023-15-02", "card", "USD", 20000, 1000, 2000, 500, False, True, False),
-	(1, NULL, "2023-15-02", "card", "USD", 20000, 1000, 2000, 500, False, True, False);
+	(1, NULL, "1990-01-01", "cash", "USD", 20000, 1000, 2000, 500, False, True, False);
 
 
 
@@ -158,7 +155,7 @@ INSERT INTO Sale(advisorID, customerEmail, dateSold, paymentType, currecy, price
 /* Assign 3 tickets to an Advisor */
 UPDATE Ticket
 SET 
-	advisorID = 001,
+	advisorID = 001
 WHERE (ticketType = 444) AND (ticketNumber BETWEEN 1 AND 4);
 
 
@@ -166,7 +163,12 @@ WHERE (ticketType = 444) AND (ticketNumber BETWEEN 1 AND 4);
 UPDATE Ticket
 SET isValid = True,
 	saleID = 1
-WHERE (ticketType = 444) AND (ticketNumber = 1 OR ticketNumber = 2 OR ticketNumber = 3);
+WHERE (ticketType = 444) AND (ticketNumber = 1 OR ticketNumber = 2);
+
+UPDATE Ticket
+SET isValid = True,
+	saleID = 2
+WHERE (ticketType = 444) AND ticketNumber = 3;
 
 
 
@@ -203,23 +205,27 @@ WHERE ticketType = 444 AND ticketNumber = 00000003;
 
 
 /* STATEMENTS FOR Induvidual Interline SALES REPORT for advisor ID 1 */
-
+/*Induvidual sales info */
 SELECT 
-	t.ticketType, t.ticketNumber,
-	s.isPaid, s.paymentType,
-	s.price / 100,
-	(s.price * (s.saleDiscountAmount / 100)) 
+	s.saleID, s.isPaid, s.paymentType,
+	s.price / 100
+		AS 'Price',
+	((s.price / 100) - ((s.price / 100) * (s.saleDiscountAmount / 10000))) 
+		AS 'Discounted Price',
+	((s.price / 100) * (s.saleDiscountAmount / 10000)) 
 		AS 'Discount',
-	((s.price 
-		* (s.saleDiscountAmount / 100)) * (s.saleCommissionAmount / 100)) 
-		AS 'CommissionAmount',
-	((s.price 
-		* (s.saleDiscountAmount / 100)) * (s.saleTaxAmount / 100)) 
+	(((s.price / 100) - ((s.price / 100) 
+		* (s.saleDiscountAmount / 10000))) * (s.saleCommissionAmount / 10000)) 
+		AS 'Commission Amount',
+	(((s.price / 100) - ((s.price / 100) 
+		* (s.saleDiscountAmount / 10000))) * (s.saleTaxAmount / 10000)) 
 		AS 'TaxAmount',
-	(s.price 
-		- ((s.price * (s.saleDiscountAmount / 100)) * (s.saleCommissionAmount / 100))
-		- ((s.price * (s.saleDiscountAmount / 100)) * (s.saleTaxAmount / 100))) 
-		AS 'NonAssessAmount'
+	(s.price / 100 
+		- (((s.price / 100) - ((s.price / 100) 
+			* (s.saleDiscountAmount / 10000))) * (s.saleCommissionAmount / 10000)) 
+		- (((s.price / 100) - ((s.price / 100) 
+			* (s.saleDiscountAmount / 10000))) * (s.saleTaxAmount / 10000))) 
+		AS 'Remaining NonAssess Amount'
 FROM Sale s, Ticket t
 WHERE
 	t.advisorID = s.advisorID
@@ -227,9 +233,51 @@ WHERE
 	AND t.isValid = 1
 	AND s.isDomestic = False
 	AND s.isRefunded = False
-	GROUP BY ticketType, ticketNumber;
+	GROUP BY s.saleID;
 
+/*Sales sums */
+SELECT 
+	COUNT(*) AS 'Tickets Sold by Advisor'
+FROM Ticket t, Sale s
+WHERE
+	
+	t.advisorID = 1
+	AND t.saleID IS NOT NULL
+	AND t.advisorID = s.advisorID
+	AND t.isValid = 1
+	AND s.isDomestic = False
+	AND s.isRefunded = False
+	GROUP BY t.advisorID;
 
+SELECT
+	SUM(s.price / 100)
+		AS 'Total Price',
+	SUM((s.price / 100) - ((s.price / 100) * (s.saleDiscountAmount / 10000))) 
+		AS 'Total Discounted Price',
+	SUM((s.price / 100) * (s.saleDiscountAmount / 10000)) 
+		AS 'Total Discount',
+	SUM(((s.price / 100) - ((s.price / 100) 
+		* (s.saleDiscountAmount / 10000))) * (s.saleCommissionAmount / 10000)) 
+		AS 'Total Commission Amount',
+	SUM(((s.price / 100) - ((s.price / 100) 
+		* (s.saleDiscountAmount / 10000))) * (s.saleTaxAmount / 10000)) 
+		AS 'Total TaxAmount',
+	SUM(s.price / 100 
+		- (((s.price / 100) - ((s.price / 100) 
+			* (s.saleDiscountAmount / 10000))) * (s.saleCommissionAmount / 10000)) 
+		- (((s.price / 100) - ((s.price / 100) 
+			* (s.saleDiscountAmount / 10000))) * (s.saleTaxAmount / 10000))) 
+		AS 'Total Remaining NonAssess Amount'
+FROM Sale s
+JOIN Ticket t ON s.saleID = t.saleID
+WHERE 
+	s.advisorID = 1
+	AND s.saleID = t.saleID
+	AND t.advisorID = s.saleID
+	AND t.isValid = 1
+	AND s.isDomestic = False
+	AND s.isRefunded = False
+GROUP BY s.advisorID;
 
 
 
