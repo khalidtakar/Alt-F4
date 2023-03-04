@@ -252,17 +252,17 @@ SELECT
 	((s.price / 100) * (s.saleDiscountAmount / 10000)) 
 		AS 'Discount',
 	(((s.price / 100) - ((s.price / 100) 
-		* (s.saleDiscountAmount / 10000))) * (s.saleCommissionAmount / 10000)) 
-		AS 'Commission Amount',
-	(((s.price / 100) - ((s.price / 100) 
 		* (s.saleDiscountAmount / 10000))) * (s.saleTaxAmount / 10000)) 
-		AS 'TaxAmount',
-	(s.price / 100 
+		AS 'Tax',
+	(((s.price / 100) - ((s.price / 100) 
+		* (s.saleDiscountAmount / 10000))) * (s.saleCommissionAmount / 10000)) 
+		AS 'Commission',
+	(((s.price / 100) - ((s.price / 100) 
+			* (s.saleDiscountAmount / 10000))) 
 		- (((s.price / 100) - ((s.price / 100) 
-			* (s.saleDiscountAmount / 10000))) * (s.saleCommissionAmount / 10000)) 
-		- (((s.price / 100) - ((s.price / 100) 
-			* (s.saleDiscountAmount / 10000))) * (s.saleTaxAmount / 10000))) 
-		AS 'Remaining NonAssess Amount'
+			* (s.saleDiscountAmount / 10000))) 
+				* (s.saleCommissionAmount / 10000)))
+		AS 'Remaining Amount'
 FROM Sale s, Ticket t
 WHERE
 	t.advisorID = s.advisorID
@@ -294,17 +294,17 @@ SELECT
 	SUM((s.price / 100) * (s.saleDiscountAmount / 10000)) 
 		AS 'Total Discount',
 	SUM(((s.price / 100) - ((s.price / 100) 
-		* (s.saleDiscountAmount / 10000))) * (s.saleCommissionAmount / 10000)) 
-		AS 'Total Commission Amount',
-	SUM(((s.price / 100) - ((s.price / 100) 
 		* (s.saleDiscountAmount / 10000))) * (s.saleTaxAmount / 10000)) 
-		AS 'Total TaxAmount',
-	SUM(s.price / 100 
+		AS 'Total Tax',
+	SUM(((s.price / 100) - ((s.price / 100) 
+		* (s.saleDiscountAmount / 10000))) * (s.saleCommissionAmount / 10000)) 
+		AS 'Total Commission',
+	SUM(((s.price / 100) - ((s.price / 100) 
+			* (s.saleDiscountAmount / 10000))) 
 		- (((s.price / 100) - ((s.price / 100) 
-			* (s.saleDiscountAmount / 10000))) * (s.saleCommissionAmount / 10000)) 
-		- (((s.price / 100) - ((s.price / 100) 
-			* (s.saleDiscountAmount / 10000))) * (s.saleTaxAmount / 10000))) 
-		AS 'Total Remaining NonAssess Amount'
+			* (s.saleDiscountAmount / 10000))) 
+				* (s.saleCommissionAmount / 10000)))
+		AS 'Total Remaining Amount'
 FROM Sale s
 WHERE 
 	s.advisorID = 1
