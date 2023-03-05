@@ -61,15 +61,15 @@ CREATE TABLE Sale(
 	customerEmail varchar(30) NULL,
 
 	dateSold date,
-	paymentType varchar(4),
-	currecy varchar(5),
-	price integer(20),
-	exchangeRate integer(20),
+	paymentType varchar(4) NULL,
+	priceLocal varchar(5),
+	priceUSD integer(20),
 	saleDiscountAmount integer(4),
-	saleTaxAmount integer(4),
+	taxAmount integer(4),
 	saleCommissionAmount integer(4),
 	isDomestic tinyint(1),
 	isPaid tinyint(1) DEFAULT 0,
+	refundRequested tinyint(1) DEFAULT 0,
 	isRefunded tinyint(1) DEFAULT 0,
 
 	PRIMARY KEY (saleID),
@@ -84,7 +84,8 @@ CREATE TABLE Ticket(
 	saleID integer(20),
 
 	isValid tinyint(1) DEFAULT 0,
-	seats integer(3) DEFAULT 1,
+	dateReceived date,
+	dateAssigned date,
 
 	UNIQUE (ticketType, ticketNumber),
 	PRIMARY KEY (ticketType, ticketNumber),
@@ -108,16 +109,19 @@ CREATE TABLE Coupon(
 );
 
 CREATE TABLE SystemSettings(
+	localCurrency varchar(5),
 	commissionAmount integer(4),
-	saleTaxAmount integer(4),
+	taxAmount integer(4),
 	discountAmount integer(4),
 	flexibleDiscountAmount integer(4),
 	flexibleDiscountThreshold integer(8),
 	autoBackupFreqDays integer(3) DEFAULT 7,
-	lastBackup date
+	lastBackup date,
+	exchangeRate integer(20)
 );
 
-
+/*Note settings exchange rate is the exchange rate for the day, 
+not the same as sale exchange rate - which is for the sale and is saved for refunds*/
 
 
 
@@ -130,6 +134,10 @@ CREATE TABLE SystemSettings(
 
 
 /* Other assign statements for reports */
+
+INSERT INTO RegisteredCustomer VALUES
+	("dylan@gmail.com", "Dylan Dylandson", False, 0, 0);
+
 INSERT INTO Employee VALUES
 	("bob@gmail.com", "password", "bob"),
 	("dave@gmail.com", "password", "bob");
@@ -138,11 +146,34 @@ INSERT INTO Advisor VALUES
 	(1, "bob@gmail.com"),
 	(2, "dave@gmail.com");
 
-INSERT INTO Sale(advisorID, customerEmail, dateSold, paymentType, currecy, price, saleDiscountAmount, saleTaxAmount, saleCommissionAmount, isDomestic, isPaid, isRefunded) VALUES
-	(1, NULL, "2023-15-02", "card", "USD", 20000, 1000, 2000, 500, False, True, False),
-	(1, NULL, "1990-01-01", "cash", "USD", 20000, 1000, 2000, 500, False, True, False),
-	(2, NULL, "2023-15-02", "card", "USD", 20000, 1000, 2000, 500, False, True, False);
-
+INSERT INTO Sale(advisorID, 
+	customerEmail, 
+	dateSold, 
+	paymentType, 
+	priceLocal, 
+	saleDiscountAmount, taxAmount, saleCommissionAmount, 
+	isDomestic, isPaid, 
+	refundRequested, isRefunded) VALUES
+	(1, NULL, "2023-02-22", "card",
+		20000, 
+		1000, 2000, 500, 
+		False, True, 
+		False, False),
+	(1, NULL, "2023-02-22", "card",
+		23000, 
+		1500, 2000, 500, 
+		False, True, 
+		False, False),
+	(1, NULL, "1990-02-22", "card",
+		16000, 
+		1500, 2000, 500, 
+		False, True, 
+		False, False),
+	(2, NULL, "2023-02-22", "card",
+		20000, 
+		1000, 2000, 500, 
+		False, False, 
+		False, False);
 
 
 
@@ -159,23 +190,30 @@ INSERT INTO Sale(advisorID, customerEmail, dateSold, paymentType, currecy, price
 
 /* INSERT STATEMENTS */
 /*new ticket stocks added to system*/
-INSERT INTO Ticket (ticketType, ticketNumber, advisorId, saleID, isValid, seats) VALUES
-	(444, 1, NULL, NULL, False, 1),
-	(444, 2, 1, 1, True, 1),
-	(444, 3, 2, NULL, False, 3),
-	(444, 4, NULL, NULL, False, 4),
-	(451, 1, 1, 1, True, 2),
-	(444, 5, 2, 2, True, 1),
-	(444, 6, 2, 3, True, 3),
-	(444, 7, 1, 2, True, 3),
-	(444, 8, NULL, NULL, False, 4),
-	(451, 2, 2, 3, True, 2);
+INSERT INTO Ticket (ticketType, ticketNumber, advisorId, saleID, isValid, dateReceived, dateAssigned) VALUES
+	(444, 1, NULL, NULL, False, "2023-02-15", NULL),
+	(444, 2, 1, 1, True, "2023-02-15", "2023-02-20"),
+	(444, 3, 2, NULL, False, "2023-02-15", "2023-02-20"),
+	(444, 4, NULL, NULL, False, "2023-02-15", NULL),
+	(451, 1, 1, 1, True, "2023-02-15", "2023-02-20"),
+	(444, 5, 2, 2, True, "2023-02-15", "2023-02-20"),
+	(444, 6, 2, 3, True, "2023-02-15", "2023-02-20"),
+	(444, 7, 1, 2, True, "2023-02-15", "2023-02-20"),
+	(444, 8, NULL, NULL, False, "2023-02-15", NULL),
+	(451, 2, 2, 3, True, "2023-02-15", "2023-02-20"),
+	(444, 9, 2, NULL, True, "2023-02-15", "2023-02-20"),
+	(444, 10, 1, NULL, True, "2023-02-15", "2023-02-20"),
+	(444, 11, NULL, NULL, True, "2023-02-15", NULL),
+	(444, 12, NULL, NULL, False, "2023-02-15", NULL),
+	(451, 3, NULL, NULL, True, "2023-02-15", NULL);
+
+
 
 /* add coupons for international ticket with 3 legs for journey */
 INSERT INTO Coupon(ticketType, ticketNumber, flightDepartureDate, flightDepartureTime, departFrom, flightTo) VALUES
-	(444, 00000007, 26022023, 1230, 'London','Paris'),
-	(444, 00000007, 26022023, 1500, 'Paris','Berlin'),
-	(444, 00000007, 26022023, 1915, 'Berlin','Amsterdam');
+	(444, 00000007, "2023-05-20", 1230, 'London','Paris'),
+	(444, 00000007, "2023-05-20", 1500, 'Paris','Berlin'),
+	(444, 00000007, "2023-05-20", 1915, 'Berlin','Amsterdam');
 
 
 
@@ -193,19 +231,22 @@ INSERT INTO Coupon(ticketType, ticketNumber, flightDepartureDate, flightDepartur
 /* Assign 3 tickets to an Advisor */
 UPDATE Ticket
 SET 
-	advisorID = 001
+	advisorID = 001,
+	dateAssigned = NOW()
 WHERE (ticketType = 444) AND (ticketNumber BETWEEN 1 AND 5);
 
 
 /* Sell 3 tickets*/
-UPDATE Ticket
-SET isValid = True,
-	saleID = 1
+UPDATE Ticket t, Sale s
+SET t.isValid = True,
+	t.saleID = 3,
+	s.dateSold = NOW()
 WHERE (ticketType = 444) AND (ticketNumber = 1 OR ticketNumber = 2);
 
-UPDATE Ticket
-SET isValid = True,
-	saleID = 2
+UPDATE Ticket t, Sale s
+SET t.isValid = True,
+	t.saleID = 2,
+	s.dateSold = NOW()
 WHERE (ticketType = 444) AND ticketNumber = 3;
 
 
@@ -241,28 +282,30 @@ WHERE (DATEDIFF(NOW(), dateSold) > 30);
 
 
 
-/* STATEMENTS FOR Induvidual Interline SALES REPORT for advisor ID 1 */
+/* STATEMENTS FOR Induvidual Interline SALES REPORT for advisor ID 1,
+period 2023-02-01 to 2023-04-01*/
 /*Induvidual sales info */
 SELECT 
-	s.saleID, s.isPaid, s.paymentType,
-	s.price / 100
+	s.saleID, s.isPaid, s.paymentType, s.dateSold,
+	s.priceLocal / 100
 		AS 'Price',
-	((s.price / 100) - ((s.price / 100) * (s.saleDiscountAmount / 10000))) 
+	((s.priceLocal / 100) - ((s.priceLocal / 100) * (s.saleDiscountAmount / 10000))) 
 		AS 'Discounted Price',
-	((s.price / 100) * (s.saleDiscountAmount / 10000)) 
+	((s.priceLocal / 100) * (s.saleDiscountAmount / 10000)) 
 		AS 'Discount',
-	(((s.price / 100) - ((s.price / 100) 
-		* (s.saleDiscountAmount / 10000))) * (s.saleTaxAmount / 10000)) 
+	(((s.priceLocal / 100) - ((s.priceLocal / 100) 
+		* (s.saleDiscountAmount / 10000))) * (s.taxAmount
+ / 10000)) 
 		AS 'Tax',
-	(((s.price / 100) - ((s.price / 100) 
+	(((s.priceLocal / 100) - ((s.priceLocal / 100) 
 		* (s.saleDiscountAmount / 10000))) * (s.saleCommissionAmount / 10000)) 
 		AS 'Commission',
-	(((s.price / 100) - ((s.price / 100) 
+	(((s.priceLocal / 100) - ((s.priceLocal / 100) 
 			* (s.saleDiscountAmount / 10000))) 
-		- (((s.price / 100) - ((s.price / 100) 
+		- (((s.priceLocal / 100) - ((s.priceLocal / 100) 
 			* (s.saleDiscountAmount / 10000))) 
 				* (s.saleCommissionAmount / 10000)))
-		AS 'Remaining Amount'
+		AS 'Remaining Agents Amount'
 FROM Sale s, Ticket t
 WHERE
 	t.advisorID = s.advisorID
@@ -270,9 +313,12 @@ WHERE
 	AND t.isValid = True
 	AND s.isDomestic = False
 	AND s.isRefunded = False
+	AND ("2023-02-01" <= s.dateSold)
+	AND (s.dateSold <= "2023-04-01")
 	GROUP BY s.saleID;
 
-/*Sales sums */
+/*Sales sums,
+period 2023-02-01 to 2023-04-01*/
 SELECT 
 	COUNT(*) AS 'Tickets Sold by Advisor'
 FROM Sale s
@@ -284,32 +330,37 @@ WHERE
 	AND t.isValid = True
 	AND s.isDomestic = False
 	AND s.isRefunded = False
+	AND ("2023-02-01" <= s.dateSold)
+	AND (s.dateSold <= "2023-04-01")
 	GROUP BY t.advisorID;
 
 SELECT
-	SUM(s.price / 100)
+	SUM(s.priceLocal / 100)
 		AS 'Total Price',
-	SUM((s.price / 100) - ((s.price / 100) * (s.saleDiscountAmount / 10000))) 
+	SUM((s.priceLocal / 100) - ((s.priceLocal / 100) * (s.saleDiscountAmount / 10000))) 
 		AS 'Total Discounted Price',
-	SUM((s.price / 100) * (s.saleDiscountAmount / 10000)) 
+	SUM((s.priceLocal / 100) * (s.saleDiscountAmount / 10000)) 
 		AS 'Total Discount',
-	SUM(((s.price / 100) - ((s.price / 100) 
-		* (s.saleDiscountAmount / 10000))) * (s.saleTaxAmount / 10000)) 
+	SUM(((s.priceLocal / 100) - ((s.priceLocal / 100) 
+		* (s.saleDiscountAmount / 10000))) * (s.taxAmount
+ / 10000)) 
 		AS 'Total Tax',
-	SUM(((s.price / 100) - ((s.price / 100) 
+	SUM(((s.priceLocal / 100) - ((s.priceLocal / 100) 
 		* (s.saleDiscountAmount / 10000))) * (s.saleCommissionAmount / 10000)) 
 		AS 'Total Commission',
-	SUM(((s.price / 100) - ((s.price / 100) 
+	SUM(((s.priceLocal / 100) - ((s.priceLocal / 100) 
 			* (s.saleDiscountAmount / 10000))) 
-		- (((s.price / 100) - ((s.price / 100) 
+		- (((s.priceLocal / 100) - ((s.priceLocal / 100) 
 			* (s.saleDiscountAmount / 10000))) 
 				* (s.saleCommissionAmount / 10000)))
-		AS 'Total Remaining Amount'
+		AS 'Total Agents Remaining Amount'
 FROM Sale s
 WHERE 
 	s.advisorID = 1
 	AND s.isDomestic = False
 	AND s.isRefunded = False
+	AND ("2023-02-01" <= s.dateSold)
+	AND (s.dateSold <= "2023-04-01")
 ;
 
 
@@ -319,106 +370,139 @@ WHERE
 
 
 
-/* STATEMENTS FOR TICKET TUROVER REPORT */
-/* Summarised unnasigned/ received tickets */
+/* Column 1a STATEMENTS FOR TICKET TUROVER REPORT */
+/* All tickets received in
+period 2023-02-01 to 2023-04-01*/
 SELECT 
-	ticketType, COUNT(*)
+	ticketType, ticketNumber, dateReceived
 FROM Ticket
 WHERE 
-	advisorID IS NULL
-GROUP by ticketType;
+	("2023-02-01" <= dateReceived)
+	AND (dateReceived <= "2023-04-01")
+ORDER BY ticketType;
 
-/* Detailed unnasigned/ received tickets */
+/*Total ^^ */
 SELECT 
-	ticketType, ticketNumber
+	COUNT(*)
 FROM Ticket
 WHERE 
-	advisorID IS NULL;
+	("2023-02-01" <= dateReceived)
+	AND (dateReceived <= "2023-04-01");
 
 
 
-/* Summarised assigned tickets */
+/* Column 1b All tickets received and assigned in
+period 2023-02-01 to 2023-04-01*/
 SELECT 
-	advisorID, ticketType, COUNT(*)
+	advisorID, ticketType, ticketNumber, dateReceived, dateAssigned
 FROM Ticket
 WHERE 
-	advisorID IS NOT NULL
-GROUP BY advisorID, ticketType
-ORDER BY advisorID;
+	("2023-02-01" <= dateReceived)
+	AND (dateReceived <= "2023-04-01")
+	AND ("2023-02-01" <= dateAssigned)
+	AND (dateAssigned <= "2023-04-01")
+ORDER BY ticketType;
 
-/* Detailed assigned tickets */
+/*Total ^^ */
 SELECT 
-	advisorID, ticketType, ticketNumber
+	COUNT(*)
 FROM Ticket
 WHERE 
-	advisorID IS NOT NULL
-ORDER BY advisorID;
+	("2023-02-01" <= dateReceived)
+	AND (dateReceived <= "2023-04-01")
+	AND ("2023-02-01" <= dateAssigned)
+	AND (dateAssigned <= "2023-04-01")
+ORDER BY advisorID, ticketType;
 
 
-
-/* Summarised assigned and sold tickets */
+/* Column 2a All tickets assigned to advisors within 
+period 2023-02-01 to 2023-04-01*/
 SELECT 
-	t.advisorId, ticketType, COUNT(*)
+	advisorID, ticketType, ticketNumber, dateAssigned
+FROM Ticket
+WHERE 
+	("2023-02-01" <= dateAssigned)
+	AND (dateAssigned <= "2023-04-01")
+ORDER BY ticketType;
+
+
+/*Total ^^ */
+SELECT 
+	COUNT(*)
+FROM Ticket
+WHERE 
+	("2023-02-01" <= dateAssigned)
+	AND (dateAssigned <= "2023-04-01")
+ORDER BY advisorID, ticketType;
+
+
+/* Column 2b All tickets used within 
+period 2023-02-01 to 2023-04-01*/
+SELECT 
+	t.ticketType, t.ticketNumber, s.dateSold
 FROM Ticket t, Sale s
 WHERE 
 	t.advisorID = s.saleID
-	AND t.advisorID IS NOT NULL
 	AND s.isRefunded = False
 	AND t.isValid = True
-GROUP by t.advisorID, t.ticketType
-ORDER BY t.advisorID;
+	AND("2023-02-01" <= s.dateSold)
+	AND (s.dateSold <= "2023-04-01")
+ORDER BY t.ticketType, t.ticketNumber;
 
-/* Detailed assigned and sold tickets */
+/*Total ^^ */
 SELECT 
-	t.advisorId, ticketType, ticketNumber
+	COUNT(*)
 FROM Ticket t, Sale s
 WHERE 
 	t.advisorID = s.saleID
-	AND t.advisorID IS NOT NULL
 	AND s.isRefunded = False
 	AND t.isValid = True
-ORDER BY t.advisorID;
+	AND("2023-02-01" <= s.dateSold)
+	AND (s.dateSold <= "2023-04-01");
 
 
 
-/* Summarised unsold tickets */
-SELECT 
-	ticketType, COUNT(*)
-FROM Ticket
-WHERE 
-	saleID IS NULL
-GROUP by ticketType
-ORDER BY ticketType;
-
-/* Detailed unsold tickets */
+/* Column 3a All tickets that are unsold and available 
+period 2023-02-01 to 2023-04-01*/
 SELECT 
 	ticketType, ticketNumber
-FROM Ticket
+FROM Ticket t, Sale s
 WHERE 
-	saleID IS NULL
-ORDER BY ticketType, ticketNumber;
+	(t.saleID IS NULL
+	OR (s.dateSold <= "2023-04-01"))
+GROUP by t.ticketType, t.ticketNumber
+ORDER BY t.ticketType;
+
+/*Total ^^ */
+SELECT DISTINCT
+	COUNT(DISTINCT(ticketNumber), ticketType)
+FROM Ticket t, Sale s
+WHERE 
+	(t.saleID IS NULL
+	OR (s.dateSold <= "2023-04-01"));
 
 
 
-/* Summarised unsold assigned tickets */
+/* Column 3b All tickets that are unsold and assigned by type 
+period 2023-02-01 to 2023-04-01*/
 SELECT 
-	ticketType, COUNT(*) AS 'ASSIGNED UNSOLD'
-FROM Ticket t
+	t.advisorID, ticketType, ticketNumber
+FROM Ticket t, Sale s
 WHERE 
-	saleID IS NULL
-	AND advisorID IS NOT NULL
-GROUP by advisorID
-ORDER BY ticketType;
+	(t.saleID IS NULL
+	OR (s.dateSold <= "2023-04-01"))
+	AND t.advisorID IS NOT NULL
+GROUP by t.advisorID, t.ticketType, t.ticketNumber
+ORDER BY t.advisorID, t.ticketType;
 
 /* Detailed unsold assigned tickets */
 SELECT 
-	advisorID, ticketType, ticketNumber
-FROM Ticket t
+	COUNT(DISTINCT(ticketNumber), ticketType)
+FROM Ticket t, Sale s
 WHERE 
-	saleID IS NULL
-	AND advisorID IS NOT NULL
-GROUP by advisorID
-ORDER BY ticketType, ticketNumber;
+	(t.saleID IS NULL
+	OR (s.dateSold <= "2023-04-01"))
+	AND t.advisorID IS NOT NULL;
 
 
 
@@ -437,11 +521,11 @@ ORDER BY ticketType, ticketNumber;
 
 /* a customer would like their account to be deleted */
 DELETE FROM RegisteredCustomer
-WHERE email = 'steve@gmail.com';
+WHERE email = 'dylan@gmail.com';
 
 /* delete coupons made in error for ticket 444 00000003 */
 DELETE FROM Coupon
-WHERE ticketType = 444 AND ticketNumber = 00000003;
+WHERE ticketType = 444 AND ticketNumber = 00000007;
 
 
 
