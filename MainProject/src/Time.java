@@ -1,6 +1,7 @@
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 public class Time {
+    //this does not work
     public static String getTime(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
