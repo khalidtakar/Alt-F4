@@ -24,12 +24,13 @@ public class Ticket {
         this.advisorID = advisorID;
     }
 
+    //remove this later
     public Ticket(int ticketType, int ticketNumber) {
         this.ticketType = ticketType;
         this.ticketNumber = ticketNumber;
     }
 
     public void printID(){
-        System.out.print(Integer.toString(ticketType) + Integer.toString(ticketNumber) + "\n");
+        System.out.print(Integer.toString(ticketType) + " " + Integer.toString(ticketNumber) + "\n");
     }
 }

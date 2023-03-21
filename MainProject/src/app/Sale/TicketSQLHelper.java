@@ -29,7 +29,7 @@ public class TicketSQLHelper extends JDBC {
         }
 
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
 

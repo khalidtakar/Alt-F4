@@ -9,12 +9,12 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 public abstract class JDBC{
-    private static String USERNAME = "in2018g11_d";
-    private static String PASSWORD = "qj3GNH0I";
-    private static String URL = "jdbc:mysql://";
-    private static String SERVERNAME = "smcse-stuproj00.city.ac.uk";
-    private static int PORTNUMBER = 3306;
-    private static String DBNAME = "in2018g11";
+    private static final String USERNAME = "in2018g11_d";
+    private static final String PASSWORD = "qj3GNH0I";
+    private static final String URL = "jdbc:mysql://";
+    private static final String SERVERNAME = "smcse-stuproj00.city.ac.uk";
+    private static final int PORTNUMBER = 3306;
+    private static final String DBNAME = "in2018g11";
 
     //variables to be inherited by SQL helpers
     protected static Connection connection;
@@ -23,13 +23,14 @@ public abstract class JDBC{
     protected static ResultSet resultSet;
 
     {
+        //If this is the first time this class is initialised
+        //Make a new connection
         if (connection == null){
             try {
                 this.setupConnection();
             } catch (SQLException e) {
-                System.out.println(e);
+                e.printStackTrace();
                 throw new RuntimeException(e);
-
             }
         }
     }
