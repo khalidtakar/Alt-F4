@@ -1,11 +1,12 @@
 package app.Sale;
-import java.time.format.DateTimeFormatter;
+import java.sql.Date;
+
 
 public class Ticket {
     private int ticketType;
     private int ticketNumber;
-    private DateTimeFormatter dateReceived;
-    private DateTimeFormatter dateAssigned;
+    private Date dateReceived;
+    private Date dateAssigned;
 
     //when initialised database key to be assigned for these values
     //if values need to be accessed, "if null" will be use and values to be loaded when needed
@@ -15,7 +16,7 @@ public class Ticket {
     //private Advisor advisor;
 
 
-    public Ticket(int ticketType, int ticketNumber, DateTimeFormatter dateReceived, DateTimeFormatter dateAssigned, int saleID, int advisorID) {
+    public Ticket(int ticketType, int ticketNumber, Date dateReceived, Date dateAssigned, int saleID, int advisorID) {
         this.ticketType = ticketType;
         this.ticketNumber = ticketNumber;
         this.dateReceived = dateReceived;
@@ -24,13 +25,27 @@ public class Ticket {
         this.advisorID = advisorID;
     }
 
-    //remove this later
-    public Ticket(int ticketType, int ticketNumber) {
-        this.ticketType = ticketType;
-        this.ticketNumber = ticketNumber;
+    public int getTicketType() {
+        return ticketType;
     }
 
-    public void printID(){
-        System.out.print(Integer.toString(ticketType) + " " + Integer.toString(ticketNumber) + "\n");
+    public int getTicketNumber() {
+        return ticketNumber;
+    }
+
+    public Date getDateReceived() {
+        return dateReceived;
+    }
+
+    public Date getDateAssigned() {
+        return dateAssigned;
+    }
+
+    public int getSaleID() {
+        return saleID;
+    }
+
+    public int getAdvisorID() {
+        return advisorID;
     }
 }

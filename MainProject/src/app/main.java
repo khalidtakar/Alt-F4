@@ -11,7 +11,13 @@ public class main {
         TicketController ticketController = new TicketController();
         ArrayList<Ticket> tickets = ticketController.getAllTickets();
         for(Ticket i: tickets){
-            i.printID();
+            System.out.println(i.getTicketType() + " "
+            + i.getTicketNumber() + " "
+            + i.getDateReceived() + " "
+            + i.getDateAssigned() + " "
+            + i.getDateAssigned() + " "
+            + i.getSaleID() + " "
+            + i.getAdvisorID());
         }
     }
 }

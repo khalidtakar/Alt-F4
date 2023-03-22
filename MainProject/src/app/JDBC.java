@@ -1,5 +1,7 @@
 package app;
 
+import app.Sale.Ticket;
+
 import java.sql.DriverManager;
 import java.util.Properties;
 import java.sql.Connection;
@@ -21,6 +23,7 @@ public abstract class JDBC{
     protected static PreparedStatement preparedStatement;
     protected static Statement statement;
     protected static ResultSet resultSet;
+    protected static String sql;
 
     {
         //If this is the first time this class is initialised
@@ -49,6 +52,16 @@ public abstract class JDBC{
                     PASSWORD);
             connection.setTransactionIsolation(2);
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected void makeStatement(){
+        try{
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
