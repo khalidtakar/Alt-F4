@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class main {
     public static void main(String[] args){
         JDBCTests test = new JDBCTests();
-        test.TestDBConnection();
+        test.testDBConnection();
 
 
     }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class JDBCTests {
     public JDBCTests(){}
 
-    public void TestDBConnection(){
+    public void testDBConnection(){
         //DB connection and SELECT test
         TicketController ticketController = new TicketController();
         ArrayList<Ticket> tickets = ticketController.getAllTickets();
