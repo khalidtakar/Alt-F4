@@ -13,6 +13,8 @@ public class EmployeeTests {
         Employee employee = employeeController.login("bob@gmail.com", "123");
         System.out.println(employee.getEmail());
         System.out.println(employee.getName());
+        System.out.println(employee.getAdvisor().getAdvisorID());
+        System.out.println(employee.getTypeOfEmployee());
 
         System.out.println("\n");
     }
