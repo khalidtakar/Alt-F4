@@ -1,6 +1,11 @@
 package app.Sale;
+import app.Account.Advisor;
+
 import java.sql.Date;
 
+/**
+ * Stores ticket attributes
+ */
 public class Ticket {
     private int ticketType;
     private int ticketNumber;
@@ -12,8 +17,7 @@ public class Ticket {
     private int saleID;
     private Sale sale;
     private int advisorID;
-    //private Advisor advisor;
-
+    private Advisor advisor;
 
     public Ticket(int ticketType, int ticketNumber, Date dateReceived, Date dateAssigned, int saleID, int advisorID) {
         this.ticketType = ticketType;

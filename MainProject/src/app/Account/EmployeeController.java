@@ -1,7 +1,6 @@
 package app.Account;
 
 import java.security.MessageDigest;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
@@ -18,7 +17,7 @@ public class EmployeeController {
     public EmployeeController(){}
 
     /**
-     *
+     * Looks up employee and SoonTM(role in the database)
      * @param username employee email
      * @param password plaintext password
      * @return instance of Employee if found in DB
