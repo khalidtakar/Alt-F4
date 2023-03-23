@@ -1,7 +1,6 @@
 package app.Sale;
 import java.sql.Date;
 
-
 public class Ticket {
     private int ticketType;
     private int ticketNumber;
@@ -11,7 +10,7 @@ public class Ticket {
     //when initialised database key to be assigned for these values
     //if values need to be accessed, "if null" will be use and values to be loaded when needed
     private int saleID;
-    //private Sale sale;
+    private Sale sale;
     private int advisorID;
     //private Advisor advisor;
 

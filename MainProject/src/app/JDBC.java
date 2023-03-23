@@ -5,8 +5,8 @@ import app.Sale.Ticket;
 import java.sql.DriverManager;
 import java.util.Properties;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
@@ -38,8 +38,15 @@ public abstract class JDBC{
         }
     }
 
+    /**
+     * Inhereted by SQL helper classes to manipulate and fetch data from database
+     */
     public JDBC(){}
 
+    /**
+     * Method to start connection with database
+     * @throws SQLException
+     */
     private void setupConnection() throws SQLException{
 
         try {
@@ -52,16 +59,6 @@ public abstract class JDBC{
                     PASSWORD);
             connection.setTransactionIsolation(2);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    protected void makeStatement(){
-        try{
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
-        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }

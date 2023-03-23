@@ -2,15 +2,17 @@ package app.Sale;
 
 import app.JDBC;
 
-
 import java.util.ArrayList;
 import java.sql.SQLException;
-
 
 public class TicketSQLHelper extends JDBC {
 
     public TicketSQLHelper(){}
 
+    /**
+     * Fetches all tickets in the database
+     * @return Arraylist of instances of Ticket
+     */
     public ArrayList<Ticket> getAllTickets(){
         ArrayList<Ticket> tickets = new ArrayList<>();
 
@@ -21,9 +23,12 @@ public class TicketSQLHelper extends JDBC {
                 "advisorID," +
                 "saleID " +
                 "FROM Ticket";
-        makeStatement();
 
         try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+
+            //for each row found, initialise a new Ticket and add to arraylist
             while (resultSet.next()) {
                 tickets.add(new Ticket(resultSet.getInt("ticketType")
                         , resultSet.getInt("ticketNumber")

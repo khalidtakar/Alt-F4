@@ -13,6 +13,7 @@ public class TicketController {
     public TicketController(){}
 
     public ArrayList<Ticket> getAllTickets(){
-        return ticketSQLHelper.getAllTickets();
+        tickets = ticketSQLHelper.getAllTickets();
+        return tickets;
     }
 }

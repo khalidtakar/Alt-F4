@@ -1,17 +1,14 @@
 package app;
 
-import app.Sale.Ticket;
-import app.Sale.TicketController;
-import app.Tests.JDBCTests;
-
-
-import java.util.ArrayList;
+import app.Tests.EmployeeTests;
+import app.Tests.TicketTests;
 
 public class main {
     public static void main(String[] args){
-        JDBCTests test = new JDBCTests();
-        test.testDBConnection();
+        EmployeeTests employeeTests = new EmployeeTests();
+        employeeTests.testEmployeeLogin();
 
-
+        TicketTests ticketTests = new TicketTests();
+        ticketTests.testGetAllTickets();
     }
 }

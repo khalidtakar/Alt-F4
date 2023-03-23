@@ -1,15 +1,14 @@
 package app.Tests;
 
-import app.JDBC;
 import app.Sale.Ticket;
 import app.Sale.TicketController;
 
 import java.util.ArrayList;
 
-public class JDBCTests {
-    public JDBCTests(){}
+public class TicketTests {
+    public TicketTests(){}
 
-    public void testDBConnection(){
+    public void testGetAllTickets(){
         //DB connection and SELECT test
         TicketController ticketController = new TicketController();
         ArrayList<Ticket> tickets = ticketController.getAllTickets();
@@ -22,6 +21,6 @@ public class JDBCTests {
                     + i.getSaleID() + " "
                     + i.getAdvisorID());
         }
-
+        System.out.println("\n");
     }
 }
