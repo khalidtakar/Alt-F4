@@ -11,6 +11,9 @@ public class Main {
     Advisor advisor;
     SystemSettings systemSettings;
 
+    /**
+     * Main app entry point
+     */
     public Main(){
         goToLoginPage();
     }

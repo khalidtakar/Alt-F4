@@ -17,6 +17,7 @@ public class TicketController {
         return tickets;
     }
 
+
     public ArrayList<Ticket> getAdvisorsTickets(int advID){
         tickets = ticketSQLHelper.getAdvisorsTickets(advID);
         return tickets;

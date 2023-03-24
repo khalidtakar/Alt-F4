@@ -45,6 +45,11 @@ public class TicketSQLHelper extends JDBC {
         return tickets;
     }
 
+    /**
+     * Fetches all tickets with the advisor ID
+     * @param advID advisor ID
+     * @return Arraylist of instances of Ticket
+     */
     public ArrayList<Ticket> getAdvisorsTickets(int advID){
         ArrayList<Ticket> tickets = new ArrayList<>();
 

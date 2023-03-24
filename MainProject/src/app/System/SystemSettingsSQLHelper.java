@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class SystemSettingsSQLHelper extends JDBC {
     public SystemSettingsSQLHelper() {}
 
-    public static SystemSettings load(){
+    public SystemSettings load(){
         SystemSettings systemSettings = null;
         sql = "SELECT localCurrency," +
                 "commissionRate," +
