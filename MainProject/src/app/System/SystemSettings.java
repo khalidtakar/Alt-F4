@@ -7,13 +7,15 @@ public class SystemSettings {
     private double commisionRate;
     private double taxRate;
     private double exchangeRate;
+    private int autoBackupFreqDays;
     private Date lastBackup;
 
-    public SystemSettings(String localCurrency, double commisionRate, double taxRate, double exchangeRate, Date lastBackup) {
+    public SystemSettings(String localCurrency, double commisionRate, double taxRate, double exchangeRate, int autoBackupFreqDays, Date lastBackup) {
         this.localCurrency = localCurrency;
         this.commisionRate = commisionRate;
         this.taxRate = taxRate;
         this.exchangeRate = exchangeRate;
+        this.autoBackupFreqDays = autoBackupFreqDays;
         this.lastBackup = lastBackup;
     }
 
@@ -55,5 +57,13 @@ public class SystemSettings {
 
     public void setLastBackup(Date lastBackup) {
         this.lastBackup = lastBackup;
+    }
+
+    public int getAutoBackupFreqDays() {
+        return autoBackupFreqDays;
+    }
+
+    public void setAutoBackupFreqDays(int autoBackupFreqDays) {
+        this.autoBackupFreqDays = autoBackupFreqDays;
     }
 }
