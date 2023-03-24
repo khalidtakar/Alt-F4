@@ -38,4 +38,8 @@ public class Main {
     public void goToManagerPage(){
 
     }
+
+    public static void main(String[] args){
+        new Main();
+    }
 }
