@@ -4,12 +4,12 @@ import app.Account.Employee;
 import app.Account.EmployeeController;
 
 public class EmployeeTests {
+    EmployeeController employeeController = new EmployeeController();
 
     public EmployeeTests(){}
 
     public void testEmployeeLogin(){
         System.out.println("login bob:");
-        EmployeeController employeeController = new EmployeeController();
 
         Employee employee = employeeController.login("bob@gmail.com", "123");
         System.out.println(employee.getEmail());

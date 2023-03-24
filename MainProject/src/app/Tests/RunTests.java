@@ -1,9 +1,7 @@
 package app.Tests;
 
-import app.System.SystemSettings;
-
-public class runTests {
-    public static void main(String[] args){
+public class RunTests {
+    public RunTests(){
         EmployeeTests employeeTests = new EmployeeTests();
         employeeTests.testEmployeeLogin();
 
@@ -13,5 +11,9 @@ public class runTests {
 
         SystemSettingsTests systemSettingsTests = new SystemSettingsTests();
         systemSettingsTests.testLoad();
+    }
+
+    public static void main(String[] args){
+        new RunTests();
     }
 }

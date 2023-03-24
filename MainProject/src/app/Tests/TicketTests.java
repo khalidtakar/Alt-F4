@@ -6,13 +6,14 @@ import app.Sale.TicketController;
 import java.util.ArrayList;
 
 public class TicketTests {
+    TicketController ticketController = new TicketController();
+
     public TicketTests(){}
 
     public void testGetAllTickets(){
         //DB connection and SELECT test
         System.out.println("Get all tickets:");
 
-        TicketController ticketController = new TicketController();
         ArrayList<Ticket> tickets = ticketController.getAllTickets();
         for(Ticket i: tickets){
             System.out.println(i.getTicketType() + " "
@@ -30,7 +31,6 @@ public class TicketTests {
         //DB connection and SELECT test
         System.out.println("Get advisor ID " + advID + " tickets:");
 
-        TicketController ticketController = new TicketController();
         ArrayList<Ticket> tickets = ticketController.getAdvisorsTickets(1);
         for(Ticket i: tickets){
             System.out.println(i.getTicketType() + " "
