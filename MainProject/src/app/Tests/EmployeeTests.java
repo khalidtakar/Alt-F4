@@ -8,6 +8,7 @@ public class EmployeeTests {
     public EmployeeTests(){}
 
     public void testEmployeeLogin(){
+        System.out.println("login bob:");
         EmployeeController employeeController = new EmployeeController();
 
         Employee employee = employeeController.login("bob@gmail.com", "123");

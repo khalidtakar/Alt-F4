@@ -48,7 +48,7 @@ public class EmployeeController {
      * @param password plain text password to be hashed
      * @return [64 character] SHA-256 hashed password, can be "safely" stored in database
      */
-    private static String doHashing (String password) {
+    public static String doHashing (String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
 

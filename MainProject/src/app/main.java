@@ -1,14 +1,32 @@
 package app;
 
+import app.Account.*;
 import app.Tests.EmployeeTests;
 import app.Tests.TicketTests;
 
 public class main {
     public static void main(String[] args){
-        EmployeeTests employeeTests = new EmployeeTests();
-        employeeTests.testEmployeeLogin();
+        Employee employee;
+        Manager manager;
+        Administrator administrator;
+        Advisor advisor;
 
-        TicketTests ticketTests = new TicketTests();
-        ticketTests.testGetAllTickets();
+        goToLoginPage();
+    }
+
+    public static void goToLoginPage(){
+
+    };
+
+    public static void goToAdvisorPage(){
+
+    };
+
+    public static void goToAdministratorPage(){
+
+    };
+
+    public static void goToManagerPage(){
+
     }
 }

@@ -14,7 +14,7 @@ Key Definitions
 CREATE TABLE Employee(
 	email varchar(30),
 
-    password varchar(20) NOT NULL,
+    password varchar(64) NOT NULL,
     name varchar(30) NOT NULL,
 
     PRIMARY KEY (email)
@@ -51,8 +51,20 @@ CREATE TABLE RegisteredCustomer(
 	isValued tinyint(1) NOT NULL DEFAULT 0,
 	spentThisMonth bigint(8) NOT NULL DEFAULT 0,
 	discountOrRefundToReturn bigint(8) NOT NULL DEFAULT 0,
+	fixedDiscountRate decimal(5, 2) DEFAULT 0,
 
 	PRIMARY KEY (email)
+);
+
+CREATE TABLE FlexibleDiscount(
+	email varchar(30),
+
+	discountRate decimal(5, 2),
+	lowerBoundary integer(10),
+	upperBoundary integer(10) NULL,
+
+	PRIMARY KEY (email),
+	FOREIGN KEY (email) REFERENCES RegisteredCustomer(email)
 );
 
 CREATE TABLE Sale(
@@ -62,11 +74,13 @@ CREATE TABLE Sale(
 
 	dateSold date,
 	paymentType varchar(4) NULL,
-	priceLocal varchar(5),
-	priceUSD integer(20),
-	saleDiscountAmount integer(4),
-	taxAmount integer(4),
-	saleCommissionAmount integer(4),
+	cardNo integer(16),
+	paymentProvider varchar(10),
+	priceLocal varchar(10),
+	priceUSD integer(10),
+	saleDiscountAmount integer(5),
+	taxAmount integer(10),
+	saleCommissionAmount integer(10),
 	isDomestic tinyint(1),
 	isPaid tinyint(1) DEFAULT 0,
 	refundRequested tinyint(1) DEFAULT 0,
@@ -110,14 +124,11 @@ CREATE TABLE Coupon(
 
 CREATE TABLE SystemSettings(
 	localCurrency varchar(5),
-	commissionAmount integer(4),
-	taxAmount integer(4),
-	discountAmount integer(4),
-	flexibleDiscountAmount integer(4),
-	flexibleDiscountThreshold integer(8),
+	commissionRate decimal(5, 2),
+	taxRate decimal(5, 2),
 	autoBackupFreqDays integer(3) DEFAULT 7,
 	lastBackup date,
-	exchangeRate integer(20)
+	exchangeRate decimal(20,10)
 );
 
 /*Note settings exchange rate is the exchange rate for the day, 
@@ -136,11 +147,11 @@ not the same as sale exchange rate - which is for the sale and is saved for refu
 /* Other assign statements for reports */
 
 INSERT INTO RegisteredCustomer VALUES
-	("dylan@gmail.com", "Dylan Dylandson", False, 0, 0);
+	("dylan@gmail.com", "Dylan Dylandson", False, 0, 0, NULL);
 
 INSERT INTO Employee VALUES
-	("bob@gmail.com", "password", "bob"),
-	("dave@gmail.com", "password", "bob");
+	("bob@gmail.com", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "bob"),
+	("dave@gmail.com", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "bob");
 
 INSERT INTO Advisor VALUES
 	(1, "bob@gmail.com"),
@@ -215,7 +226,14 @@ INSERT INTO Coupon(ticketType, ticketNumber, flightDepartureDate, flightDepartur
 	(444, 00000007, "2023-05-20", 1500, 'Paris','Berlin'),
 	(444, 00000007, "2023-05-20", 1915, 'Berlin','Amsterdam');
 
-
+INSERT INTO SystemSettings(
+	localCurrency,
+	commissionAmount,
+	taxAmount,
+	autoBackupFreqDays,
+	lastBackup,
+	exchangeRate) VALUES
+	("GBP", 00100, 02000, 1, "2023-05-20", 1.22)
 
 
 
@@ -231,7 +249,7 @@ INSERT INTO Coupon(ticketType, ticketNumber, flightDepartureDate, flightDepartur
 /* Assign 3 tickets to an Advisor */
 UPDATE Ticket
 SET 
-	advisorID = 001,
+	advisorID = 1,
 	dateAssigned = NOW()
 WHERE (ticketType = 444) AND (ticketNumber BETWEEN 1 AND 5);
 
@@ -539,6 +557,7 @@ WHERE ticketType = 444 AND ticketNumber = 00000007;
 DROP TABLE Coupon;
 DROP TABLE Ticket;
 DROP TABLE Sale;
+DROP TABLE FlexibleDiscount;
 DROP TABLE RegisteredCustomer;
 DROP TABLE Advisor;
 DROP TABLE Manager;
