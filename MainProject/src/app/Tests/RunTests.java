@@ -11,6 +11,9 @@ public class RunTests {
 
         SystemSettingsTests systemSettingsTests = new SystemSettingsTests();
         systemSettingsTests.testLoad();
+        systemSettingsTests.testSetCommissionRate(15);
+        systemSettingsTests.testSetTaxRate(18);
+        systemSettingsTests.testSetAutoBackupFreqDays(5);
     }
 
     public static void main(String[] args){

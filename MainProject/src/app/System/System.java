@@ -2,26 +2,20 @@ package app.System;
 
 import java.sql.Date;
 
-public class SystemSettings {
-    private String localCurrency;
+public class System {
     private double commisionRate;
     private double taxRate;
-    private double exchangeRate;
     private int autoBackupFreqDays;
     private Date lastBackup;
 
-    public SystemSettings(String localCurrency, double commisionRate, double taxRate, double exchangeRate, int autoBackupFreqDays, Date lastBackup) {
-        this.localCurrency = localCurrency;
+    public System(double commisionRate, double taxRate, int autoBackupFreqDays, Date lastBackup) {
         this.commisionRate = commisionRate;
         this.taxRate = taxRate;
-        this.exchangeRate = exchangeRate;
         this.autoBackupFreqDays = autoBackupFreqDays;
         this.lastBackup = lastBackup;
     }
 
-    public String getLocalCurrency() {
-        return localCurrency;
-    }
+    public System(){}
 
     public double getCommisionRate() {
         return commisionRate;
@@ -31,28 +25,16 @@ public class SystemSettings {
         return taxRate;
     }
 
-    public double getExchangeRate() {
-        return exchangeRate;
-    }
-
     public Date getLastBackup() {
         return lastBackup;
     }
 
-    public void setLocalCurrency(String localCurrency) {
-        this.localCurrency = localCurrency;
-    }
-
-    public void setCommisionRate(double commisionRate) {
+    public void setCommissionRate(double commisionRate) {
         this.commisionRate = commisionRate;
     }
 
     public void setTaxRate(double taxRate) {
         this.taxRate = taxRate;
-    }
-
-    public void setExchangeRate(double exchangeRate) {
-        this.exchangeRate = exchangeRate;
     }
 
     public void setLastBackup(Date lastBackup) {

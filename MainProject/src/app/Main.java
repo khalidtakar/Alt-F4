@@ -1,15 +1,15 @@
 package app;
 
 import app.Account.*;
-import app.System.SystemSettings;
-import app.System.SystemSettingsController;
+import app.System.System;
+import app.System.SystemController;
 
 public class Main {
     Employee employee;
     Manager manager;
     Administrator administrator;
     Advisor advisor;
-    SystemSettings systemSettings;
+    System system;
 
     /**
      * Main app entry point
@@ -21,8 +21,8 @@ public class Main {
     public void goToLoginPage(){
 
         //after login
-        SystemSettingsController systemSettingsController = new SystemSettingsController();
-        systemSettings = systemSettingsController.load();
+        SystemController systemController = new SystemController();
+        system = systemController.load();
 
         //elif statements to follow and decide next page based on employee type
     };
