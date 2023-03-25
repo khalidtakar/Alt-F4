@@ -7,6 +7,10 @@ import java.sql.SQLException;
 public class SystemSQLHelper extends JDBC {
     public SystemSQLHelper() {}
 
+    /**
+     * Loads all system settings from the database
+     * @return latest copy of system settings
+     */
     public System load(){
         System system = null;
         sql = "SELECT " +
@@ -36,6 +40,10 @@ public class SystemSQLHelper extends JDBC {
         return system;
     }
 
+    /**
+     * update commissionRate in database
+     * @param commissionRate in DB stored as decimal(5,2)
+     */
     public void setCommissionRate(double commissionRate){
         sql="UPDATE SystemSettings " +
                 "SET commissionRate = ?";
@@ -50,6 +58,10 @@ public class SystemSQLHelper extends JDBC {
         }
     }
 
+    /**
+     * update tax rate in database
+     * @param taxRate in DB stored as decimal(5,2)
+     */
     public void setTaxRate(double taxRate){
         sql="UPDATE SystemSettings " +
                 "SET taxRate = ?";
@@ -64,13 +76,17 @@ public class SystemSQLHelper extends JDBC {
         }
     }
 
-    public void setAutoBackupFreqDays(double autoBackupFreqDays){
+    /**
+     * update auto backup frequency in database
+     * @param autoBackupFreqDays
+     */
+    public void setAutoBackupFreqDays(int autoBackupFreqDays){
         sql="UPDATE SystemSettings " +
                 "SET autoBackupFreqDays = ?";
 
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setDouble(1, autoBackupFreqDays);
+            preparedStatement.setInt(1, autoBackupFreqDays);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

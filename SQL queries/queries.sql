@@ -76,8 +76,10 @@ CREATE TABLE Sale(
 	paymentType varchar(4) NULL,
 	cardNo integer(16),
 	paymentProvider varchar(10),
+	localCurrency varchar(5),
+	exchangeRate decimal(9,4) NULL,
 	priceLocal varchar(10),
-	priceUSD integer(10),
+	priceUSD integer(10) NULL,
 	saleDiscountAmount integer(5),
 	taxAmount integer(10),
 	saleCommissionAmount integer(10),
@@ -123,12 +125,10 @@ CREATE TABLE Coupon(
 );
 
 CREATE TABLE SystemSettings(
-	localCurrency varchar(5),
 	commissionRate decimal(5, 2),
 	taxRate decimal(5, 2),
 	autoBackupFreqDays integer(3) DEFAULT 7,
-	lastBackup date,
-	exchangeRate decimal(20,10)
+	lastBackup date
 );
 
 /*Note settings exchange rate is the exchange rate for the day, 
@@ -160,27 +160,28 @@ INSERT INTO Advisor VALUES
 INSERT INTO Sale(advisorID, 
 	customerEmail, 
 	dateSold, 
-	paymentType, 
+	paymentType,
+	localCurrency, 
 	priceLocal, 
 	saleDiscountAmount, taxAmount, saleCommissionAmount, 
 	isDomestic, isPaid, 
 	refundRequested, isRefunded) VALUES
-	(1, NULL, "2023-02-22", "card",
+	(1, NULL, "2023-02-22", "card", "USD",
 		20000, 
 		1000, 2000, 500, 
 		False, True, 
 		False, False),
-	(1, NULL, "2023-02-22", "card",
+	(1, NULL, "2023-02-22", "card", "USD",
 		23000, 
 		1500, 2000, 500, 
 		False, True, 
 		False, False),
-	(1, NULL, "1990-02-22", "card",
+	(1, NULL, "1990-02-22", "card", "USD",
 		16000, 
 		1500, 2000, 500, 
 		False, True, 
 		False, False),
-	(2, NULL, "2023-02-22", "card",
+	(2, NULL, "2023-02-22", "card", "USD",
 		20000, 
 		1000, 2000, 500, 
 		False, False, 
@@ -227,13 +228,11 @@ INSERT INTO Coupon(ticketType, ticketNumber, flightDepartureDate, flightDepartur
 	(444, 00000007, "2023-05-20", 1915, 'Berlin','Amsterdam');
 
 INSERT INTO SystemSettings(
-	localCurrency,
-	commissionAmount,
-	taxAmount,
+	commissionRate,
+	taxRate,
 	autoBackupFreqDays,
-	lastBackup,
-	exchangeRate) VALUES
-	("GBP", 00100, 02000, 1, "2023-05-20", 1.22)
+	lastBackup) VALUES
+	(10, 20, 3, "2023-05-20");
 
 
 
