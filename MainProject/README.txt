@@ -1,0 +1,1 @@
+To use backup() and restore() you need to download mySqlServer and setup path to the bin file. If not sure use chatGPT and error messages to debug. If still not sure ask Joel
