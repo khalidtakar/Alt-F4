@@ -58,4 +58,8 @@ public class SystemTests {
     public void testBackup(){
         systemController.backup();
     }
+
+    public void testRestoreBackup(){
+        systemController.restore("D:\\ComputerScience\\GitHub\\Alt-F4\\MainProject\\backup\\backup_26-03-2023.17.31.31.sql");
+    }
 }
