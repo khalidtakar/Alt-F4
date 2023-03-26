@@ -9,11 +9,12 @@ public class RunTests {
         ticketTests.testGetAllTickets();
         ticketTests.testGetAdvisorsTickets(1);
 
-        SystemSettingsTests systemSettingsTests = new SystemSettingsTests();
-        systemSettingsTests.testLoad();
-        systemSettingsTests.testSetCommissionRate(15);
-        systemSettingsTests.testSetTaxRate(18);
-        systemSettingsTests.testSetAutoBackupFreqDays(5);
+        SystemTests systemTests = new SystemTests();
+        systemTests.testLoad();
+        systemTests.testSetCommissionRate(10);
+        systemTests.testSetTaxRate(20);
+        systemTests.testSetAutoBackupFreqDays(3);
+        systemTests.testBackup();
     }
 
     public static void main(String[] args){

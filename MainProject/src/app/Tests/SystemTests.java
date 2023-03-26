@@ -3,7 +3,7 @@ package app.Tests;
 import app.System.System;
 import app.System.SystemController;
 
-public class SystemSettingsTests {
+public class SystemTests {
     System system = new System();
     SystemController systemController;
 
@@ -11,7 +11,7 @@ public class SystemSettingsTests {
         systemController = new SystemController();
     }
 
-    public SystemSettingsTests() {}
+    public SystemTests() {}
 
     public void testLoad(){
         java.lang.System.out.println("Results for loading system settings: ");
@@ -53,5 +53,9 @@ public class SystemSettingsTests {
 
         java.lang.System.out.println("AutoBackupFreqDays after: ");
         java.lang.System.out.println(system.getAutoBackupFreqDays() + "\n");
+    }
+
+    public void testBackup(){
+        systemController.backup();
     }
 }

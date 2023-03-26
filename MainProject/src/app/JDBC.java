@@ -1,7 +1,6 @@
 package app;
 
-import app.Sale.Ticket;
-
+import java.io.File;
 import java.sql.DriverManager;
 import java.util.Properties;
 import java.sql.Connection;
@@ -17,6 +16,8 @@ public abstract class JDBC{
     private static final String SERVERNAME = "smcse-stuproj00.city.ac.uk";
     private static final int PORTNUMBER = 3306;
     private static final String DBNAME = "in2018g11";
+
+    private static String backupPath = File.separator + "backups";
 
     //variables to be inherited by SQL helpers
     protected static Connection connection;
