@@ -13,6 +13,7 @@ public class TicketSQLHelper extends JDBC {
      * Fetches all tickets in the database
      * @return Arraylist of instances of Ticket
      */
+
     public ArrayList<Ticket> getAllTickets(){
         ArrayList<Ticket> tickets = new ArrayList<>();
 

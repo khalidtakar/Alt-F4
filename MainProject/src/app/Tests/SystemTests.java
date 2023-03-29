@@ -13,6 +13,9 @@ public class SystemTests {
 
     public SystemTests() {}
 
+    /**
+     * Prints all fields in system class after using load()
+     */
     public void testLoad(){
         java.lang.System.out.println("Results for loading system settings: ");
 
@@ -25,6 +28,10 @@ public class SystemTests {
         java.lang.System.out.println();
     }
 
+    /**
+     * Takes new commission rate, updates db and returns old and updated state
+     * @param commissionRate new commission rate stored as decimal(5,2) in db
+     */
     public void testSetCommissionRate(double commissionRate){
         java.lang.System.out.println("Commission rate before: ");
         java.lang.System.out.println(system.getCommisionRate());
@@ -35,6 +42,10 @@ public class SystemTests {
         java.lang.System.out.println(system.getCommisionRate() + "\n");
     }
 
+    /**
+     * Takes new tax rate, updates db and returns old and updated state
+     * @param taxRate new tax rate stored as decimal(5,2) in db
+     */
     public void testSetTaxRate(double taxRate){
         java.lang.System.out.println("Tax rate before: ");
         java.lang.System.out.println(system.getTaxRate());
@@ -45,6 +56,10 @@ public class SystemTests {
         java.lang.System.out.println(system.getTaxRate() + "\n");
     }
 
+    /**
+     * Takes new auto backup frequency, updates db and returns old and updated state
+     * @param autoBackupFreqDays new backup frequency in days
+     */
     public void testSetAutoBackupFreqDays(int autoBackupFreqDays){
         java.lang.System.out.println("AutoBackupFreqDays before: ");
         java.lang.System.out.println(system.getAutoBackupFreqDays());
