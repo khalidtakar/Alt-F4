@@ -1,7 +1,6 @@
 package app;
 
 import app.Account.*;
-import app.GUI.GUI;
 import app.System.System;
 import app.System.SystemController;
 
