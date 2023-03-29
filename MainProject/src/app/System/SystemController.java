@@ -1,18 +1,11 @@
 package app.System;
 
-import javax.swing.*;
+
 import java.io.*;
-import java.net.URISyntaxException;
-import java.security.CodeSource;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
+
 
 public class SystemController {
     private SystemSQLHelper systemSQLHelper = new SystemSQLHelper();
@@ -75,25 +68,24 @@ public class SystemController {
             String backupPath = "backup" + File.separator + "backup_" + backupDate + ".sql";
 
             //Create cmd command to run mysqldump
-            String executeCmd = "mysqldump --host " + SERVER + " --port " + PORT + " --user " + USERNAME + " --password=" + PASSWORD + " --skip-column-statistics " + DBNAME + " > \"" + backupPath + "\"";
+            String executeCmd = "mysqldump --host " + SERVER
+                    + " --port " + PORT
+                    + " --user " + USERNAME
+                    + " --password=" + PASSWORD
+                    + " --skip-column-statistics "
+                    + DBNAME
+                    + " > \"" + backupPath + "\"";
 
             ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", executeCmd);
             builder.redirectErrorStream(true);
             Process process = builder.start();
 
             //Read the output and error streams from the process
-            InputStream inputStream = process.getInputStream();
             InputStream errorStream = process.getErrorStream();
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(inputStream));
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
 
-            //Print any output from the process
-            String line;
-            while ((line = inputReader.readLine()) != null) {
-                java.lang.System.out.println(line);
-            }
-
             //Print any error messages from the process
+            String line;
             while ((line = errorReader.readLine()) != null) {
                 java.lang.System.err.println(line);
             }
@@ -106,8 +98,12 @@ public class SystemController {
                 java.lang.System.err.println("Backup failed with exit code " + exitCode);
             }
 
-        } catch (IOException | InterruptedException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -118,25 +114,23 @@ public class SystemController {
     public static void restore(String filePath) {
         try {
             //Create cmd command to execute a .sql file
-            String executeCmd = "mysql --host " + SERVER + " --port " + PORT + " --user " + USERNAME + " --password=" + PASSWORD + " " + DBNAME + " < \"" + filePath + "\"";
+            String executeCmd = "mysql --host " + SERVER
+                    + " --port " + PORT
+                    + " --user " + USERNAME
+                    + " --password=" + PASSWORD
+                    + " " + DBNAME
+                    + " < \"" + filePath + "\"";
 
             ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", executeCmd);
             builder.redirectErrorStream(true);
             Process process = builder.start();
 
             //Read the output and error streams from the process
-            InputStream inputStream = process.getInputStream();
             InputStream errorStream = process.getErrorStream();
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(inputStream));
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
 
-            //Print any output from the process
-            String line;
-            while ((line = inputReader.readLine()) != null) {
-                java.lang.System.out.println(line);
-            }
-
             //Print any error messages from the process
+            String line;
             while ((line = errorReader.readLine()) != null) {
                 java.lang.System.err.println(line);
             }

@@ -21,7 +21,7 @@ public class EmployeeController {
      * @return instance of Employee if found in DB
      */
     public Employee login(String username, String password){
-        String passwordHash = doHashing(password);
+        String passwordHash = doHashing(username, password);
         employee = employeeSQLHelper.findEmployee(username, passwordHash);
 
         //attempts to initialise all roles for the given email
@@ -45,28 +45,43 @@ public class EmployeeController {
 
     /**Hashing algorithm, takes plain text and returns a hash to be stored/compared
      * with/in database
+     * @param toSalt unique string to be used as salt, preferably email
      * @param password plain text password to be hashed
      * @return [64 character] SHA-256 hashed password, can be "safely" stored in database
      */
-    public static String doHashing (String password) {
+    public static String doHashing (String toSalt, String password) {
+        final String PEPPER = "qFg@qVSdgS7#+a)nDgfR";
+        String hash = null;
+
+        //Generate a salt using a unique string
+        byte[] salt = null;
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-
-            messageDigest.update(password.getBytes());
-
-            byte[] resultByteArray = messageDigest.digest();
-
-            StringBuilder sb = new StringBuilder();
-
-            for (byte b : resultByteArray) {
-                sb.append(String.format("%02x", b));
-            }
-
-            return sb.toString();
-
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(toSalt.getBytes());
+            salt = md.digest();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return "";
+
+        try {
+            //select hashing algorithm
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+
+            //append salt and pepper
+            messageDigest.update(salt);
+            messageDigest.update(PEPPER.getBytes());
+
+            //hash the password
+            byte[] bytes = messageDigest.digest(password.getBytes());
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte aByte : bytes) {
+                stringBuilder.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
+            }
+            hash = stringBuilder.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        return hash;
     }
 }
