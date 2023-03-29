@@ -1,21 +1,20 @@
 package app.System;
 
-import javax.swing.*;
+
 import java.io.*;
-import java.net.URISyntaxException;
-import java.security.CodeSource;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
+
 
 public class SystemController {
     private SystemSQLHelper systemSQLHelper = new SystemSQLHelper();
+
+    private static final String DBNAME = "in2018g11";
+    private static final String USERNAME = "in2018g11_a";
+    private static final String PASSWORD = "zj81TlQV";
+    private static final String SERVER = "smcse-stuproj00.city.ac.uk";
+    private static final String PORT = "3306";
 
     public SystemController() {}
 
@@ -63,38 +62,30 @@ public class SystemController {
      */
     public static void backup() {
         try {
-            //Creating Database Constraints
-            String DBNAME = "in2018g11";
-            String USERNAME = "in2018g11_a";
-            String PASSWORD = "zj81TlQV";
-            String SERVER = "smcse-stuproj00.city.ac.uk";
-            String PORT = "3306";
-
-            //Creating Path Constraints for backup saving
+            //Creating Path to save backup and date-time format to use in the file name
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy.HH.mm.ss");
             String backupDate = dateFormat.format(new Date());
             String backupPath = "backup" + File.separator + "backup_" + backupDate + ".sql";
 
-            //Used to create a cmd command
-            String executeCmd = "mysqldump --host " + SERVER + " --port " + PORT + " --user " + USERNAME + " --password=" + PASSWORD + " --skip-column-statistics " + DBNAME + " > \"" + backupPath + "\"";
+            //Create cmd command to run mysqldump
+            String executeCmd = "mysqldump --host " + SERVER
+                    + " --port " + PORT
+                    + " --user " + USERNAME
+                    + " --password=" + PASSWORD
+                    + " --skip-column-statistics "
+                    + DBNAME
+                    + " > \"" + backupPath + "\"";
 
             ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", executeCmd);
             builder.redirectErrorStream(true);
             Process process = builder.start();
 
             //Read the output and error streams from the process
-            InputStream inputStream = process.getInputStream();
             InputStream errorStream = process.getErrorStream();
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(inputStream));
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
 
-            //Print any output from the process
-            String line;
-            while ((line = inputReader.readLine()) != null) {
-                java.lang.System.out.println(line);
-            }
-
             //Print any error messages from the process
+            String line;
             while ((line = errorReader.readLine()) != null) {
                 java.lang.System.err.println(line);
             }
@@ -107,8 +98,12 @@ public class SystemController {
                 java.lang.System.err.println("Backup failed with exit code " + exitCode);
             }
 
-        } catch (IOException | InterruptedException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -118,33 +113,24 @@ public class SystemController {
      */
     public static void restore(String filePath) {
         try {
-            //Creating database constraints
-            String DBNAME = "in2018g11";
-            String USERNAME = "in2018g11_a";
-            String PASSWORD = "zj81TlQV";
-            String SERVER = "smcse-stuproj00.city.ac.uk";
-            String PORT = "3306";
-
-            //Used to create a cmd command
-            String executeCmd = "mysql --host " + SERVER + " --port " + PORT + " --user " + USERNAME + " --password=" + PASSWORD + " " + DBNAME + " < \"" + filePath + "\"";
+            //Create cmd command to execute a .sql file
+            String executeCmd = "mysql --host " + SERVER
+                    + " --port " + PORT
+                    + " --user " + USERNAME
+                    + " --password=" + PASSWORD
+                    + " " + DBNAME
+                    + " < \"" + filePath + "\"";
 
             ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", executeCmd);
             builder.redirectErrorStream(true);
             Process process = builder.start();
 
             //Read the output and error streams from the process
-            InputStream inputStream = process.getInputStream();
             InputStream errorStream = process.getErrorStream();
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(inputStream));
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
 
-            //Print any output from the process
-            String line;
-            while ((line = inputReader.readLine()) != null) {
-                java.lang.System.out.println(line);
-            }
-
             //Print any error messages from the process
+            String line;
             while ((line = errorReader.readLine()) != null) {
                 java.lang.System.err.println(line);
             }
