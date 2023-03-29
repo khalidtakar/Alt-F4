@@ -9,6 +9,10 @@ public class RunTests {
         ticketTests.testGetAllTickets();
         ticketTests.testGetAdvisorsTickets(1);
 
+        SaleTests saleTests = new SaleTests();
+        //test exchange rate sparingly, API key has only 1000 uses per month
+        //saleTests.testExchangeRate();
+
         SystemTests systemTests = new SystemTests();
         systemTests.testLoad();
         systemTests.testSetCommissionRate(10);
