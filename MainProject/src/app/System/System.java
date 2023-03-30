@@ -1,10 +1,5 @@
 package app.System;
 
-import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.security.CodeSource;
 import java.sql.Date;
 
 public class System {
@@ -22,7 +17,23 @@ public class System {
 
     public System(){}
 
-    public double getCommisionRate() {
+    public void setCommissionRate(double commissionRate) {
+        this.commisionRate = commissionRate;
+    }
+
+    public void setTaxRate(double taxRate) {
+        this.taxRate = taxRate;
+    }
+
+    public void setAutoBackupFreqDays(int autoBackupFreqDays) {
+        this.autoBackupFreqDays = autoBackupFreqDays;
+    }
+
+    public void setLastBackup(Date lastBackup) {
+        this.lastBackup = lastBackup;
+    }
+
+    public double getCommissionRate() {
         return commisionRate;
     }
 

@@ -12,6 +12,9 @@ public class EmployeeTests {
         System.out.println("login bob:");
 
         Employee employee = employeeController.login("bob@gmail.com", "123");
+
+        System.out.println(employeeController.doHashing("bob@gmail.com", "123"));
+
         System.out.println(employee.getEmail());
         System.out.println(employee.getName());
         System.out.println(employee.getAdvisor().getAdvisorID());

@@ -8,4 +8,12 @@ public class Administrator {
         this.admID = admID;
         this.username = username;
     }
+
+    public int getAdmID() {
+        return admID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 }
