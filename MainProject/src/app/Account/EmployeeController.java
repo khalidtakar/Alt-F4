@@ -10,7 +10,9 @@ public class EmployeeController {
     private EmployeeSQLHelper employeeSQLHelper = new EmployeeSQLHelper();
     private Employee employee;
 
-    public EmployeeController(){}
+    public EmployeeController(Employee employee){
+        this.employee = employee;
+    }
 
     /**
      * Looks up employee
@@ -20,9 +22,14 @@ public class EmployeeController {
      * @param password plaintext password
      * @return instance of Employee if found in DB
      */
-    public Employee login(String username, String password){
+    public void login(String username, String password){
+        //Hash plain text password and lookup employee in database
         String passwordHash = doHashing(username, password);
-        employee = employeeSQLHelper.findEmployee(username, passwordHash);
+        //Make temporary employee load instance to maintain original employee reference
+        //Get and set data from temporary to main employee
+        Employee employeeLoad = employeeSQLHelper.findEmployee(username, passwordHash);
+        employee.setName(employeeLoad.getName());
+        employee.setEmail(employeeLoad.getEmail());
 
         //attempts to initialise all roles for the given email
         employee.setAdvisor(employeeSQLHelper.checkAdvisorEmail(employee.getEmail()));
@@ -38,8 +45,6 @@ public class EmployeeController {
         }else if(employee.getManager() != null){
             employee.setTypeOfEmployee("manager");
         }
-
-        return employee;
     }
 
 
