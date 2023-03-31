@@ -25,6 +25,7 @@ public class EmployeeController {
     public void login(String username, String password){
         //Hash plain text password and lookup employee in database
         String passwordHash = doHashing(username, password);
+
         //Make temporary employee load instance to maintain original employee reference
         //Get and set data from temporary to main employee
         Employee employeeLoad = employeeSQLHelper.findEmployee(username, passwordHash);

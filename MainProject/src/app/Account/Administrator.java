@@ -9,6 +9,9 @@ public class Administrator {
         this.username = username;
     }
 
+    public Administrator() {
+    }
+
     public int getAdmID() {
         return admID;
     }

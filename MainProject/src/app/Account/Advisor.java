@@ -9,7 +9,14 @@ public class Advisor {
         this.username = username;
     }
 
+    public Advisor() {
+    }
+
     public int getAdvisorID() {
         return advisorID;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
