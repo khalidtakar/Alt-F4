@@ -23,6 +23,7 @@ public class CouponSQLHelper extends JDBC {
     /**
      * When an advisor prepares to sell a ticket, they have to make coupons for a journey
      * This operation will add an advisor generated coupon to the database
+     * Note coupon in DB uses auto increment for couponID so it does not need to be defined here
      * @param coupon advisor made coupon
      */
     public void addCoupon(Coupon coupon){

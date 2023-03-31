@@ -1,6 +1,8 @@
 package app.Sale;
 
-public class SaleSQLHelper {
+import app.JDBC;
+
+public class SaleSQLHelper extends JDBC {
 
     public SaleSQLHelper() {
     }
