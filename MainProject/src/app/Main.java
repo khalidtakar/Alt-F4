@@ -23,7 +23,6 @@ public class Main{
     private System system;
 
     private EmployeeController employeeController;
-    private AdministratorController administratorController;
 
     /**
      * Main app entry point
@@ -69,7 +68,7 @@ public class Main{
 
     public void goToMainPageAdmin(){
         administrator = employee.getAdministrator();
-        admin
+
 
         //create admin page panel
         mainPageAdmin = new MainPageAdmin(this);

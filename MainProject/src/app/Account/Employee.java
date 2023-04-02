@@ -37,14 +37,17 @@ public class Employee {
 
     public void setAdministrator(Administrator administrator) {
         this.administrator = administrator;
+        typeOfEmployee = "administrator";
     }
 
     public void setManager(Manager manager) {
         this.manager = manager;
+        typeOfEmployee = "manager";
     }
 
     public void setAdvisor(Advisor advisor) {
         this.advisor = advisor;
+        typeOfEmployee = "advisor";
     }
 
     public Administrator getAdministrator() {

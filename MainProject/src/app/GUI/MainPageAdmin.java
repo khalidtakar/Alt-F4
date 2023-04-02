@@ -56,6 +56,12 @@ public class MainPageAdmin{
                 //create a backup immediately and download it to the user's pc
             }
         });
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                main.goToLoginPage();
+            }
+        });
     }
 
     public JPanel getPanel(){

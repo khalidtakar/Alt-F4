@@ -48,15 +48,14 @@ public class EmployeeController {
 
         //for the role which was initialied (is no longer null)
         //the name of it is assigned to typeOfEmployee
-        if(employee.getAdvisor() != null){
-            employee.setTypeOfEmployee("advisor");
-            main.goToMainPageAdvisor();
-        }else if(employee.getAdministrator() != null){
-            employee.setTypeOfEmployee("administrator");
-            main.goToMainPageAdmin();
-        }else if(employee.getManager() != null){
-            employee.setTypeOfEmployee("manager");
-            main.goToMainPageManager();
+        if(main != null) {
+            if (employee.getAdvisor() != null) {
+                main.goToMainPageAdvisor();
+            } else if (employee.getAdministrator() != null) {
+                main.goToMainPageAdmin();
+            } else if (employee.getManager() != null) {
+                main.goToMainPageManager();
+            }
         }
     }
 

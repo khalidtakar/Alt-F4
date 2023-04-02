@@ -11,7 +11,9 @@ public class SystemTests {
         systemController = new SystemController(system);
     }
 
-    public SystemTests() {}
+    public SystemTests() {
+
+    }
 
     /**
      * Prints all fields in system class after using load()
