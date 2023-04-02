@@ -1,10 +1,12 @@
 package app.GUI;
 
+import app.Main;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class MainPageAdmin extends MainPage{
+public class MainPageAdmin{
     private JTextField blanksSearchField;
     private JComboBox blanksSort;
     private JTable table1;
@@ -22,8 +24,13 @@ class MainPageAdmin extends MainPage{
     private JLabel welcomeText;
     private JLabel userInfo;
     private JLabel logo;
+    private JPanel mainPageAdminPanel;
 
-    public MainPageAdmin() {
+    private Main main;
+
+    public MainPageAdmin(Main main){
+        this.main = main;
+
         addBlanksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,5 +56,9 @@ class MainPageAdmin extends MainPage{
                 //create a backup immediately and download it to the user's pc
             }
         });
+    }
+
+    public JPanel getPanel(){
+        return mainPageAdminPanel;
     }
 }

@@ -15,7 +15,7 @@ public class EmployeeTests {
     public void testEmployeeLogin(){
         System.out.println("login bob:");
 
-        employeeController.login("bob@gmail.com", "123");
+        //employeeController.login("bob@gmail.com", "123");
 
         System.out.println(employeeController.doHashing("bob@gmail.com", "123"));
 

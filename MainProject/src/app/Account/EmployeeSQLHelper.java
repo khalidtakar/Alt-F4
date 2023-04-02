@@ -91,7 +91,7 @@ public class EmployeeSQLHelper extends JDBC {
             resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next()) {
-                administrator = new Administrator(resultSet.getInt("advID"), username);
+                administrator = new Administrator(resultSet.getInt("admID"), username);
             }
         } catch (SQLException e) {
             e.printStackTrace();

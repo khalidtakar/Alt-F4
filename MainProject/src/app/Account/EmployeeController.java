@@ -1,5 +1,7 @@
 package app.Account;
 
+import app.Main;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -9,6 +11,13 @@ import java.security.NoSuchAlgorithmException;
 public class EmployeeController {
     private EmployeeSQLHelper employeeSQLHelper = new EmployeeSQLHelper();
     private Employee employee;
+
+    private Main main;
+
+    public EmployeeController(Main main, Employee employee){
+        this.main = main;
+        this.employee = employee;
+    }
 
     public EmployeeController(Employee employee){
         this.employee = employee;
@@ -41,10 +50,13 @@ public class EmployeeController {
         //the name of it is assigned to typeOfEmployee
         if(employee.getAdvisor() != null){
             employee.setTypeOfEmployee("advisor");
+            main.goToMainPageAdvisor();
         }else if(employee.getAdministrator() != null){
             employee.setTypeOfEmployee("administrator");
+            main.goToMainPageAdmin();
         }else if(employee.getManager() != null){
             employee.setTypeOfEmployee("manager");
+            main.goToMainPageManager();
         }
     }
 
