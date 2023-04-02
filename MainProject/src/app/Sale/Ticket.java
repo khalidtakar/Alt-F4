@@ -28,6 +28,38 @@ public class Ticket {
         this.advisorID = advisorID;
     }
 
+    public void setTicketType(int ticketType) {
+        this.ticketType = ticketType;
+    }
+
+    public void setTicketNumber(int ticketNumber) {
+        this.ticketNumber = ticketNumber;
+    }
+
+    public void setDateReceived(Date dateReceived) {
+        this.dateReceived = dateReceived;
+    }
+
+    public void setDateAssigned(Date dateAssigned) {
+        this.dateAssigned = dateAssigned;
+    }
+
+    public void setSaleID(int saleID) {
+        this.saleID = saleID;
+    }
+
+    public void setSale(Sale sale) {
+        this.sale = sale;
+    }
+
+    public void setAdvisorID(int advisorID) {
+        this.advisorID = advisorID;
+    }
+
+    public void setAdvisor(Advisor advisor) {
+        this.advisor = advisor;
+    }
+
     public int getTicketType() {
         return ticketType;
     }
@@ -50,5 +82,13 @@ public class Ticket {
 
     public int getAdvisorID() {
         return advisorID;
+    }
+
+    public Sale getSale() {
+        return sale;
+    }
+
+    public Advisor getAdvisor() {
+        return advisor;
     }
 }

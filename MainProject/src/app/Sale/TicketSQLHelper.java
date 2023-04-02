@@ -84,4 +84,29 @@ public class TicketSQLHelper extends JDBC {
 
         return tickets;
     }
+
+    /**
+     * Update all columns for a ticket row with attributes from ticket instance
+     * @param ticket ticket to be updated in DB
+     */
+    public void updateTicket(Ticket ticket){
+
+    }
+
+    /**
+     * Adds new row for Ticket in DB based on instance of ticket provided
+     * * SaleID in DB uses auto increment, so you do not need to define it here
+     */
+    public void addTicket(Ticket ticket){
+
+    }
+
+    /**
+     * Removes ticket from the DB
+     * @param ticketType ticket type
+     * @param ticketNo ticket number
+     */
+    public void removeTicket(int ticketType, int ticketNo){
+
+    }
 }

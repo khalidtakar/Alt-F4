@@ -2,13 +2,15 @@ package app.System;
 
 
 import java.io.*;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 
 public class SystemController {
     private SystemSQLHelper systemSQLHelper = new SystemSQLHelper();
+    private System system;
 
     private static final String DBNAME = "in2018g11";
     private static final String USERNAME = "in2018g11_a";
@@ -16,14 +18,20 @@ public class SystemController {
     private static final String SERVER = "smcse-stuproj00.city.ac.uk";
     private static final String PORT = "3306";
 
-    public SystemController() {}
+    public SystemController(System system) {
+        this.system = system;
+    }
 
     /**
      * Loads all system settings from the database
      * @return instance of SystemSettings
      */
-    public System load(){
-        return systemSQLHelper.load();
+    public void load(){
+        System loadedSystem = systemSQLHelper.load();
+        system.setLastBackup(loadedSystem.getLastBackup());
+        system.setCommissionRate(loadedSystem.getCommissionRate());
+        system.setTaxRate(loadedSystem.getTaxRate());
+        system.setAutoBackupFreqDays(loadedSystem.getAutoBackupFreqDays());
     }
 
     /**
@@ -31,9 +39,9 @@ public class SystemController {
      * @param commissionRate double
      * @return updated system settings
      */
-    public System setCommissionRate(double commissionRate){
-        systemSQLHelper.setCommissionRate(commissionRate);
-        return this.load();
+    public void setCommissionRate(double commissionRate){
+        system.setCommissionRate(commissionRate);
+        systemSQLHelper.updateSettings(system);
     }
 
     /**
@@ -41,9 +49,9 @@ public class SystemController {
      * @param taxRate double, in DB stored as decimal(5,2)
      * @return updated system settings
      */
-    public System setTaxRate(double taxRate){
-        systemSQLHelper.setTaxRate(taxRate);
-        return this.load();
+    public void setTaxRate(double taxRate){
+        system.setTaxRate(taxRate);
+        systemSQLHelper.updateSettings(system);
     }
 
     /**
@@ -51,20 +59,20 @@ public class SystemController {
      * @param autoBackupFreqDays int how often you want system to auto backup
      * @return updated system settings
      */
-    public System setAutoBackupFreqDays(int autoBackupFreqDays){
-        systemSQLHelper.setAutoBackupFreqDays(autoBackupFreqDays);
-        return this.load();
+    public void setAutoBackupFreqDays(int autoBackupFreqDays){
+        system.setAutoBackupFreqDays(autoBackupFreqDays);
+        systemSQLHelper.updateSettings(system);
     }
 
     /**
      * creates a .sql file in backup folder,
      * with statements to reconstruct database in its current state
      */
-    public static void backup() {
+    public void backup() {
         try {
             //Creating Path to save backup and date-time format to use in the file name
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy.HH.mm.ss");
-            String backupDate = dateFormat.format(new Date());
+            String backupDate = dateFormat.format(new java.util.Date());
             String backupPath = "backup" + File.separator + "backup_" + backupDate + ".sql";
 
             //Create cmd command to run mysqldump
@@ -105,6 +113,12 @@ public class SystemController {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+
+        LocalDate now = LocalDate.now();
+        Date sqlNow = java.sql.Date.valueOf(now);
+
+        system.setLastBackup(sqlNow);
+        systemSQLHelper.updateSettings(system);
     }
 
     /**

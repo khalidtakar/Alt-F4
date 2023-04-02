@@ -8,7 +8,7 @@ public class SystemTests {
     SystemController systemController;
 
     {
-        systemController = new SystemController();
+        systemController = new SystemController(system);
     }
 
     public SystemTests() {}
@@ -19,9 +19,9 @@ public class SystemTests {
     public void testLoad(){
         java.lang.System.out.println("Results for loading system settings: ");
 
-        system = systemController.load();
+        systemController.load();
 
-        java.lang.System.out.println(system.getCommisionRate());
+        java.lang.System.out.println(system.getCommissionRate());
         java.lang.System.out.println(system.getTaxRate());
         java.lang.System.out.println(system.getAutoBackupFreqDays());
         java.lang.System.out.println(system.getLastBackup());
@@ -34,12 +34,12 @@ public class SystemTests {
      */
     public void testSetCommissionRate(double commissionRate){
         java.lang.System.out.println("Commission rate before: ");
-        java.lang.System.out.println(system.getCommisionRate());
+        java.lang.System.out.println(system.getCommissionRate());
 
-        system = systemController.setCommissionRate(commissionRate);
+        systemController.setCommissionRate(commissionRate);
 
         java.lang.System.out.println("Commission rate after: ");
-        java.lang.System.out.println(system.getCommisionRate() + "\n");
+        java.lang.System.out.println(system.getCommissionRate() + "\n");
     }
 
     /**
@@ -50,7 +50,7 @@ public class SystemTests {
         java.lang.System.out.println("Tax rate before: ");
         java.lang.System.out.println(system.getTaxRate());
 
-        system = systemController.setTaxRate(taxRate);
+        systemController.setTaxRate(taxRate);
 
         java.lang.System.out.println("Tax rate after: ");
         java.lang.System.out.println(system.getTaxRate() + "\n");
@@ -64,7 +64,7 @@ public class SystemTests {
         java.lang.System.out.println("AutoBackupFreqDays before: ");
         java.lang.System.out.println(system.getAutoBackupFreqDays());
 
-        system = systemController.setAutoBackupFreqDays(autoBackupFreqDays);
+        systemController.setAutoBackupFreqDays(autoBackupFreqDays);
 
         java.lang.System.out.println("AutoBackupFreqDays after: ");
         java.lang.System.out.println(system.getAutoBackupFreqDays() + "\n");

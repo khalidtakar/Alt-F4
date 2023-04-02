@@ -21,8 +21,8 @@ public class Main {
     public void goToLoginPage(){
 
         //after login
-        SystemController systemController = new SystemController();
-        system = systemController.load();
+        SystemController systemController = new SystemController(system);
+        systemController.load();
 
         //elif statements to follow and decide next page based on employee type
     };

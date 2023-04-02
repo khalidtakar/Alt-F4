@@ -14,11 +14,11 @@ public class RunTests {
         //saleTests.testExchangeRate();
 
         SystemTests systemTests = new SystemTests();
-        //systemTests.testLoad();
-        //systemTests.testSetCommissionRate(10);
-        //systemTests.testSetTaxRate(20);
-        //systemTests.testSetAutoBackupFreqDays(3);
-        //systemTests.testBackup();
+//        systemTests.testLoad();
+//        systemTests.testSetCommissionRate(12);
+//        systemTests.testSetTaxRate(10);
+//        systemTests.testSetAutoBackupFreqDays(4);
+//        systemTests.testBackup();
         //systemTests.testRestoreBackup();
     }
 
