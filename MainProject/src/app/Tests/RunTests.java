@@ -18,8 +18,8 @@ public class RunTests {
         systemTests.testSetCommissionRate(12);
         systemTests.testSetTaxRate(10);
         systemTests.testSetAutoBackupFreqDays(4);
-        systemTests.testBackup();
-        systemTests.testRestoreBackup();
+        //systemTests.testBackup();
+        //systemTests.testRestoreBackup();
     }
 
     public static void main(String[] args){

@@ -69,16 +69,7 @@ public class EmployeeController {
     public static String doHashing (String toSalt, String password) {
         final String PEPPER = "qFg@qVSdgS7#+a)nDgfR";
         String hash = null;
-
-        //Generate a salt using a unique string
-        byte[] salt = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(toSalt.getBytes());
-            salt = md.digest();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        byte[] salt = toSalt.getBytes();
 
         try {
             //select hashing algorithm

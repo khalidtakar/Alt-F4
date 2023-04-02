@@ -1,6 +1,7 @@
 package app.GUI;
 
 import app.Main;
+import app.System.SystemController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,7 +17,7 @@ public class MainPageAdmin{
     private JButton deleteBlanksButton;
     private JTextField textField3;
     private JTextField textField4;
-    private JTextField textField5;
+    private JTextField backupFrequency;
     private JButton changeFrequencyButton;
     private JButton createBackupNowButton;
     private JLabel timeSinceBackup;
@@ -27,9 +28,11 @@ public class MainPageAdmin{
     private JPanel mainPageAdminPanel;
 
     private Main main;
+    private SystemController systemController;
 
-    public MainPageAdmin(Main main){
+    public MainPageAdmin(Main main, SystemController systemController){
         this.main = main;
+        this.systemController = systemController;
 
         addBlanksButton.addActionListener(new ActionListener() {
             @Override
@@ -48,12 +51,14 @@ public class MainPageAdmin{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //change the frequency of database updates
+                systemController.setAutoBackupFreqDays(Integer.parseInt(backupFrequency.getText()));
             }
         });
         createBackupNowButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //create a backup immediately and download it to the user's pc
+                systemController.backup();
             }
         });
         logOutButton.addActionListener(new ActionListener() {

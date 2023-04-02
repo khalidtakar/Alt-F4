@@ -4,6 +4,8 @@ import app.Account.*;
 import app.GUI.Login;
 import app.GUI.MainPageAdmin;
 import app.System.System;
+import app.System.SystemController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -23,6 +25,7 @@ public class Main{
     private System system;
 
     private EmployeeController employeeController;
+    private SystemController systemController;
 
     /**
      * Main app entry point
@@ -67,11 +70,16 @@ public class Main{
     }
 
     public void goToMainPageAdmin(){
+        //initialise controllers
+        system = new System();
+        systemController = new SystemController(system);
+
+
         administrator = employee.getAdministrator();
 
 
         //create admin page panel
-        mainPageAdmin = new MainPageAdmin(this);
+        mainPageAdmin = new MainPageAdmin(this, systemController);
         mainPageAdminPanel = mainPageAdmin.getPanel();
 
         //create new admin page card

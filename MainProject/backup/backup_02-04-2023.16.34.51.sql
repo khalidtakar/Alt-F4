@@ -37,6 +37,7 @@ CREATE TABLE `Administrator` (
 
 LOCK TABLES `Administrator` WRITE;
 /*!40000 ALTER TABLE `Administrator` DISABLE KEYS */;
+INSERT INTO `Administrator` VALUES (320,'Arthur Daley');
 /*!40000 ALTER TABLE `Administrator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +120,7 @@ CREATE TABLE `Employee` (
 
 LOCK TABLES `Employee` WRITE;
 /*!40000 ALTER TABLE `Employee` DISABLE KEYS */;
-INSERT INTO `Employee` VALUES ('bob@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','bob'),('dave@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','bob');
+INSERT INTO `Employee` VALUES ('Arthur Daley','72d3209d73fe29b863b1a57453e12312e02ad70e229cd32dfbb6dce1ca4eb1cf','Arthur Daley'),('bob@gmail.com','f709f35d0b4b0b88149ee7fd0483d14ca8d1bf5e6956d3372b6accd6b5a0e6ff','bob'),('dave@gmail.com','f6169ad34b442eb8cbcd3565c141d3ab593dc88ef5903c80802eaf1b763c0969','bob');
 /*!40000 ALTER TABLE `Employee` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,11 +132,13 @@ DROP TABLE IF EXISTS `FlexibleDiscount`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `FlexibleDiscount` (
-  `email` varchar(30) NOT NULL DEFAULT '',
+  `flexDiscID` int(20) NOT NULL AUTO_INCREMENT,
+  `email` varchar(30) DEFAULT NULL,
   `discountRate` decimal(5,2) DEFAULT NULL,
   `lowerBoundary` int(10) DEFAULT NULL,
   `upperBoundary` int(10) DEFAULT NULL,
-  PRIMARY KEY (`email`),
+  PRIMARY KEY (`flexDiscID`),
+  KEY `email` (`email`),
   CONSTRAINT `FlexibleDiscount_ibfk_1` FOREIGN KEY (`email`) REFERENCES `RegisteredCustomer` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -267,7 +270,7 @@ CREATE TABLE `SystemSettings` (
 
 LOCK TABLES `SystemSettings` WRITE;
 /*!40000 ALTER TABLE `SystemSettings` DISABLE KEYS */;
-INSERT INTO `SystemSettings` VALUES (10.00,20.00,3,'2023-05-20');
+INSERT INTO `SystemSettings` VALUES (12.00,10.00,4,'2023-05-20');
 /*!40000 ALTER TABLE `SystemSettings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -314,4 +317,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-26 17:31:32
+-- Dump completed on 2023-04-02 16:34:52
