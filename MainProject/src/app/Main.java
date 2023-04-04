@@ -83,6 +83,7 @@ public class Main{
 
         //create admin page panel
         mainPageAdmin = new MainPageAdmin(this, systemController, ticketController);
+        mainPageAdmin.updateTable();
         mainPageAdminPanel = mainPageAdmin.getPanel();
 
         //create new admin page card

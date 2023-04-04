@@ -7,6 +7,7 @@ import app.Sale.TicketSQLHelper;
 import app.System.SystemController;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -81,5 +82,30 @@ public class MainPageAdmin{
 
     public JPanel getPanel(){
         return mainPageAdminPanel;
+    }
+
+    public void updateTable(){
+        //this code does not work
+        /// TODO: 04/04/2023 implement ticket table 
+        tickets = ticketController.getAllTickets();
+
+        DefaultTableModel tableModel = new DefaultTableModel();
+
+        tableModel.addColumn("Ticket type");
+        tableModel.addColumn("Ticket no");
+        tableModel.addColumn("Assigned");
+        tableModel.addColumn("Sale");
+
+        for(Ticket i : tickets){
+            tableModel.insertRow(0, new Object[]{
+                    i.getTicketType(),
+                    i.getTicketNumber(),
+                    i.getAdvisorID(),
+                    i.getSaleID()});
+        }
+
+        table1 = new JTable(tableModel);
+        table1.setSize(500,200);
+        table1.add(new JScrollPane());
     }
 }

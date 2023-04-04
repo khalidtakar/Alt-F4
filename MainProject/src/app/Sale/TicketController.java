@@ -48,4 +48,16 @@ public class TicketController {
 
         return getAllTickets();
     }
+
+    public ArrayList<Ticket> removeTickets(long startRange, long endRange){
+        int startRangeType = Integer.parseInt(Long.toString(startRange).substring(0, 3));
+        int startRangeNumber = Integer.parseInt(Long.toString(startRange).substring(3));
+
+        for(int i = 0; i < (endRange - startRange); i++){
+            ticketSQLHelper.removeTicket(startRangeType, startRangeNumber);
+            startRangeNumber++;
+        }
+
+        return getAllTickets();
+    }
 }
