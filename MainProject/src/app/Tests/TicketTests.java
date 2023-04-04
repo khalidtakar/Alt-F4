@@ -52,4 +52,13 @@ public class TicketTests {
 
         testGetAllTickets();
     }
+
+    public void removeTickets(long startRange, long endRange){
+        testGetAllTickets();
+
+        ticketController.removeTickets(startRange, endRange);
+        System.out.println("Removing tickets from :" + startRange + " to: " + endRange + "\n");
+
+        testGetAllTickets();
+    }
 }
