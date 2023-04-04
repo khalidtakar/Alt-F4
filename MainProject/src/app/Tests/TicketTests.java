@@ -43,4 +43,13 @@ public class TicketTests {
         }
         System.out.println("\n");
     }
+
+    public void addTickets(long startRange, long endRange){
+        testGetAllTickets();
+
+        ticketController.addTickets(startRange, endRange);
+        System.out.println("Adding tickets from :" + startRange + " to: " + endRange + "\n");
+
+        testGetAllTickets();
+    }
 }

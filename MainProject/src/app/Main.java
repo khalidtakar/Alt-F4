@@ -3,6 +3,7 @@ package app;
 import app.Account.*;
 import app.GUI.Login;
 import app.GUI.MainPageAdmin;
+import app.Sale.TicketController;
 import app.System.System;
 import app.System.SystemController;
 
@@ -26,6 +27,7 @@ public class Main{
 
     private EmployeeController employeeController;
     private SystemController systemController;
+    private TicketController ticketController;
 
     /**
      * Main app entry point
@@ -73,13 +75,14 @@ public class Main{
         //initialise controllers
         system = new System();
         systemController = new SystemController(system);
+        ticketController = new TicketController();
 
 
         administrator = employee.getAdministrator();
 
 
         //create admin page panel
-        mainPageAdmin = new MainPageAdmin(this, systemController);
+        mainPageAdmin = new MainPageAdmin(this, systemController, ticketController);
         mainPageAdminPanel = mainPageAdmin.getPanel();
 
         //create new admin page card

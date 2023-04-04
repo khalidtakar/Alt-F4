@@ -1,5 +1,7 @@
 package app.Sale;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TicketController {
@@ -29,5 +31,21 @@ public class TicketController {
     public ArrayList<Ticket> getAdvisorsTickets(int advID){
         tickets = ticketSQLHelper.getAdvisorsTickets(advID);
         return tickets;
+    }
+
+    public ArrayList<Ticket> addTickets(long startRange, long endRange){
+        Ticket ticket;
+        LocalDate now = LocalDate.now();
+        Date sqlNow = java.sql.Date.valueOf(now);
+        int startRangeType = Integer.parseInt(Long.toString(startRange).substring(0, 3));
+        int startRangeNumber = Integer.parseInt(Long.toString(startRange).substring(3));
+
+        for(int i = 0; i < (endRange - startRange); i++){
+            ticket = new Ticket(startRangeType, startRangeNumber, sqlNow);
+            ticketSQLHelper.addTicket(ticket);
+            startRangeNumber++;
+        }
+
+        return getAllTickets();
     }
 }

@@ -62,21 +62,20 @@ public class EmployeeController {
 
     /**Hashing algorithm, takes plain text and returns a hash to be stored/compared
      * with/in database
-     * @param toSalt unique string to be used as salt, preferably email
+     * @param salt unique string to be used as salt, preferably email
      * @param password plain text password to be hashed
      * @return [64 character] SHA-256 hashed password, can be "safely" stored in database
      */
-    public static String doHashing (String toSalt, String password) {
+    public static String doHashing (String salt, String password) {
         final String PEPPER = "qFg@qVSdgS7#+a)nDgfR";
         String hash = null;
-        byte[] salt = toSalt.getBytes();
 
         try {
             //select hashing algorithm
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
 
             //append salt and pepper
-            messageDigest.update(salt);
+            messageDigest.update(salt.getBytes());
             messageDigest.update(PEPPER.getBytes());
 
             //hash the password
