@@ -28,6 +28,12 @@ public class Ticket {
         this.advisorID = advisorID;
     }
 
+    public Ticket(int ticketType, int ticketNumber, Date dateReceived){
+        this.ticketType = ticketType;
+        this.ticketNumber = ticketNumber;
+        this.dateReceived = dateReceived;
+    }
+
     public void setTicketType(int ticketType) {
         this.ticketType = ticketType;
     }

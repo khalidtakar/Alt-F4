@@ -8,6 +8,7 @@ public class RunTests {
         TicketTests ticketTests = new TicketTests();
         ticketTests.testGetAllTickets();
         ticketTests.testGetAdvisorsTickets(1);
+        //ticketTests.addTickets(44400000120L, 44400000150L);
 
         SaleTests saleTests = new SaleTests();
         //test exchange rate sparingly, API key has only 1000 uses per month

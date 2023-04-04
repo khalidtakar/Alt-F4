@@ -1,11 +1,15 @@
 package app.GUI;
 
 import app.Main;
+import app.Sale.Ticket;
+import app.Sale.TicketController;
+import app.Sale.TicketSQLHelper;
 import app.System.SystemController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MainPageAdmin{
     private JTextField blanksSearchField;
@@ -29,15 +33,21 @@ public class MainPageAdmin{
 
     private Main main;
     private SystemController systemController;
+    private TicketController ticketController;
 
-    public MainPageAdmin(Main main, SystemController systemController){
+    private ArrayList<Ticket> tickets;
+
+    public MainPageAdmin(Main main, SystemController systemController, TicketController ticketController){
         this.main = main;
         this.systemController = systemController;
+        this.ticketController = ticketController;
 
         addBlanksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //create new blanks from textField1 to textField2
+                tickets = ticketController.addTickets((Long.parseLong(textField1.getText()))
+                        , Long.parseLong(textField1.getText()));
             }
         });
         deleteBlanksButton.addActionListener(new ActionListener() {
