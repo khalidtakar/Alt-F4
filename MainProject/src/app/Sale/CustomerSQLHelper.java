@@ -7,8 +7,21 @@ import java.sql.SQLException;
 
 public class CustomerSQLHelper extends JDBC {
 
-    public CustomerSQLHelper() {
+    private String email;
+    private String name;
+    private boolean isValued;
+    private double spentThisMonth;
+    private double discountToRefundOrReturn;
+    private double fixedDiscountRate;
 
+    public CustomerSQLHelper(String email, String name, boolean isValued, double spentThisMonth,
+                             double discountToRefundOrReturn, double fixedDiscountRate) {
+        this.email = email;
+        this.name = name;
+        this.isValued = isValued;
+        this.spentThisMonth = spentThisMonth;
+        this.discountToRefundOrReturn = discountToRefundOrReturn;
+        this.fixedDiscountRate = fixedDiscountRate;
     }
 
     /**
@@ -16,8 +29,7 @@ public class CustomerSQLHelper extends JDBC {
      * @param email customer email
      * @return instance of Customer
      */
-    public Customer getCustomerByEmail(String email, String name, boolean isValued, double spentThisMonth,
-                                       double discountToRefundOrReturn, double fixedDiscountRate){
+    public Customer getCustomerByEmail(String email){
         Customer customer = null;
 
         sql = "SELECT * FROM customers WHERE email = ?";
