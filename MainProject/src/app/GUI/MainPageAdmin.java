@@ -3,7 +3,6 @@ package app.GUI;
 import app.Main;
 import app.Sale.Ticket;
 import app.Sale.TicketController;
-import app.Sale.TicketSQLHelper;
 import app.System.SystemController;
 
 import javax.swing.*;
@@ -15,17 +14,19 @@ import java.util.ArrayList;
 public class MainPageAdmin{
     private JTextField blanksSearchField;
     private JComboBox blanksSort;
-    private JTable table1;
-    private JTextField textField1;
-    private JTextField textField2;
+    private JTable blanksTable;
+    private JTextField addBlanksStartVal;
+    private JTextField addBlanksEndVal;
     private JButton addBlanksButton;
+    private JTextField deleteBlanksStartVal;
+    private JTextField deleteBlanksEndVal;
     private JButton deleteBlanksButton;
-    private JTextField textField3;
-    private JTextField textField4;
+
     private JTextField backupFrequency;
     private JButton changeFrequencyButton;
     private JButton createBackupNowButton;
     private JLabel timeSinceBackup;
+
     private JButton logOutButton;
     private JLabel welcomeText;
     private JLabel userInfo;
@@ -47,14 +48,14 @@ public class MainPageAdmin{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //create new blanks from textField1 to textField2
-                tickets = ticketController.addTickets((Long.parseLong(textField1.getText()))
-                        , Long.parseLong(textField1.getText()));
+                tickets = ticketController.addTickets((Long.parseLong(addBlanksStartVal.getText()))
+                        , Long.parseLong(addBlanksEndVal.getText()));
             }
         });
         deleteBlanksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //delete blanks from textField3 to textField4
+                //delete blanks from deleteBlanksStartVal to deleteBlanksEndVal
 
             }
         });
@@ -104,8 +105,8 @@ public class MainPageAdmin{
                     i.getSaleID()});
         }
 
-        table1 = new JTable(tableModel);
-        table1.setSize(500,200);
-        table1.add(new JScrollPane());
+        blanksTable = new JTable(tableModel);
+        blanksTable.setSize(500,200);
+        blanksTable.add(new JScrollPane());
     }
 }

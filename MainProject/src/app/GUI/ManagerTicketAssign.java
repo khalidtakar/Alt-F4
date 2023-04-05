@@ -7,11 +7,11 @@ public class ManagerTicketAssign extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTable table1;
-    private JTextField textField1;
-    private JTextField textField2;
+    private JTable ticketTable;
+    private JTextField assignTicketsStartVal;
+    private JTextField assignTicketsEndVal;
 
-    public ManagerTicketAssign() {
+    public ManagerTicketAssign(int advisorID) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -45,12 +45,11 @@ public class ManagerTicketAssign extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
+        // assign tickets from assignTicketsStartVal to assignTicketsEndVal to advisorID
         dispose();
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 
