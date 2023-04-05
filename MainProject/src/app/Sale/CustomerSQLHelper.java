@@ -16,7 +16,8 @@ public class CustomerSQLHelper extends JDBC {
      * @param email customer email
      * @return instance of Customer
      */
-    public Customer getCustomerByEmail(String email){
+    public Customer getCustomerByEmail(String email, String name, boolean isValued, double spentThisMonth,
+                                       double discountToRefundOrReturn, double fixedDiscountRate){
         Customer customer = null;
 
         sql = "SELECT * FROM customers WHERE email = ?";
@@ -24,16 +25,21 @@ public class CustomerSQLHelper extends JDBC {
         try {
             // create SQL query to retrieve customer by email
 
-            statement = connection.prepareStatement(sql);
-            statement.setString(1, email);
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, email);
 
             // execute query and retrieve results
-            resultSet = statement.executeQuery(sql);
+            resultSet = preparedStatement.executeQuery(sql);
 
             // check if customer was found
             if(resultSet.next()){
                 // create new customer object and populate with data from result set
-                customer = new Customer(resultSet.getString("email"));
+                customer = new Customer(resultSet.getString("email"),
+                        resultSet.getString("name"),
+                        resultSet.getBoolean("isValued"),
+                        resultSet.getDouble("spentThisMonth"),
+                        resultSet.getDouble("discountToRefundOrReturn"),
+                        resultSet.getDouble("fixedDiscountRate"));
 
 
             }
@@ -50,7 +56,40 @@ public class CustomerSQLHelper extends JDBC {
      */
     public void addNewCustomer(Customer customer){
 
-    }
+
+        String sql = "INSERT INTO customers (email, name, is_valued, spent_this_month, discount_to_refund_or_return, fixed_discount_rate) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try {
+
+            // create SQL query to insert new customer
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, customer.getEmail());
+            preparedStatement.setString(2, customer.getName());
+            preparedStatement.setBoolean(3, customer.isValued());
+            preparedStatement.setDouble(4, customer.getSpentThisMonth());
+            preparedStatement.setDouble(5, customer.getDiscountToRefundOrReturn());
+            preparedStatement.setDouble(6, customer.getFixedDiscountRate());
+
+            // execute query and insert new customer
+            int rowsInserted = preparedStatement.executeUpdate();
+            System.out.println(rowsInserted + " row(s) inserted.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+            try {
+                if(statement != null){
+                    statement.close();
+                }
+                if(connection != null){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
 
     /** Update all collumns of customer in DB to be the same as attributes
      * of provided customer instance
@@ -58,5 +97,40 @@ public class CustomerSQLHelper extends JDBC {
      */
     public void updateCustomer(Customer customer){
 
+
+        String sql = "UPDATE customers SET name = ?, is_valued = ?, spent_this_month = ?, discount_to_refund_or_return = ?, fixed_discount_rate = ? WHERE email = ?";
+
+        try {
+
+            // create SQL query to update customer
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, customer.getName());
+            preparedStatement.setBoolean(2, customer.isValued());
+            preparedStatement.setDouble(3, customer.getSpentThisMonth());
+            preparedStatement.setDouble(4, customer.getDiscountToRefundOrReturn());
+            preparedStatement.setDouble(5, customer.getFixedDiscountRate());
+            preparedStatement.setString(6, customer.getEmail());
+
+            // execute query and update customer
+            int rowsUpdated = preparedStatement.executeUpdate();
+            System.out.println(rowsUpdated + " row(s) updated.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } finally {
+            // close database resources
+            try {
+                if(statement != null){
+                    statement.close();
+                }
+                if(connection != null){
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
