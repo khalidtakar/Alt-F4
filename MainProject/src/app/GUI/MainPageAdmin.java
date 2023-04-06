@@ -3,6 +3,7 @@ package app.GUI;
 import app.Main;
 import app.Sale.Ticket;
 import app.Sale.TicketController;
+import app.System.System;
 import app.System.SystemController;
 
 import javax.swing.*;
@@ -34,15 +35,20 @@ public class MainPageAdmin{
     private JPanel mainPageAdminPanel;
 
     private Main main;
+    private System system;
     private SystemController systemController;
     private TicketController ticketController;
 
     private ArrayList<Ticket> tickets;
 
-    public MainPageAdmin(Main main, SystemController systemController, TicketController ticketController){
+    public MainPageAdmin(Main main, System system, SystemController systemController, TicketController ticketController){
         this.main = main;
+        this.system = system;
         this.systemController = systemController;
         this.ticketController = ticketController;
+
+        backupFrequency.setText(String.valueOf(system.getAutoBackupFreqDays()));
+
 
         addBlanksButton.addActionListener(new ActionListener() {
             @Override

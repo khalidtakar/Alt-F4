@@ -1,8 +1,10 @@
 package app.Account;
 
 import app.JDBC;
+import app.Sale.Ticket;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 public class EmployeeSQLHelper extends JDBC {
@@ -126,6 +128,34 @@ public class EmployeeSQLHelper extends JDBC {
             throw new RuntimeException(e);
         }
         return advisor;
+    }
+
+    public ArrayList<Employee> getAdvisors(){
+        ArrayList<Employee> advisors = new ArrayList<>();
+
+        sql = "SELECT a.advID, " +
+                "a.email, " +
+                "e.name " +
+                "FROM Advisor a, Employee e " +
+                "WHERE a.email = e.email";
+
+        try {
+            statement = connection.createStatement();
+            resultSet = preparedStatement.executeQuery(sql);
+
+            //for each row found, initialise a new Employee which is an advisor and add to arraylist
+            while (resultSet.next()) {
+                advisors.add(new Employee(resultSet.getString("email"),
+                        resultSet.getString("name"),
+                        new Advisor(resultSet.getInt("advID"),
+                                resultSet.getString("email"))));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        return advisors;
     }
 }
 

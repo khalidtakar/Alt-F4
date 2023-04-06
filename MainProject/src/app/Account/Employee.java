@@ -17,6 +17,12 @@ public class Employee {
         this.name = name;
     }
 
+    public Employee(String email, String name, Advisor advisor){
+        this.email = email;
+        this.name = name;
+        this.advisor = advisor;
+    }
+
     public Employee(){}
 
     public String getEmail() {

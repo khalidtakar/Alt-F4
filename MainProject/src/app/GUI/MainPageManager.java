@@ -1,12 +1,19 @@
 package app.GUI;
 
+import app.Account.Advisor;
+import app.Account.Employee;
+import app.Account.EmployeeSQLHelper;
 import app.Main;
+import app.Sale.Ticket;
 import app.Sale.TicketController;
+import app.System.System;
 import app.System.SystemController;
 
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class MainPageManager {
     private JLabel logo;
@@ -35,15 +42,27 @@ public class MainPageManager {
     private JComboBox advisorTableSort;
     private JPanel mainPageManagerPanel;
 
-    Main main;
-    SystemController systemController;
-    TicketController ticketController;
+    private ArrayList<Employee> advisors;
 
-    public MainPageManager(Main main, SystemController systemController, TicketController ticketController) {
+    private Main main;
+    private System system;
+    private SystemController systemController;
+    private TicketController ticketController;
+    private EmployeeSQLHelper employeeSQLHelper;
+
+    public MainPageManager(Main main,
+                           System system,
+                           SystemController systemController,
+                           TicketController ticketController,
+                           EmployeeSQLHelper employeeSQLHelper) {
         this.main = main;
+        this.system = system;
         this.systemController = systemController;
         this.ticketController = ticketController;
+        this.employeeSQLHelper = employeeSQLHelper;
 
+        taxRate.setText(String.valueOf(system.getTaxRate()));
+        commissionRate.setText(String.valueOf(system.getCommissionRate()));
 
         generateReportPDFButton.addActionListener(new ActionListener() {
             @Override
@@ -100,6 +119,26 @@ public class MainPageManager {
                 main.goToLoginPage();
             }
         });
+    }
+
+    public void updateAdvisorsTable(){
+         advisors = employeeSQLHelper.getAdvisors();
+
+        //get the table object from GUI
+        DefaultTableModel tableModel = (DefaultTableModel)advisorTable.getModel();
+
+        //set columns
+        tableModel.addColumn("ID");
+        tableModel.addColumn("Name");
+        tableModel.addColumn("Email");
+
+        //insert rows
+        for(Employee i : advisors){
+            tableModel.insertRow(0, new Object[]{
+                    i.getAdvisor().getAdvisorID(),
+                    i.getName(),
+                    i.getEmail()});
+        }
     }
 
     public JPanel getPanel(){
