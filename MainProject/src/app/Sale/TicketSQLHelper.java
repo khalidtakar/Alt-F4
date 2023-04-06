@@ -103,6 +103,8 @@ public class TicketSQLHelper extends JDBC {
 
     /**
      * Removes ticket from the DB
+     *
+     * does not allow tickets to be removed where sale ID is not null
      * @param ticketType ticket type
      * @param ticketNo ticket number
      */

@@ -10,8 +10,11 @@ public class ManagerTicketAssign extends JDialog {
     private JTable ticketTable;
     private JTextField assignTicketsStartVal;
     private JTextField assignTicketsEndVal;
+    private int advisorID;
 
     public ManagerTicketAssign(int advisorID) {
+        this.advisorID = advisorID;
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -54,7 +57,7 @@ public class ManagerTicketAssign extends JDialog {
     }
 
     public static void main(String[] args) {
-        ManagerTicketAssign dialog = new ManagerTicketAssign();
+        ManagerTicketAssign dialog = new ManagerTicketAssign(1);
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);

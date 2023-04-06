@@ -151,12 +151,20 @@ INSERT INTO RegisteredCustomer VALUES
 	("dylan@gmail.com", "Dylan Dylandson", False, 0, 0, NULL);
 
 INSERT INTO Employee VALUES
-	("bob@gmail.com", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "bob"),
-	("dave@gmail.com", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3", "bob");
+	("bob@gmail.com", "f709f35d0b4b0b88149ee7fd0483d14ca8d1bf5e6956d3372b6accd6b5a0e6ff", "bob"),
+	("dave@gmail.com", "f6169ad34b442eb8cbcd3565c141d3ab593dc88ef5903c80802eaf1b763c0969", "bob"),
+	("Arthur Daley", "72d3209d73fe29b863b1a57453e12312e02ad70e229cd32dfbb6dce1ca4eb1cf", "Arthur Daley");
+	("minnie.minx@gmail.com", "cf8d94fba9deb7244e9f78338d7dbb1cdb9465efa4d6572361a7885d9bddbf58", "Minnie Minx");
 
 INSERT INTO Advisor VALUES
 	(1, "bob@gmail.com"),
 	(2, "dave@gmail.com");
+
+INSERT INTO Administrator VALUES
+	(320, "Arthur Daley");
+
+INSERT INTO Manager VALUES
+	(220, "Minnie Minx");
 
 INSERT INTO Sale(advisorID, 
 	customerEmail, 

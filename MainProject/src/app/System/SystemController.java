@@ -6,7 +6,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import app.System.System;
 
 
 public class SystemController {
@@ -23,6 +22,8 @@ public class SystemController {
         this.system = system;
     }
 
+    public SystemController(){}
+
     /**
      * Loads all system settings from the database
      * @return instance of SystemSettings
@@ -33,6 +34,16 @@ public class SystemController {
         system.setCommissionRate(loadedSystem.getCommissionRate());
         system.setTaxRate(loadedSystem.getTaxRate());
         system.setAutoBackupFreqDays(loadedSystem.getAutoBackupFreqDays());
+    }
+
+    public System getLoad(){
+        System loadedSystem = systemSQLHelper.load();
+        system.setLastBackup(loadedSystem.getLastBackup());
+        system.setCommissionRate(loadedSystem.getCommissionRate());
+        system.setTaxRate(loadedSystem.getTaxRate());
+        system.setAutoBackupFreqDays(loadedSystem.getAutoBackupFreqDays());
+
+        return loadedSystem;
     }
 
     /**

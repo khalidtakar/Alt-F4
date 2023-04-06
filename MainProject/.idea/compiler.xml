@@ -2,32 +2,28 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <excludeFromCompile>
-      <file url="file://$PROJECT_DIR$/src/app/GUI/MainPage.java" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/SalesAdvisor.java" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/SalesAdvisor.form" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/PopupWarning.java" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/PopupWarning.form" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/PopupConfirmation.java" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/PopupConfirmation.form" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/ManagerTicketAssign.java" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/ManagerTicketAssign.form" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/MainPageManager.java" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/MainPageManager.form" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/MainPageAdvisor.java" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/MainPageAdvisor.form" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/MainPage.form" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/GUI.java" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/GUI.form" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorViewSale.java" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorTicketAssign.java" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorViewSale.form" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorTicketAssign.form" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorLatePayment.java" />
       <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorLatePayment.form" />
-      <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorEditCustomer.java" />
       <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorEditCustomer.form" />
       <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorAddCustomer.java" />
       <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorAddCustomer.form" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorLatePayment.java" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorEditCustomer.java" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorTicketAssign.form" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorTicketAssign.java" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorViewSale.form" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/AdvisorViewSale.java" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/GUI.form" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/GUI.java" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/MainPage.form" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/MainPage.java" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/MainPageAdvisor.form" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/MainPageAdvisor.java" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/PopupConfirmation.form" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/PopupConfirmation.java" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/PopupWarning.form" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/PopupWarning.java" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/SalesAdvisor.form" />
+      <file url="file://$PROJECT_DIR$/src/app/GUI/SalesAdvisor.java" />
     </excludeFromCompile>
   </component>
 </project>

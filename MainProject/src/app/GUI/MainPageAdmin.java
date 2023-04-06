@@ -85,18 +85,20 @@ public class MainPageAdmin{
         return mainPageAdminPanel;
     }
 
+    //updates blanks table with the latest state of ticket stocks
     public void updateTable(){
-        //this code does not work
-        /// TODO: 04/04/2023 implement ticket table 
         tickets = ticketController.getAllTickets();
 
-        DefaultTableModel tableModel = new DefaultTableModel();
+        //get the table object from GUI
+        DefaultTableModel tableModel = (DefaultTableModel)blanksTable.getModel();
 
+        //set columns
         tableModel.addColumn("Ticket type");
         tableModel.addColumn("Ticket no");
-        tableModel.addColumn("Assigned");
+        tableModel.addColumn("Advisor ID");
         tableModel.addColumn("Sale");
 
+        //insert rows
         for(Ticket i : tickets){
             tableModel.insertRow(0, new Object[]{
                     i.getTicketType(),
@@ -104,9 +106,5 @@ public class MainPageAdmin{
                     i.getAdvisorID(),
                     i.getSaleID()});
         }
-
-        blanksTable = new JTable(tableModel);
-        blanksTable.setSize(500,200);
-        blanksTable.add(new JScrollPane());
     }
 }

@@ -1,11 +1,18 @@
 package app.GUI;
 
+import app.Main;
+import app.Sale.TicketController;
+import app.System.SystemController;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.event.*;
 
-public class MainPageManager extends MainPage {
+public class MainPageManager {
     private JLabel logo;
+
+    private JButton logOutButton;
+
     private JButton generateReportPDFButton;
 
     private JButton changeCommissionButton;
@@ -26,8 +33,18 @@ public class MainPageManager extends MainPage {
     private JTable advisorTable;
     private JTextField advisorTableSearch;
     private JComboBox advisorTableSort;
+    private JPanel mainPageManagerPanel;
 
-    public MainPageManager() {
+    Main main;
+    SystemController systemController;
+    TicketController ticketController;
+
+    public MainPageManager(Main main, SystemController systemController, TicketController ticketController) {
+        this.main = main;
+        this.systemController = systemController;
+        this.ticketController = ticketController;
+
+
         generateReportPDFButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,6 +55,8 @@ public class MainPageManager extends MainPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //change commission rate to commissionRate
+                systemController.setCommissionRate(Double.parseDouble(commissionRate.getText()));
+
                 //change commissionRateDisplay to display "Commission: " + commissionRate + "%"
             }
         });
@@ -45,6 +64,8 @@ public class MainPageManager extends MainPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //change tax rate to taxRate
+                systemController.setTaxRate(Double.parseDouble(taxRate.getText()));
+
                 //change taxRateDisplay to display "Tax: " + taxRate + "%"
             }
         });
@@ -73,5 +94,15 @@ public class MainPageManager extends MainPage {
                 }
             }
         });
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                main.goToLoginPage();
+            }
+        });
+    }
+
+    public JPanel getPanel(){
+        return mainPageManagerPanel;
     }
 }

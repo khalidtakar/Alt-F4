@@ -3,6 +3,7 @@ package app;
 import app.Account.*;
 import app.GUI.Login;
 import app.GUI.MainPageAdmin;
+import app.GUI.MainPageManager;
 import app.Sale.TicketController;
 import app.System.System;
 import app.System.SystemController;
@@ -17,7 +18,8 @@ public class Main{
 
     private Login login;
     private MainPageAdmin mainPageAdmin;
-    private JPanel loginPanel, mainPageAdminPanel;
+    private MainPageManager mainPageManager;
+    private JPanel loginPanel, mainPageAdminPanel, mainPageManagerPanel;
 
     private Employee employee;
     private Manager manager;
@@ -73,7 +75,8 @@ public class Main{
 
     public void goToMainPageAdmin(){
         //initialise controllers
-        system = new System();
+        systemController = new SystemController();
+        system = systemController.getLoad();
         systemController = new SystemController(system);
         ticketController = new TicketController();
 
@@ -94,7 +97,23 @@ public class Main{
     }
 
     public void goToMainPageManager(){
+        //initialise controllers
+        systemController = new SystemController();
+        system = systemController.getLoad();
+        systemController = new SystemController(system);
+        ticketController = new TicketController();
 
+        manager = employee.getManager();
+
+        //create admin page panel
+        mainPageManager = new MainPageManager(this, systemController, ticketController);
+        mainPageManagerPanel = mainPageManager.getPanel();
+
+        //create new admin page card
+        cardPane.add("mainPageManager", mainPageManagerPanel);
+        cardLayout.show(cardPane, "mainPageManager");
+        frame.pack();
+        frame.repaint();
     }
 
     public void goToMainPageAdvisor(){
