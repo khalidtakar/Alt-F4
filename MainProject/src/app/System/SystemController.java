@@ -38,10 +38,6 @@ public class SystemController {
 
     public System getLoad(){
         System loadedSystem = systemSQLHelper.load();
-        system.setLastBackup(loadedSystem.getLastBackup());
-        system.setCommissionRate(loadedSystem.getCommissionRate());
-        system.setTaxRate(loadedSystem.getTaxRate());
-        system.setAutoBackupFreqDays(loadedSystem.getAutoBackupFreqDays());
 
         return loadedSystem;
     }
