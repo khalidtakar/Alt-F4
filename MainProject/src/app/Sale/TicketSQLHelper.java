@@ -91,6 +91,28 @@ public class TicketSQLHelper extends JDBC {
      */
     public void updateTicket(Ticket ticket){
 
+        sql = "UPDATE Ticket SET " +
+                "ticketType = ?, " +
+                "dateReceived = ?, " +
+                "dateAssigned = ?, " +
+                "advisorID = ?, " +
+                "saleID = ? " +
+                "WHERE ticketNumber = ?";
+
+        try {
+            //create SQL query to update all columns for a ticket row
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, ticket.getTicketType());
+            preparedStatement.setDate(2, ticket.getDateReceived());
+            preparedStatement.setDate(3, ticket.getDateAssigned());
+            preparedStatement.setInt(4, ticket.getAdvisorID());
+            preparedStatement.setInt(5, ticket.getSaleID());
+            preparedStatement.setInt(6, ticket.getTicketNumber());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -99,7 +121,23 @@ public class TicketSQLHelper extends JDBC {
      */
     public void addTicket(Ticket ticket){
 
+        sql = "INSERT INTO Ticket (ticketType, " +
+                "ticketNumber, " +
+                "dateReceived) " +
+                "VALUES (?, ?, ?)";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, ticket.getTicketType());
+            preparedStatement.setInt(2, ticket.getTicketNumber());
+            preparedStatement.setDate(3, new java.sql.Date(ticket.getDateReceived().getTime()));
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
+
 
     /**
      * Removes ticket from the DB
@@ -110,5 +148,15 @@ public class TicketSQLHelper extends JDBC {
      */
     public void removeTicket(int ticketType, int ticketNo){
 
+        sql = "DELETE FROM Ticket WHERE ticketType=? AND ticketNumber=? AND saleID IS NULL";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, ticketType);
+            preparedStatement.setInt(2, ticketNo);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

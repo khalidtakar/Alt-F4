@@ -1,5 +1,8 @@
 package app.Tests;
 
+/**
+ * Tests
+ */
 public class RunTests {
     public RunTests(){
         EmployeeTests employeeTests = new EmployeeTests();
@@ -8,7 +11,8 @@ public class RunTests {
         TicketTests ticketTests = new TicketTests();
         ticketTests.testGetAllTickets();
         ticketTests.testGetAdvisorsTickets(1);
-        //ticketTests.addTickets(44400000120L, 44400000150L);
+        ticketTests.addTickets(44400000120L, 44400000150L);
+        ticketTests.removeTickets(44400000120L, 44400000130L);
 
         SaleTests saleTests = new SaleTests();
         //test exchange rate sparingly, API key has only 1000 uses per month
