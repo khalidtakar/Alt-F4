@@ -109,6 +109,7 @@ public class MainPageManager {
                     JDialog dialog = new ManagerTicketAssign(advisorID);
                     dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                     dialog.setLocationRelativeTo(null); //i hope this centers the dialog in the middle, idk didn't check
+                    dialog.pack();
                     dialog.setVisible(true);
                 }
             }
