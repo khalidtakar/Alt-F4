@@ -12,6 +12,7 @@ import app.System.SystemController;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -38,6 +39,8 @@ public class MainPageManager {
     private JLabel flexDiscountRateDisplay;
 
     private JTable advisorTable;
+    private DefaultTableModel tableModel;
+    private TableRowSorter<DefaultTableModel> sorter;
     private JTextField advisorTableSearch;
     private JComboBox advisorTableSort;
     private JPanel mainPageManagerPanel;
@@ -49,6 +52,7 @@ public class MainPageManager {
     private SystemController systemController;
     private TicketController ticketController;
     private EmployeeSQLHelper employeeSQLHelper;
+
 
     public MainPageManager(Main main,
                            System system,
@@ -127,6 +131,10 @@ public class MainPageManager {
         //get the table object from GUI
         DefaultTableModel tableModel = (DefaultTableModel)advisorTable.getModel();
 
+        //resets table if it is being redrawn
+        tableModel.setColumnCount(0);
+        tableModel.setRowCount(0);
+
         //set columns
         tableModel.addColumn("ID");
         tableModel.addColumn("Name");
@@ -139,6 +147,9 @@ public class MainPageManager {
                     i.getName(),
                     i.getEmail()});
         }
+
+        sorter = new TableRowSorter<>(tableModel);
+        advisorTable.setRowSorter(sorter);
     }
 
     public JPanel getPanel(){

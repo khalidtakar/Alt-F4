@@ -92,22 +92,30 @@ public class TicketSQLHelper extends JDBC {
     public void updateTicket(Ticket ticket){
 
         sql = "UPDATE Ticket SET " +
-                "ticketType = ?, " +
                 "dateReceived = ?, " +
                 "dateAssigned = ?, " +
                 "advisorID = ?, " +
                 "saleID = ? " +
-                "WHERE ticketNumber = ?";
+                "WHERE ticketNumber = ? " +
+                "AND ticketType = ?";
 
         try {
             //create SQL query to update all columns for a ticket row
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, ticket.getTicketType());
-            preparedStatement.setDate(2, ticket.getDateReceived());
-            preparedStatement.setDate(3, ticket.getDateAssigned());
-            preparedStatement.setInt(4, ticket.getAdvisorID());
-            preparedStatement.setInt(5, ticket.getSaleID());
-            preparedStatement.setInt(6, ticket.getTicketNumber());
+            preparedStatement.setDate(1, ticket.getDateReceived());
+            preparedStatement.setDate(2, ticket.getDateAssigned());
+            if(ticket.getAdvisorID() != 0) {
+                preparedStatement.setInt(3, ticket.getAdvisorID());
+            }else{
+                preparedStatement.setNull(3, 0);
+            }
+            if(ticket.getSaleID() != 0) {
+                preparedStatement.setInt(4, ticket.getSaleID());
+            }else{
+                preparedStatement.setNull(4, 0);
+            }
+            preparedStatement.setInt(5, ticket.getTicketNumber());
+            preparedStatement.setInt(6, ticket.getTicketType());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

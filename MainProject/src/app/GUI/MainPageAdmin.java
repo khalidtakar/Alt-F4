@@ -8,6 +8,7 @@ import app.System.SystemController;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -16,6 +17,8 @@ public class MainPageAdmin{
     private JTextField blanksSearchField;
     private JComboBox blanksSort;
     private JTable blanksTable;
+    private DefaultTableModel tableModel;
+    private TableRowSorter<DefaultTableModel> sorter;
     private JTextField addBlanksStartVal;
     private JTextField addBlanksEndVal;
     private JButton addBlanksButton;
@@ -56,12 +59,20 @@ public class MainPageAdmin{
                 //create new blanks from textField1 to textField2
                 tickets = ticketController.addTickets((Long.parseLong(addBlanksStartVal.getText()))
                         , Long.parseLong(addBlanksEndVal.getText()));
+                updateTable();
             }
         });
         deleteBlanksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+<<<<<<< Updated upstream
                 //TODO delete blanks from deleteBlanksStartVal to deleteBlanksEndVal
+=======
+                //delete blanks from deleteBlanksStartVal to deleteBlanksEndVal
+                tickets = ticketController.removeTickets((Long.parseLong(deleteBlanksStartVal.getText()))
+                        , Long.parseLong(deleteBlanksEndVal.getText()));
+                updateTable();
+>>>>>>> Stashed changes
             }
         });
         changeFrequencyButton.addActionListener(new ActionListener() {
@@ -95,13 +106,19 @@ public class MainPageAdmin{
         tickets = ticketController.getAllTickets();
 
         //get the table object from GUI
-        DefaultTableModel tableModel = (DefaultTableModel)blanksTable.getModel();
+        tableModel = (DefaultTableModel)blanksTable.getModel();
+
+        //resets table if it is being redrawn
+        tableModel.setColumnCount(0);
+        tableModel.setRowCount(0);
 
         //set columns
         tableModel.addColumn("Ticket type");
         tableModel.addColumn("Ticket no");
         tableModel.addColumn("Advisor ID");
         tableModel.addColumn("Sale");
+        tableModel.addColumn("Received");
+        tableModel.addColumn("Assigned");
 
         //insert rows
         for(Ticket i : tickets){
@@ -109,7 +126,12 @@ public class MainPageAdmin{
                     i.getTicketType(),
                     i.getTicketNumber(),
                     i.getAdvisorID(),
-                    i.getSaleID()});
+                    i.getSaleID(),
+                    i.getDateReceived(),
+                    i.getDateAssigned()});
         }
+
+        sorter = new TableRowSorter<>(tableModel);
+        blanksTable.setRowSorter(sorter);
     }
 }

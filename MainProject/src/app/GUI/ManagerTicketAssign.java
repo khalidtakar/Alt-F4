@@ -1,18 +1,30 @@
 package app.GUI;
 
+import app.Sale.Ticket;
+import app.Sale.TicketController;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class ManagerTicketAssign extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTable ticketTable;
+    private DefaultTableModel tableModel;
+    private TableRowSorter<DefaultTableModel> sorter;
     private JTextField assignTicketsStartVal;
     private JTextField assignTicketsEndVal;
 
     private JLabel advisorInfo;
     private int advisorID;
+
+    private TicketController ticketController = new TicketController();
+
+    private ArrayList<Ticket> tickets;
 
     public ManagerTicketAssign(int advisorID) {
         this.advisorID = advisorID;
@@ -21,9 +33,14 @@ public class ManagerTicketAssign extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
+        updateTable();
+
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
+                tickets = ticketController.assignTickets((Long.parseLong(assignTicketsStartVal.getText()))
+                        , Long.parseLong(assignTicketsEndVal.getText()), advisorID);
+                updateTable();
             }
         });
 
@@ -54,6 +71,39 @@ public class ManagerTicketAssign extends JDialog {
     private void onOK() {
         //TODO assign tickets from assignTicketsStartVal to assignTicketsEndVal to advisorID
         dispose();
+    }
+
+    public void updateTable() {
+        tickets = ticketController.getAllTickets();
+
+        //get the table object from GUI
+        tableModel = (DefaultTableModel) ticketTable.getModel();
+
+        //resets table if it is being redrawn
+        tableModel.setColumnCount(0);
+        tableModel.setRowCount(0);
+
+        //set columns
+        tableModel.addColumn("Ticket type");
+        tableModel.addColumn("Ticket no");
+        tableModel.addColumn("Advisor ID");
+        tableModel.addColumn("Sale");
+        tableModel.addColumn("Received");
+        tableModel.addColumn("Assigned");
+
+        //insert rows
+        for (Ticket i : tickets) {
+            tableModel.insertRow(0, new Object[]{
+                    i.getTicketType(),
+                    i.getTicketNumber(),
+                    i.getAdvisorID(),
+                    i.getSaleID(),
+                    i.getDateReceived(),
+                    i.getDateAssigned()});
+        }
+
+        sorter = new TableRowSorter<>(tableModel);
+        ticketTable.setRowSorter(sorter);
     }
 
     private void onCancel() {

@@ -24,8 +24,12 @@ public class Ticket {
         this.ticketNumber = ticketNumber;
         this.dateReceived = dateReceived;
         this.dateAssigned = dateAssigned;
-        this.saleID = saleID;
-        this.advisorID = advisorID;
+        if(saleID != 0) {
+            this.saleID = saleID;
+        }
+        if(advisorID != 0) {
+            this.advisorID = advisorID;
+        }
     }
 
     public Ticket(int ticketType, int ticketNumber, Date dateReceived){
@@ -51,7 +55,9 @@ public class Ticket {
     }
 
     public void setSaleID(int saleID) {
-        this.saleID = saleID;
+        if(saleID != 0) {
+            this.saleID = saleID;
+        }
     }
 
     public void setSale(Sale sale) {
@@ -59,7 +65,9 @@ public class Ticket {
     }
 
     public void setAdvisorID(int advisorID) {
-        this.advisorID = advisorID;
+        if(advisorID != 0) {
+            this.advisorID = advisorID;
+        }
     }
 
     public void setAdvisor(Advisor advisor) {
