@@ -132,7 +132,7 @@ public class Main{
         ticketController = new TicketController();
 
         //create admin page panel
-        mainPageAdvisor = new MainPageAdvisor(this, system, systemController, ticketController);
+        mainPageAdvisor = new MainPageAdvisor(this, system, systemController, ticketController, employee);
 
         mainPageAdvisorPanel = mainPageAdvisor.getPanel();
 

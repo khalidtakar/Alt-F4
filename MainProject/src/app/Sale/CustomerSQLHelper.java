@@ -4,6 +4,7 @@ import app.Account.Manager;
 import app.JDBC;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CustomerSQLHelper extends JDBC {
 
@@ -14,15 +15,7 @@ public class CustomerSQLHelper extends JDBC {
     private double discountToRefundOrReturn;
     private double fixedDiscountRate;
 
-    public CustomerSQLHelper(String email, String name, boolean isValued, double spentThisMonth,
-                             double discountToRefundOrReturn, double fixedDiscountRate) {
-        this.email = email;
-        this.name = name;
-        this.isValued = isValued;
-        this.spentThisMonth = spentThisMonth;
-        this.discountToRefundOrReturn = discountToRefundOrReturn;
-        this.fixedDiscountRate = fixedDiscountRate;
-    }
+    public CustomerSQLHelper() {}
 
     /**
      * find customer in DB using email
@@ -60,6 +53,38 @@ public class CustomerSQLHelper extends JDBC {
             throw new RuntimeException(e);
         }
         return customer;
+    }
+
+    public ArrayList<Customer> getAllCustomers(){
+        ArrayList<Customer> customers = new ArrayList<>();
+
+        sql = "SELECT email, " +
+                "name, " +
+                "isValued, " +
+                "spentThisMonth, " +
+                "discountOrRefundToReturn, " +
+                "fixedDiscountRate " +
+                "FROM RegisteredCustomer";
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+
+            //for each row found, initialise a new Ticket and add to arraylist
+            while (resultSet.next()) {
+                customers.add(new Customer(resultSet.getString("email")
+                        , resultSet.getString("name")
+                        , resultSet.getBoolean("isValued")
+                        , resultSet.getDouble("spentThisMonth")
+                        , resultSet.getDouble("discountOrRefundToReturn")
+                        , resultSet.getDouble("fixedDiscountRate")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        return customers;
     }
 
     /** Add new customer row in DB using instance of customer provided
