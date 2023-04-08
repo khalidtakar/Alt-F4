@@ -7,8 +7,8 @@ public class AdvisorAddCustomer extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField textField1;
-    private JTextField textField2;
+    private JTextField customerEmail;
+    private JTextField customerName;
     private JCheckBox valuedCheckBox;
 
     public AdvisorAddCustomer() {
@@ -45,12 +45,11 @@ public class AdvisorAddCustomer extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
+        // add new registered customer using customerEmail.getText() and customerName.getText()
         dispose();
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 

@@ -10,6 +10,8 @@ public class ManagerTicketAssign extends JDialog {
     private JTable ticketTable;
     private JTextField assignTicketsStartVal;
     private JTextField assignTicketsEndVal;
+
+    private JLabel advisorInfo;
     private int advisorID;
 
     public ManagerTicketAssign(int advisorID) {
@@ -45,6 +47,8 @@ public class ManagerTicketAssign extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        advisorInfo.setText(advisorID + ": "); // make sure to also display the email
     }
 
     private void onOK() {

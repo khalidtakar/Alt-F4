@@ -11,7 +11,7 @@ public class AdvisorLatePayment extends JDialog {
     private JButton cancelPaymentButton;
     private JButton confirmPaymentButton;
 
-    public AdvisorLatePayment() {
+    public AdvisorLatePayment(int saleID) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);

@@ -22,7 +22,7 @@ public class AdvisorTicketAssign extends JDialog {
     private JComboBox comboBox5;
     private JComboBox comboBox6;
 
-    public AdvisorTicketAssign() {
+    public AdvisorTicketAssign(int ticketNumber) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -61,7 +61,6 @@ public class AdvisorTicketAssign extends JDialog {
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 

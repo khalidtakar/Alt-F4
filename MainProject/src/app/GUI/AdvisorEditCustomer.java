@@ -7,15 +7,21 @@ public class AdvisorEditCustomer extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField textField1;
-    private JTextField textField2;
+    private JTextField newEmail;
+    private JTextField newName;
     private JCheckBox valuedCheckBox;
     private JButton deleteCustomerButton;
+    private JLabel customerEmail;
+    private JLabel customerName;
 
-    public AdvisorEditCustomer() {
+    public AdvisorEditCustomer(String email) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+
+        //sets the labels to display current information
+        customerEmail.setText("Current email: " + email);
+        customerName.setText("Current name: " + ""); //add the customers name here
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -43,22 +49,21 @@ public class AdvisorEditCustomer extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        deleteCustomerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //delete this customer
+            }
+        });
     }
 
     private void onOK() {
-        // add your code here
+        //save new customer details using newEmail.getText(), newName.getText() and valuedCheckBox.isSelected()
         dispose();
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
-    }
-
-    public static void main(String[] args) {
-        AdvisorEditCustomer dialog = new AdvisorEditCustomer();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 }

@@ -5,18 +5,17 @@ import java.awt.event.*;
 
 public class AdvisorViewSale extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
+    private JButton refundButton;
     private JButton buttonCancel;
     private JTable table1;
 
-    public AdvisorViewSale() {
+    public AdvisorViewSale(int saleID) {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
 
-        buttonOK.addActionListener(new ActionListener() {
+        refundButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                //refund sale with this saleID
             }
         });
 
@@ -42,20 +41,8 @@ public class AdvisorViewSale extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
-
     private void onCancel() {
         // add your code here if necessary
         dispose();
-    }
-
-    public static void main(String[] args) {
-        AdvisorViewSale dialog = new AdvisorViewSale();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 }
