@@ -108,8 +108,8 @@ public class MainPageManager {
                 if (!event.getValueIsAdjusting()) {
                     int selectedRow = advisorTable.getSelectedRow();
                     int advisorID = (int) advisorTable.getValueAt(selectedRow, 0);
-                    // opens the ticket assignment window for the selected advisor
 
+                    //find the advisor instance associated with ID
                     Employee advisor = null;
                     for(Employee i : advisors){
                         if (i.getAdvisor().getAdvisorID() == advisorID) {
@@ -117,6 +117,7 @@ public class MainPageManager {
                         }
                     }
 
+                    //open pop up window for manager to assign tickets to an advisor
                     JDialog dialog = new ManagerTicketAssign(advisor);
                     dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                     dialog.setLocationRelativeTo(null);

@@ -39,6 +39,12 @@ public class TicketController {
         return tickets;
     }
 
+    /**
+     * Add tickets from database within range
+     * @param startRange First 3 digits ticket type, rest ticket number
+     * @param endRange First 3 digits ticket type, rest ticket number
+     * @return new Arraylist of tickets, now with the tickets that were added
+     */
     public ArrayList<Ticket> addTickets(long startRange, long endRange) {
         Ticket ticket;
         LocalDate now = LocalDate.now();
@@ -46,6 +52,8 @@ public class TicketController {
         int startRangeType = Integer.parseInt(Long.toString(startRange).substring(0, 3));
         int startRangeNumber = Integer.parseInt(Long.toString(startRange).substring(3));
 
+        //loop through all tickets in provided arraylist
+        // and check if they satisfy requirements to be removed
         for (int i = 0; i < (endRange - startRange); i++) {
             ticket = new Ticket(startRangeType, startRangeNumber, sqlNow);
             ticketSQLHelper.addTicket(ticket);
@@ -55,12 +63,20 @@ public class TicketController {
         return getAllTickets();
     }
 
+    /**
+     * Remove tickets from database within range
+     * @param startRange First 3 digits ticket type, rest ticket number
+     * @param endRange First 3 digits ticket type, rest ticket number
+     * @return new Arraylist of tickets, now without the tickets that were removed
+     */
     public ArrayList<Ticket> removeTickets(long startRange, long endRange) {
         int startRangeType = Integer.parseInt(Long.toString(startRange).substring(0, 3));
         int startRangeNumber = Integer.parseInt(Long.toString(startRange).substring(3));
 
         int endRangeNumber = Integer.parseInt(Long.toString(endRange).substring(3));
 
+        //loop through all tickets in provided arraylist
+        // and check if they satisfy requirements to be removed
         while (startRangeNumber <= (endRangeNumber + 1)) {
             ticketSQLHelper.removeTicket(startRangeType, startRangeNumber);
             startRangeNumber++;

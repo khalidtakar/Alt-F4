@@ -22,9 +22,6 @@ public class Main{
     private JPanel loginPanel, mainPageAdminPanel, mainPageManagerPanel, mainPageAdvisorPanel, salesPageAdvisorPanel;
 
     private Employee employee;
-    private Manager manager;
-    private Administrator administrator;
-    private Advisor advisor;
     private System system;
 
     private EmployeeController employeeController;
@@ -75,16 +72,13 @@ public class Main{
 
     public void goToMainPageAdmin(Employee employee){
         this.employee = employee;
-        this.administrator = employee.getAdministrator();
+
 
         //initialise controllers
         systemController = new SystemController();
         system = systemController.getLoad();
         systemController = new SystemController(system);
         ticketController = new TicketController();
-
-
-        administrator = employee.getAdministrator();
 
 
         //create admin page panel
@@ -101,7 +95,6 @@ public class Main{
 
     public void goToMainPageManager(Employee employee){
         this.employee = employee;
-        this.manager = employee.getManager();
 
         //initialise controllers
         systemController = new SystemController();
@@ -123,7 +116,6 @@ public class Main{
 
     public void goToMainPageAdvisor(Employee employee){
         this.employee = employee;
-        this.advisor = advisor;
 
         //initialise controllers
         systemController = new SystemController();

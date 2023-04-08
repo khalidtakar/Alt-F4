@@ -55,6 +55,10 @@ public class CustomerSQLHelper extends JDBC {
         return customer;
     }
 
+    /**
+     * Fetches all customers from the database
+     * @return Arraylist of customer instances
+     */
     public ArrayList<Customer> getAllCustomers(){
         ArrayList<Customer> customers = new ArrayList<>();
 
