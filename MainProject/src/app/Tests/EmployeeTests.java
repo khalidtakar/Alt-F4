@@ -13,11 +13,11 @@ public class EmployeeTests {
     public EmployeeTests(){}
 
     public void testEmployeeLogin(){
-        System.out.println("login bob:");
+        System.out.println("login minnie:");
+
+        System.out.println(employeeController.doHashing("minnie@gmail.com", "NotiGirl"));
 
         employeeController.login("bob@gmail.com", "123");
-
-        System.out.println(employeeController.doHashing("bob@gmail.com", "123"));
 
         System.out.println(employee.getEmail());
         System.out.println(employee.getName());

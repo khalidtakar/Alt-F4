@@ -35,8 +35,8 @@ public class TicketSQLHelper extends JDBC {
                         , resultSet.getInt("ticketNumber")
                         , resultSet.getDate("dateReceived")
                         , resultSet.getDate("dateAssigned")
-                        , resultSet.getInt("advisorID")
-                        , resultSet.getInt("saleID")));
+                        , resultSet.getInt("saleID")
+                        , resultSet.getInt("advisorID")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,8 +74,8 @@ public class TicketSQLHelper extends JDBC {
                         , resultSet.getInt("ticketNumber")
                         , resultSet.getDate("dateReceived")
                         , resultSet.getDate("dateAssigned")
-                        , resultSet.getInt("advisorID")
-                        , resultSet.getInt("saleID")));
+                        , resultSet.getInt("saleID")
+                        , resultSet.getInt("advisorID")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

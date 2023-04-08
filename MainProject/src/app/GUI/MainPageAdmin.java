@@ -65,14 +65,14 @@ public class MainPageAdmin{
         deleteBlanksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-<<<<<<< Updated upstream
+
                 //TODO delete blanks from deleteBlanksStartVal to deleteBlanksEndVal
-=======
+
                 //delete blanks from deleteBlanksStartVal to deleteBlanksEndVal
                 tickets = ticketController.removeTickets((Long.parseLong(deleteBlanksStartVal.getText()))
                         , Long.parseLong(deleteBlanksEndVal.getText()));
                 updateTable();
->>>>>>> Stashed changes
+
             }
         });
         changeFrequencyButton.addActionListener(new ActionListener() {
