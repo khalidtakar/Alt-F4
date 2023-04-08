@@ -17,19 +17,19 @@ public class SalesAdvisor {
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //go to MainPageAdvisor
+                //TODO go to MainPageAdvisor
             }
         });
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //log out
+                //TODO log out
             }
         });
         generateReportPDFButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //generate a pdf report of all sales made by this advisor
+                //TODO generate a pdf report of all sales made by this advisor
             }
         });
 

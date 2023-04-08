@@ -45,18 +45,11 @@ public class AdvisorAddCustomer extends JDialog {
     }
 
     private void onOK() {
-        // add new registered customer using customerEmail.getText() and customerName.getText()
+        //TODO add new registered customer using customerEmail.getText() and customerName.getText()
         dispose();
     }
 
     private void onCancel() {
         dispose();
-    }
-
-    public static void main(String[] args) {
-        AdvisorAddCustomer dialog = new AdvisorAddCustomer();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 }

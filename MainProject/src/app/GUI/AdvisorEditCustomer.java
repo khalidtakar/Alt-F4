@@ -1,6 +1,8 @@
 package app.GUI;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.*;
 
 public class AdvisorEditCustomer extends JDialog {
@@ -13,6 +15,7 @@ public class AdvisorEditCustomer extends JDialog {
     private JButton deleteCustomerButton;
     private JLabel customerEmail;
     private JLabel customerName;
+    private JTable discountsTable;
 
     public AdvisorEditCustomer(String email) {
         setContentPane(contentPane);
@@ -21,7 +24,7 @@ public class AdvisorEditCustomer extends JDialog {
 
         //sets the labels to display current information
         customerEmail.setText("Current email: " + email);
-        customerName.setText("Current name: " + ""); //add the customers name here
+        customerName.setText("Current name: " + ""); //TODO add the customers name here
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -53,13 +56,23 @@ public class AdvisorEditCustomer extends JDialog {
         deleteCustomerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //delete this customer
+                //TODO delete this customer
+            }
+        });
+        ListSelectionModel selectionModel = discountsTable.getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    // TODO should open some kind of discount editor
+                }
             }
         });
     }
 
     private void onOK() {
-        //save new customer details using newEmail.getText(), newName.getText() and valuedCheckBox.isSelected()
+        //TODO save new customer details using newEmail.getText(), newName.getText() and valuedCheckBox.isSelected()
         dispose();
     }
 

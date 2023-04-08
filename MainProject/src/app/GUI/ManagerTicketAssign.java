@@ -48,11 +48,11 @@ public class ManagerTicketAssign extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        advisorInfo.setText(advisorID + ": "); // make sure to also display the email
+        advisorInfo.setText(advisorID + ": "); //TODO make sure to also display the email
     }
 
     private void onOK() {
-        // assign tickets from assignTicketsStartVal to assignTicketsEndVal to advisorID
+        //TODO assign tickets from assignTicketsStartVal to assignTicketsEndVal to advisorID
         dispose();
     }
 

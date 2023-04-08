@@ -2,36 +2,23 @@ package app.GUI;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.Window;
 
 public class AdvisorTicketAssign extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
+    private JButton latePaymentButton;
     private JButton buttonCancel;
     private JButton confirmSaleButton;
-    private JCheckBox latePaymentCheckBox;
     private JButton assignTicketToRegisteredButton;
     private JComboBox comboBox1;
     private JTextField enterPriceTextField;
     private JComboBox comboBox2;
-    private JTable table1;
-    private JButton addNewCouponButton;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JComboBox comboBox3;
-    private JComboBox comboBox4;
-    private JComboBox comboBox5;
-    private JComboBox comboBox6;
+    private JLabel assignedLabel;
 
     public AdvisorTicketAssign(int ticketNumber) {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
-
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        getRootPane().setDefaultButton(latePaymentButton);
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -53,21 +40,56 @@ public class AdvisorTicketAssign extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-    }
 
-    private void onOK() {
-        // add your code here
-        dispose();
+        assignTicketToRegisteredButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //opens customer assignment window, sets assigned customer
+                AdvisorAssignCustomer dialog = new AdvisorAssignCustomer();
+                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                dialog.setLocationRelativeTo(null);
+                dialog.pack();
+                dialog.setVisible(true);
+                String email = dialog.getCustomerEmail();
+                assignedLabel.setText("This ticket is assigned to " + email);
+                //TODO assign ticket to this email
+            }
+        });
+        confirmSaleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirmation = JOptionPane.showConfirmDialog(null, "Confirm this sale?", "Confirm Sale", JOptionPane.YES_NO_OPTION);
+                if (confirmation == JOptionPane.YES_OPTION) {
+                    //TODO confirm this sale then dispose()
+                } else {
+                    //closes the option pane
+                    Window option = SwingUtilities.getWindowAncestor(confirmSaleButton);
+                    option.dispose();
+                }
+            }
+        });
+        latePaymentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirmation = JOptionPane.showConfirmDialog(null, "Set this as a late payment?", "Confirm Sale", JOptionPane.YES_NO_OPTION);
+                if () { //TODO confirm that this ticket has an assigned customer
+                    //customer is registered
+                    if (confirmation == JOptionPane.YES_OPTION) {
+                        // TODO confirm this sale then dispose()
+                    } else {
+                        //closes the option pane
+                        Window option = SwingUtilities.getWindowAncestor(latePaymentButton);
+                        option.dispose();
+                    }
+                } else {
+                    //customer is not registered warning
+                    JOptionPane.showMessageDialog(null, "Customer is not registered!", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
     }
 
     private void onCancel() {
         dispose();
-    }
-
-    public static void main(String[] args) {
-        AdvisorTicketAssign dialog = new AdvisorTicketAssign();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 }

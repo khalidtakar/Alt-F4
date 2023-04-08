@@ -7,15 +7,26 @@ public class AdvisorViewSale extends JDialog {
     private JPanel contentPane;
     private JButton refundButton;
     private JButton buttonCancel;
-    private JTable table1;
+    private JLabel priceLabel;
+    private JLabel discountLabel;
+    private JLabel dateLabel;
+    private JLabel ticketType;
+    private JLabel ticketNumber;
 
     public AdvisorViewSale(int saleID) {
         setContentPane(contentPane);
         setModal(true);
 
+        //TODO display sale details
+        priceLabel.setText("");
+        discountLabel.setText("");
+        dateLabel.setText("");
+        ticketType.setText("");
+        ticketNumber.setText("");
+
         refundButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //refund sale with this saleID
+                //TODO refund sale with this saleID
             }
         });
 

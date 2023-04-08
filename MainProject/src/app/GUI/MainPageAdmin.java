@@ -61,8 +61,7 @@ public class MainPageAdmin{
         deleteBlanksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //delete blanks from deleteBlanksStartVal to deleteBlanksEndVal
-
+                //TODO delete blanks from deleteBlanksStartVal to deleteBlanksEndVal
             }
         });
         changeFrequencyButton.addActionListener(new ActionListener() {

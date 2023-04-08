@@ -36,7 +36,7 @@ public class MainPageAdvisor extends MainPage {
         viewSalesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //go to SalesAdvisor
+                //TODO go to SalesAdvisor
             }
         });
         logOutButton.addActionListener(new ActionListener() {
@@ -49,7 +49,7 @@ public class MainPageAdvisor extends MainPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String query = searchCustomersTextField.getText();
-                // display all entries in customersTable with an instance of 'query'
+                //TODO display all entries in customersTable with an instance of 'query'
             }
         });
         ListSelectionModel selectionModel = customersTable.getSelectionModel();

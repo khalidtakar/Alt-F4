@@ -67,16 +67,15 @@ public class MainPageManager {
         generateReportPDFButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //generate a pdf report, self-explanatory
+                //TODO generate a pdf report, self-explanatory
             }
         });
         changeCommissionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //change commission rate to commissionRate
+                //change commission rate
                 systemController.setCommissionRate(Double.parseDouble(commissionRate.getText()));
-
-                //change commissionRateDisplay to display "Commission: " + commissionRate + "%"
+                commissionRateDisplay.setText("Commission rate: " + commissionRate + "%");
             }
         });
         changeTaxButton.addActionListener(new ActionListener() {
@@ -84,31 +83,31 @@ public class MainPageManager {
             public void actionPerformed(ActionEvent e) {
                 //change tax rate to taxRate
                 systemController.setTaxRate(Double.parseDouble(taxRate.getText()));
-
-                //change taxRateDisplay to display "Tax: " + taxRate + "%"
+                taxRateDisplay.setText("Tax rate: " + taxRate + "%");
             }
         });
         changeDiscountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //change discount rate to discountRate
-                //change discountRateDisplay to display "Discount: " + discountRate + "%"
-                //change flexible discount rate to flexDiscountRate at flexDiscountAmount USD
-                //change flexDiscountRateDisplay to display "Flexible discount: " + discountRate "% at" + flexDiscountAmount + "USD"
+                /*TODO change discount rate to discountRate
+                    change discountRateDisplay to display "Discount: " + discountRate + "%"
+                    change flexible discount rate to flexDiscountRate at flexDiscountAmount USD
+                    change flexDiscountRateDisplay to display "Flexible discount: " + discountRate "% at" + flexDiscountAmount + "USD"
+                */
             }
         });
         ListSelectionModel selectionModel = advisorTable.getSelectionModel();
-        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // allows only one row to be selected at a time
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         selectionModel.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 if (!event.getValueIsAdjusting()) {
                     int selectedRow = advisorTable.getSelectedRow();
-                    int advisorID = (int) advisorTable.getValueAt(selectedRow, 0); //i am assuming advisorID is on column 0 here
+                    int advisorID = (int) advisorTable.getValueAt(selectedRow, 0);
                     // opens the ticket assignment window for the selected advisor
                     JDialog dialog = new ManagerTicketAssign(advisorID);
                     dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                    dialog.setLocationRelativeTo(null); //i hope this centers the dialog in the middle, idk didn't check
+                    dialog.setLocationRelativeTo(null);
                     dialog.pack();
                     dialog.setVisible(true);
                 }
