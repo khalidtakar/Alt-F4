@@ -11,7 +11,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainPageAdvisor extends MainPage {
+public class MainPageAdvisor {
     private JButton logOutButton;
     private JTable customersTable;
     private JButton addNewCustomerButton;
@@ -20,8 +20,20 @@ public class MainPageAdvisor extends MainPage {
     private JComboBox comboBox1;
     private JComboBox comboBox2;
     private JButton viewSalesButton;
+    private JPanel mainPageAdvisorPanel;
+
+    private Main main;
+    private System system;
+    private SystemController systemController;
+    private TicketController ticketController;
 
     public MainPageAdvisor(Main main, System system, SystemController systemController, TicketController ticketController) {
+        this.main = main;
+        this.system = system;
+        this.systemController = systemController;
+        this.ticketController = ticketController;
+
+
         addNewCustomerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -36,7 +48,7 @@ public class MainPageAdvisor extends MainPage {
         viewSalesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO go to SalesAdvisor
+                main.goToSalesPageAdvisor();
             }
         });
         logOutButton.addActionListener(new ActionListener() {
@@ -83,5 +95,9 @@ public class MainPageAdvisor extends MainPage {
                 }
             }
         });
+    }
+
+    public JPanel getPanel(){
+        return mainPageAdvisorPanel;
     }
 }

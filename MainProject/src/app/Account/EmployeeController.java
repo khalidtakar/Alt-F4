@@ -50,11 +50,11 @@ public class EmployeeController {
         //the name of it is assigned to typeOfEmployee
         if(main != null) {
             if (employee.getAdvisor() != null) {
-                main.goToMainPageAdvisor();
+                main.goToMainPageAdvisor(employee);
             } else if (employee.getAdministrator() != null) {
-                main.goToMainPageAdmin();
+                main.goToMainPageAdmin(employee);
             } else if (employee.getManager() != null) {
-                main.goToMainPageManager();
+                main.goToMainPageManager(employee);
             }
         }
     }

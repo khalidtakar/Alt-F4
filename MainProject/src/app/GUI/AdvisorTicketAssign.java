@@ -72,19 +72,20 @@ public class AdvisorTicketAssign extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int confirmation = JOptionPane.showConfirmDialog(null, "Set this as a late payment?", "Confirm Sale", JOptionPane.YES_NO_OPTION);
-                if () { //TODO confirm that this ticket has an assigned customer
-                    //customer is registered
-                    if (confirmation == JOptionPane.YES_OPTION) {
-                        // TODO confirm this sale then dispose()
-                    } else {
-                        //closes the option pane
-                        Window option = SwingUtilities.getWindowAncestor(latePaymentButton);
-                        option.dispose();
-                    }
-                } else {
-                    //customer is not registered warning
-                    JOptionPane.showMessageDialog(null, "Customer is not registered!", "Warning", JOptionPane.WARNING_MESSAGE);
-                }
+                //TODO confirm that this ticket has an assigned customer
+//                if () { //TODO confirm that this ticket has an assigned customer
+//                    //customer is registered
+//                    if (confirmation == JOptionPane.YES_OPTION) {
+//                        // TODO confirm this sale then dispose()
+//                    } else {
+//                        //closes the option pane
+//                        Window option = SwingUtilities.getWindowAncestor(latePaymentButton);
+//                        option.dispose();
+//                    }
+//                } else {
+//                    //customer is not registered warning
+//                    JOptionPane.showMessageDialog(null, "Customer is not registered!", "Warning", JOptionPane.WARNING_MESSAGE);
+//                }
             }
         });
     }

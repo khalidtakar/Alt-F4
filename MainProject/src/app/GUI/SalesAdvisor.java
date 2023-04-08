@@ -1,5 +1,9 @@
 package app.GUI;
 
+import app.Account.Advisor;
+import app.Account.Employee;
+import app.Main;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -12,12 +16,20 @@ public class SalesAdvisor {
     private JTable salesTable;
     private JButton returnButton;
     private JButton generateReportPDFButton;
+    private JPanel salesPageAdvisorPanel;
 
-    public SalesAdvisor() {
+    private Main main;
+    private Employee employee;
+    private Advisor advisor;
+
+    public SalesAdvisor(Main main, Employee employee) {
+        this.main = main;
+        this.employee = employee;
+        this.advisor = employee.getAdvisor();
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO go to MainPageAdvisor
+                main.goToMainPageAdvisor(employee);
             }
         });
         logOutButton.addActionListener(new ActionListener() {
@@ -64,5 +76,9 @@ public class SalesAdvisor {
                 }
             }
         });
+    }
+
+    public JPanel getPanel(){
+        return salesPageAdvisorPanel;
     }
 }

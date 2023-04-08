@@ -1,9 +1,7 @@
 package app;
 
 import app.Account.*;
-import app.GUI.Login;
-import app.GUI.MainPageAdmin;
-import app.GUI.MainPageManager;
+import app.GUI.*;
 import app.Sale.TicketController;
 import app.System.System;
 import app.System.SystemController;
@@ -19,7 +17,9 @@ public class Main{
     private Login login;
     private MainPageAdmin mainPageAdmin;
     private MainPageManager mainPageManager;
-    private JPanel loginPanel, mainPageAdminPanel, mainPageManagerPanel;
+    private MainPageAdvisor mainPageAdvisor;
+    private SalesAdvisor salesPageAdvisor;
+    private JPanel loginPanel, mainPageAdminPanel, mainPageManagerPanel, mainPageAdvisorPanel, salesPageAdvisorPanel;
 
     private Employee employee;
     private Manager manager;
@@ -73,7 +73,10 @@ public class Main{
 
     }
 
-    public void goToMainPageAdmin(){
+    public void goToMainPageAdmin(Employee employee){
+        this.employee = employee;
+        this.administrator = employee.getAdministrator();
+
         //initialise controllers
         systemController = new SystemController();
         system = systemController.getLoad();
@@ -96,14 +99,15 @@ public class Main{
         frame.repaint();
     }
 
-    public void goToMainPageManager(){
+    public void goToMainPageManager(Employee employee){
+        this.employee = employee;
+        this.manager = employee.getManager();
+
         //initialise controllers
         systemController = new SystemController();
         system = systemController.getLoad();
         systemController = new SystemController(system);
         ticketController = new TicketController();
-
-        manager = employee.getManager();
 
         //create admin page panel
         mainPageManager = new MainPageManager(this, system, systemController, ticketController, new EmployeeSQLHelper());
@@ -117,8 +121,38 @@ public class Main{
         frame.repaint();
     }
 
-    public void goToMainPageAdvisor(){
+    public void goToMainPageAdvisor(Employee employee){
+        this.employee = employee;
+        this.advisor = advisor;
 
+        //initialise controllers
+        systemController = new SystemController();
+        system = systemController.getLoad();
+        systemController = new SystemController(system);
+        ticketController = new TicketController();
+
+        //create admin page panel
+        mainPageAdvisor = new MainPageAdvisor(this, system, systemController, ticketController);
+
+        mainPageAdvisorPanel = mainPageAdvisor.getPanel();
+
+        cardPane.removeAll();
+
+        //create new admin page card
+        cardPane.add("mainPageAdvisor", mainPageAdvisorPanel);
+        cardLayout.show(cardPane, "mainPageAdvisor");
+        frame.pack();
+        frame.repaint();
+    }
+
+    public void goToSalesPageAdvisor(){
+        salesPageAdvisor = new SalesAdvisor(this, employee);
+        salesPageAdvisorPanel = salesPageAdvisor.getPanel();
+
+        cardPane.add("salesPageAdvisor", salesPageAdvisorPanel);
+        cardLayout.show(cardPane, "salesPageAdvisor");
+        frame.pack();
+        frame.repaint();
     }
 
     public static void main(String[] args){

@@ -1,5 +1,7 @@
 package app.GUI;
 
+import app.Account.Advisor;
+import app.Account.Employee;
 import app.Sale.Ticket;
 import app.Sale.TicketController;
 
@@ -20,14 +22,14 @@ public class ManagerTicketAssign extends JDialog {
     private JTextField assignTicketsEndVal;
 
     private JLabel advisorInfo;
-    private int advisorID;
+    private Employee advisor;
 
     private TicketController ticketController = new TicketController();
 
     private ArrayList<Ticket> tickets;
 
-    public ManagerTicketAssign(int advisorID) {
-        this.advisorID = advisorID;
+    public ManagerTicketAssign(Employee advisor) {
+        this.advisor = advisor;
 
         setContentPane(contentPane);
         setModal(true);
@@ -37,9 +39,8 @@ public class ManagerTicketAssign extends JDialog {
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
                 tickets = ticketController.assignTickets((Long.parseLong(assignTicketsStartVal.getText()))
-                        , Long.parseLong(assignTicketsEndVal.getText()), advisorID);
+                        , Long.parseLong(assignTicketsEndVal.getText()), advisor.getAdvisor().getAdvisorID());
                 updateTable();
             }
         });
@@ -65,12 +66,7 @@ public class ManagerTicketAssign extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        advisorInfo.setText(advisorID + ": "); //TODO make sure to also display the email
-    }
-
-    private void onOK() {
-        //TODO assign tickets from assignTicketsStartVal to assignTicketsEndVal to advisorID
-        dispose();
+        advisorInfo.setText(advisor.getAdvisor().getAdvisorID() + ": " + advisor.getName()); //TODO make sure to also display the email
     }
 
     public void updateTable() {
@@ -108,12 +104,5 @@ public class ManagerTicketAssign extends JDialog {
 
     private void onCancel() {
         dispose();
-    }
-
-    public static void main(String[] args) {
-        ManagerTicketAssign dialog = new ManagerTicketAssign(1);
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 }

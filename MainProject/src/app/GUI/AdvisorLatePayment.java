@@ -54,10 +54,10 @@ public class AdvisorLatePayment extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
-        AdvisorLatePayment dialog = new AdvisorLatePayment();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }
+//    public static void main(String[] args) {
+//        AdvisorLatePayment dialog = new AdvisorLatePayment();
+//        dialog.pack();
+//        dialog.setVisible(true);
+//        System.exit(0);
+//    }
 }
