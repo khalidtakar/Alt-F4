@@ -12,12 +12,15 @@ public class EmployeeTests {
     }
     public EmployeeTests(){}
 
+    public void makeHash(String salt, String password){
+        System.out.println(salt + " : " + password);
+        System.out.println(employeeController.doHashing(salt, password));
+    }
+
     public void testEmployeeLogin(){
-        System.out.println("login minnie:");
+        System.out.println("login dennis:");
 
-        System.out.println(employeeController.doHashing("minnie@gmail.com", "NotiGirl"));
-
-        employeeController.login("bob@gmail.com", "123");
+        employeeController.login("dennis@gmail.com", "Gnasher");
 
         System.out.println(employee.getEmail());
         System.out.println(employee.getName());

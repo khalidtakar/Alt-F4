@@ -120,7 +120,7 @@ public class MainPageAdvisor {
                 if (!event.getValueIsAdjusting()) {
                     int selectedRow = ticketsTable.getSelectedRow();
                     int ticketType = (int) ticketsTable.getValueAt(selectedRow, 0);
-                    int ticketNumber = (int) ticketsTable.getValueAt(selectedRow, 2);
+                    int ticketNumber = (int) ticketsTable.getValueAt(selectedRow, 1);
 
                     Ticket ticket = null;
                     for(Ticket i : tickets){
@@ -159,13 +159,15 @@ public class MainPageAdvisor {
 
         //insert rows
         for (Ticket i : tickets) {
-            ticketsTableModel.insertRow(0, new Object[]{
-                    i.getTicketType(),
-                    i.getTicketNumber(),
-                    i.getAdvisorID(),
-                    i.getSaleID(),
-                    i.getDateReceived(),
-                    i.getDateAssigned()});
+            if(i.getSaleID() == 0) {
+                ticketsTableModel.insertRow(0, new Object[]{
+                        i.getTicketType(),
+                        i.getTicketNumber(),
+                        i.getAdvisorID(),
+                        i.getSaleID(),
+                        i.getDateReceived(),
+                        i.getDateAssigned()});
+            }
         }
 
         ticketsSorter = new TableRowSorter<>(ticketsTableModel);

@@ -16,6 +16,8 @@ public class AdvisorTicketAssign extends JDialog {
     private JTextField enterPriceTextField;
     private JComboBox comboBox2;
     private JLabel assignedLabel;
+    private JLabel ticketType;
+    private JLabel ticketNumber;
 
     private Ticket ticket;
     private MainPageAdvisor mainPageAdvisor;
@@ -23,6 +25,10 @@ public class AdvisorTicketAssign extends JDialog {
     public AdvisorTicketAssign(Ticket ticket, MainPageAdvisor mainPageAdvisor) {
         this.ticket = ticket;
         this.mainPageAdvisor = mainPageAdvisor;
+
+        ticketType.setText(String.valueOf(ticket.getTicketType()));
+        ticketNumber.setText(String.valueOf(ticket.getTicketNumber()));
+
 
         setContentPane(contentPane);
         setModal(true);

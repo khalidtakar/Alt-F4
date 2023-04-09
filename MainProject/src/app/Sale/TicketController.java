@@ -80,9 +80,6 @@ public class TicketController {
         while (startRangeNumber <= (endRangeNumber + 1)) {
             ticketSQLHelper.removeTicket(startRangeType, startRangeNumber);
             startRangeNumber++;
-
-            java.lang.System.out.println(endRange - startRange);
-            java.lang.System.out.println(startRangeType + " " + startRangeNumber);
         }
 
         return getAllTickets();
@@ -102,14 +99,12 @@ public class TicketController {
         LocalDate now = LocalDate.now();
         Date sqlNow = java.sql.Date.valueOf(now);
 
-        System.out.println(advID);
 
         int startRangeType = Integer.parseInt(Long.toString(startRange).substring(0, 3));
         int startRangeNumber = Integer.parseInt(Long.toString(startRange).substring(3));
 
         int endRangeNumber = Integer.parseInt(Long.toString(endRange).substring(3));
 
-        System.out.println(startRangeType + " " + startRangeNumber + " " + endRangeNumber);
         //update ticket arraylist
         for(Ticket i : allTickets){
             if((i.getTicketType() == startRangeType)
@@ -123,12 +118,6 @@ public class TicketController {
 
         //use ticket arraylist to update DB
         for(Ticket i : ticketsToUpdate){
-            System.out.println(i.getTicketType() + " "
-                    + i.getTicketNumber() + " "
-                    + i.getDateReceived() + " "
-                    + i.getDateAssigned() + " "
-                    + i.getSaleID() + " "
-                    + i.getAdvisorID());
             ticketSQLHelper.updateTicket(i);
         }
 

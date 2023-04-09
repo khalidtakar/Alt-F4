@@ -6,7 +6,8 @@ package app.Tests;
 public class RunTests {
     public RunTests(){
         EmployeeTests employeeTests = new EmployeeTests();
-        employeeTests.testEmployeeLogin();
+        employeeTests.makeHash("dennis@gmail.com", "Gnasher");
+        //employeeTests.testEmployeeLogin();
 
         TicketTests ticketTests = new TicketTests();
         //ticketTests.testGetAllTickets();
