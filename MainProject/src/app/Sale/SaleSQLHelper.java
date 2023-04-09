@@ -2,21 +2,72 @@ package app.Sale;
 
 import app.JDBC;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class SaleSQLHelper extends JDBC {
 
     public SaleSQLHelper() {
     }
 
     /**
-     * Gets sale by ticket ID
-     * @param ticketType ticket type
-     * @param ticketNo ticket no
+     * Gets all sales
      * @return instance of sale associated to ticket ID
      */
-    public Sale getSaleByTicket(int ticketType, int ticketNo){
-        Sale sale = null;
+    public ArrayList<Sale> getAllSales(){
+        ArrayList<Sale> sales = new ArrayList<>();
 
-        return sale;
+        sql = "SELECT saleID, " +
+                "advisorID, " +
+                "customerEmail, " +
+                "dateSold, " +
+                "paymentType, " +
+                "cardNo, " +
+                "paymentProvider, " +
+                "localCurrency, " +
+                "exchangeRate, " +
+                "priceLocal, " +
+                "priceUSD, " +
+                "saleDiscountAmount, " +
+                "taxAmount, " +
+                "saleCommissionAmount, " +
+                "isDomestic, " +
+                "isPaid," +
+                "isRefunded " +
+                "FROM Sale";
+
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+
+            //for each row found, initialise a new Ticket and add to arraylist
+            while (resultSet.next()) {
+                sales.add(new Sale(
+                        resultSet.getInt("saleID"),
+                        resultSet.getInt("advisorID"),
+                        resultSet.getString("customerEmail"),
+                        resultSet.getDate("dateSold"),
+                        resultSet.getString("paymentType"),
+                        resultSet.getInt("cardNo"),
+                        resultSet.getString("paymentProvider"),
+                        resultSet.getString("localCurrency"),
+                        resultSet.getDouble("exchangeRate"),
+                        resultSet.getDouble("priceLocal"),
+                        resultSet.getDouble("priceUSD"),
+                        resultSet.getDouble("saleDiscountAmount"),
+                        resultSet.getDouble("taxAmount"),
+                        resultSet.getDouble("saleCommissionAmount"),
+                        resultSet.getBoolean("isDomestic"),
+                        resultSet.getBoolean("isPaid"),
+                        resultSet.getBoolean("isRefunded")));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        return sales;
     }
 
     /**

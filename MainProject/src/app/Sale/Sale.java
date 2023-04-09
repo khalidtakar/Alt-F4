@@ -6,47 +6,53 @@ import java.sql.Date;
 
 public class Sale {
     private int saleID;
+    private int advisorID;
+    private String customerEmail;
     private Date dateSold;
     private String paymentType;
     private int cardNo;
     private String paymentProvider;
     private String localCurrency;
-    private double priceLocal;
     private double exchangeRate;
+    private double priceLocal;
     private double priceUSD;
-    private double saleDiscount;
-    private double saleTax;
+    private double saleDiscountAmount;
+    private double taxAmount;
     private double saleCommissionAmount;
     private boolean isDomestic;
     private boolean isPaid;
     private boolean refundRequested;
     private boolean isRefunded;
 
-    private String customerEmail;
-    private int advisorID;
-
     private Customer customer;
     private Advisor advisor;
 
-    public Sale(int saleID, Date dateSold, String paymentType, int cardNo, String paymentProvider, String localCurrency, double priceLocal, double exchangeRate, double priceUSD, double saleDiscount, double saleTax, double saleCommissionAmount, boolean isDomestic, boolean isPaid, boolean refundRequested, boolean isRefunded, String customerEmail, int advisorID) {
+    public Sale(int saleID, int advisorID, String customerEmail, Date dateSold, String paymentType, int cardNo, String paymentProvider, String localCurrency, double exchangeRate, double priceLocal, double priceUSD, double saleDiscountAmount, double taxAmount, double saleCommissionAmount, boolean isDomestic, boolean isPaid, boolean isRefunded) {
         this.saleID = saleID;
+        this.advisorID = advisorID;
+        this.customerEmail = customerEmail;
         this.dateSold = dateSold;
         this.paymentType = paymentType;
         this.cardNo = cardNo;
         this.paymentProvider = paymentProvider;
         this.localCurrency = localCurrency;
-        this.priceLocal = priceLocal;
         this.exchangeRate = exchangeRate;
+        this.priceLocal = priceLocal;
         this.priceUSD = priceUSD;
-        this.saleDiscount = saleDiscount;
-        this.saleTax = saleTax;
+        this.saleDiscountAmount = saleDiscountAmount;
+        this.taxAmount = taxAmount;
         this.saleCommissionAmount = saleCommissionAmount;
         this.isDomestic = isDomestic;
         this.isPaid = isPaid;
-        this.refundRequested = refundRequested;
         this.isRefunded = isRefunded;
-        this.customerEmail = customerEmail;
-        this.advisorID = advisorID;
+
+
+        CustomerController customerController = new CustomerController();
+
+        if(customerEmail != null){
+            this.customer = customerController.getCustomerByEmail(customerEmail);
+        }
+
     }
 
     public Sale() {
@@ -88,12 +94,12 @@ public class Sale {
         return priceUSD;
     }
 
-    public double getSaleDiscount() {
-        return saleDiscount;
+    public double getSaleDiscountAmount() {
+        return saleDiscountAmount;
     }
 
-    public double getSaleTax() {
-        return saleTax;
+    public double getTaxAmount() {
+        return taxAmount;
     }
 
     public double getSaleCommissionAmount() {
@@ -168,12 +174,12 @@ public class Sale {
         this.priceUSD = priceUSD;
     }
 
-    public void setSaleDiscount(double saleDiscount) {
-        this.saleDiscount = saleDiscount;
+    public void setSaleDiscountAmount(double saleDiscountAmount) {
+        this.saleDiscountAmount = saleDiscountAmount;
     }
 
-    public void setSaleTax(double saleTax) {
-        this.saleTax = saleTax;
+    public void setTaxAmount(double taxAmount) {
+        this.taxAmount = taxAmount;
     }
 
     public void setSaleCommissionAmount(double saleCommissionAmount) {

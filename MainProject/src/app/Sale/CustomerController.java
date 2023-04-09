@@ -23,4 +23,10 @@ public class CustomerController {
     public ArrayList<Customer> getAllCustomers(){
         return customerSQLHelper.getAllCustomers();
     }
+
+    public Customer getCustomerByEmail(String email) {
+        Customer customer = null;
+        customer = customerSQLHelper.getCustomerByEmail(email);
+        return customer;
+    }
 }

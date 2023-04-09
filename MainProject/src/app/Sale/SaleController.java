@@ -1,6 +1,5 @@
 package app.Sale;
 
-import app.System.System;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -81,5 +80,48 @@ public class SaleController {
         }
 
         return exchangeRate;
+    }
+
+    public ArrayList<Sale> getAllSales(){
+        return saleSQLHelper.getAllSales();
+    }
+
+    public ArrayList<Sale> getAdvisorsSales(int advID){
+        ArrayList<Sale> sales = getAllSales();
+        ArrayList<Sale> advisorsSales = new ArrayList<>();
+
+        for(Sale i : sales){
+            if(i.getAdvisorID() == advID) {
+                advisorsSales.add(i);
+            }
+        }
+
+        return advisorsSales;
+    }
+
+    public ArrayList<Sale> getAdvisorsCompletedSales(int advID){
+        ArrayList<Sale> advisorsSales = getAdvisorsSales(advID);
+        ArrayList<Sale> completedSales = new ArrayList<>();
+
+        for(Sale i : advisorsSales){
+            if(i.isPaid() == true) {
+                completedSales.add(i);
+            }
+        }
+
+        return completedSales;
+    }
+
+    public ArrayList<Sale> getAdvisorsLateSales(int advID){
+        ArrayList<Sale> advisorsSales = getAdvisorsSales(advID);
+        ArrayList<Sale> lateSales = new ArrayList<>();
+
+        for(Sale i : advisorsSales){
+            if(i.isPaid() == false) {
+                lateSales.add(i);
+            }
+        }
+
+        return lateSales;
     }
 }
