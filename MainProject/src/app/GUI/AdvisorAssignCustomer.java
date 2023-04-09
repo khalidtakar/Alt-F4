@@ -1,20 +1,36 @@
 package app.GUI;
 
+import app.Sale.Customer;
+import app.Sale.CustomerController;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class AdvisorAssignCustomer extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+
     private JTable customersTable;
+    private DefaultTableModel customersTableModel;
+    private TableRowSorter<DefaultTableModel> customersSorter;
+
     private JTextField searchCustomersTextField;
 
+    private CustomerController customerController = new CustomerController();
+
     String email;
+    private ArrayList<Customer> customers;
+
 
     public AdvisorAssignCustomer() {
+        updateCustomersTable();
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -66,6 +82,39 @@ public class AdvisorAssignCustomer extends JDialog {
 
     private void onCancel() {
         dispose();
+    }
+
+    public void updateCustomersTable(){
+        customers = customerController.getAllCustomers();
+
+        //get the table object from GUI
+        customersTableModel = (DefaultTableModel) customersTable.getModel();
+
+        //resets table if it is being redrawn
+        customersTableModel.setColumnCount(0);
+        customersTableModel.setRowCount(0);
+
+        //set columns
+        customersTableModel.addColumn("Email");
+        customersTableModel.addColumn("Name");
+        customersTableModel.addColumn("Is Valued");
+        customersTableModel.addColumn("Spent This Month");
+        customersTableModel.addColumn("Amount To Return");
+        customersTableModel.addColumn("Fixed Discount Rate");
+
+        //insert rows
+        for (Customer i : customers) {
+            customersTableModel.insertRow(0, new Object[]{
+                    i.getEmail(),
+                    i.getName(),
+                    i.isValued(),
+                    i.getSpentThisMonth(),
+                    i.getDiscountToRefundOrReturn(),
+                    i.getFixedDiscountRate()});
+        }
+
+        customersSorter = new TableRowSorter<>(customersTableModel);
+        customersTable.setRowSorter(customersSorter);
     }
 
     public String getCustomerEmail() {
