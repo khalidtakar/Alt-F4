@@ -18,6 +18,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainPageAdvisor {
     private JButton logOutButton;
@@ -48,6 +49,7 @@ public class MainPageAdvisor {
 
     private ArrayList<Ticket> tickets;
     private ArrayList<Customer> customers;
+    private MainPageAdvisor mainPageAdvisor;
 
     public MainPageAdvisor(Main main, System system, SystemController systemController, TicketController ticketController, Employee employee) {
         this.main = main;
@@ -58,6 +60,8 @@ public class MainPageAdvisor {
         this.employee = employee;
         this.advisor = employee.getAdvisor();
 
+        this.mainPageAdvisor = this;
+
         updateTicketsTable();
         updateCustomersTable();
 
@@ -65,7 +69,7 @@ public class MainPageAdvisor {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // opens the customer creation window
-                JDialog dialog = new AdvisorAddCustomer();
+                JDialog dialog = new AdvisorAddCustomer(mainPageAdvisor);
                 dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 dialog.setLocationRelativeTo(null);
                 dialog.pack();
@@ -91,10 +95,12 @@ public class MainPageAdvisor {
                 //TODO display all entries in customersTable with an instance of 'query'
             }
         });
-        ListSelectionModel selectionModel = customersTable.getSelectionModel();
-        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        ListSelectionModel selectionModelCustomers = customersTable.getSelectionModel();
+        ListSelectionModel selectionModelTickets = ticketsTable.getSelectionModel();
+        selectionModelCustomers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        selectionModelTickets.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        selectionModel.addListSelectionListener(new ListSelectionListener() {
+        selectionModelCustomers.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 if (!event.getValueIsAdjusting()) {
                     int selectedRow = customersTable.getSelectedRow();
@@ -108,13 +114,22 @@ public class MainPageAdvisor {
                 }
             }
         });
-        selectionModel.addListSelectionListener(new ListSelectionListener() {
+
+        selectionModelTickets.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 if (!event.getValueIsAdjusting()) {
                     int selectedRow = ticketsTable.getSelectedRow();
-                    int ticketNumber = (int) ticketsTable.getValueAt(selectedRow, 0);
+                    int ticketType = (int) ticketsTable.getValueAt(selectedRow, 0);
+                    int ticketNumber = (int) ticketsTable.getValueAt(selectedRow, 2);
+
+                    Ticket ticket = null;
+                    for(Ticket i : tickets){
+                        if ((i.getTicketType() == ticketType) && (i.getTicketNumber() == ticketNumber)) {
+                            ticket = i;
+                        }
+                    }
                     // opens the ticket assignment window for the selected ticket
-                    JDialog dialog = new AdvisorTicketAssign(ticketNumber);
+                    JDialog dialog = new AdvisorTicketAssign(ticket, mainPageAdvisor);
                     dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                     dialog.setLocationRelativeTo(null);
                     dialog.pack();
@@ -186,7 +201,7 @@ public class MainPageAdvisor {
                     i.getFixedDiscountRate()});
         }
 
-        ticketsSorter = new TableRowSorter<>(customersTableModel);
+        customersSorter = new TableRowSorter<>(customersTableModel);
         customersTable.setRowSorter(customersSorter);
     }
 

@@ -98,7 +98,7 @@ public class CustomerSQLHelper extends JDBC {
     public void addNewCustomer(Customer customer){
 
 
-        String sql = "INSERT INTO customers (email, name, is_valued, spent_this_month, discount_to_refund_or_return, fixed_discount_rate) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO RegisteredCustomer (email, name, isValued, spentThisMonth, discountOrRefundToReturn, fixedDiscountRate) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
 
@@ -119,18 +119,7 @@ public class CustomerSQLHelper extends JDBC {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-            try {
-                if(statement != null){
-                    statement.close();
-                }
-                if(connection != null){
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
+    }
 
     /** Update all collumns of customer in DB to be the same as attributes
      * of provided customer instance
@@ -159,19 +148,6 @@ public class CustomerSQLHelper extends JDBC {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-        } finally {
-            // close database resources
-            try {
-                if(statement != null){
-                    statement.close();
-                }
-                if(connection != null){
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
         }
     }
 }

@@ -17,6 +17,12 @@ public class Customer {
         this.fixedDiscountRate = fixedDiscountRate;
     }
 
+    public Customer(String email, String name, boolean isValued) {
+        this.email = email;
+        this.name = name;
+        this.isValued = isValued;
+    }
+
     public Customer() {
     }
 

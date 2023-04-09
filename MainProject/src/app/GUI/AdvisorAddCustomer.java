@@ -1,5 +1,8 @@
 package app.GUI;
 
+import app.Sale.Customer;
+import app.Sale.CustomerController;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -11,7 +14,11 @@ public class AdvisorAddCustomer extends JDialog {
     private JTextField customerName;
     private JCheckBox valuedCheckBox;
 
-    public AdvisorAddCustomer() {
+    private MainPageAdvisor mainPageAdvisor;
+
+    public AdvisorAddCustomer(MainPageAdvisor mainPageAdvisor) {
+        this.mainPageAdvisor = mainPageAdvisor;
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -45,6 +52,20 @@ public class AdvisorAddCustomer extends JDialog {
     }
 
     private void onOK() {
+        Customer customer;
+
+        if(valuedCheckBox.isSelected()){
+            customer = new Customer(customerEmail.getText(), customerName.getText(), true);
+        }else{
+            customer = new Customer(customerEmail.getText(), customerName.getText(), false);
+        }
+
+        CustomerController customerController = new CustomerController();
+        customerController.addNewCustomer(customer);
+
+        mainPageAdvisor.updateCustomersTable();
+
+
         //TODO add new registered customer using customerEmail.getText() and customerName.getText()
         dispose();
     }

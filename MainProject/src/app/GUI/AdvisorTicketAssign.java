@@ -1,5 +1,7 @@
 package app.GUI;
 
+import app.Sale.Ticket;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Window;
@@ -15,7 +17,13 @@ public class AdvisorTicketAssign extends JDialog {
     private JComboBox comboBox2;
     private JLabel assignedLabel;
 
-    public AdvisorTicketAssign(int ticketNumber) {
+    private Ticket ticket;
+    private MainPageAdvisor mainPageAdvisor;
+
+    public AdvisorTicketAssign(Ticket ticket, MainPageAdvisor mainPageAdvisor) {
+        this.ticket = ticket;
+        this.mainPageAdvisor = mainPageAdvisor;
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(latePaymentButton);
