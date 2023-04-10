@@ -41,7 +41,7 @@ public class CustomerSQLHelper extends JDBC {
             preparedStatement.setString(1, email);
 
             // execute query and retrieve results
-            resultSet = preparedStatement.executeQuery(sql);
+            resultSet = preparedStatement.executeQuery();
 
             // check if customer was found
             if(resultSet.next()){
@@ -50,7 +50,7 @@ public class CustomerSQLHelper extends JDBC {
                         resultSet.getString("name"),
                         resultSet.getBoolean("isValued"),
                         resultSet.getDouble("spentThisMonth"),
-                        resultSet.getDouble("discountToRefundOrReturn"),
+                        resultSet.getDouble("discountOrRefundToReturn"),
                         resultSet.getDouble("fixedDiscountRate"));
 
 
