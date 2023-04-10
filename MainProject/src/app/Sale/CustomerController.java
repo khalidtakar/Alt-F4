@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class CustomerController {
     CustomerSQLHelper customerSQLHelper = new CustomerSQLHelper();
+    SaleSQLHelper saleSQLHelper = new SaleSQLHelper();
     Customer customer;
 
     public CustomerController(){}
@@ -26,6 +27,16 @@ public class CustomerController {
 
     public Customer getCustomerByEmail(String email) {
         return customerSQLHelper.getCustomerByEmail(email);
+    }
+
+    public void updateCustomerDetails(Customer customer, String email, String name, boolean isValued){
+        customer.setName(name);
+        customer.setValued(isValued);
+        customerSQLHelper.updateCustomer(customer);
+
+        if(customer.getEmail() != email){
+            customerSQLHelper.updateCustomerEmail(customer.getEmail(), email);
+        }
     }
 
     public void updateCustomerBySale(Customer customer, Sale sale){

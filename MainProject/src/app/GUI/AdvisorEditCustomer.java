@@ -43,9 +43,13 @@ public class AdvisorEditCustomer extends JDialog {
     public AdvisorEditCustomer(Customer customer) {
         this.customer = customer;
 
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        if(customer.isValued()){
+            valuedCheckBox.setSelected(true);
+        }
 
         updateTable();
 
@@ -85,7 +89,26 @@ public class AdvisorEditCustomer extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 //TODO update details
 
-                
+                if(valuedCheckBox.isSelected()){
+                    customerController.updateCustomerDetails(customer,
+                            newEmail.getText(),
+                            newName.getText(),
+                            true);
+                    customer.setValued(true);
+                }else{
+                    customerController.updateCustomerDetails(customer,
+                            newEmail.getText(),
+                            newName.getText(),
+                            false);
+                    customer.setValued(false);
+                }
+
+                customer.setEmail(newEmail.getText());
+                customer.setName(newName.getText());
+
+
+
+                updateTable();
             }
         });
         ListSelectionModel selectionModel = discountsTable.getSelectionModel();

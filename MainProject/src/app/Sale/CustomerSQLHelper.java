@@ -118,6 +118,7 @@ public class CustomerSQLHelper extends JDBC {
             preparedStatement.setDouble(5, customer.getDiscountToRefundOrReturn());
             preparedStatement.setDouble(6, customer.getFixedDiscountRate());
 
+
             // execute query and insert new customer
             int rowsInserted = preparedStatement.executeUpdate();
             System.out.println(rowsInserted + " row(s) inserted.");
@@ -135,7 +136,11 @@ public class CustomerSQLHelper extends JDBC {
     public void updateCustomer(Customer customer){
 
 
-        String sql = "UPDATE customers SET name = ?, is_valued = ?, spent_this_month = ?, discount_to_refund_or_return = ?, fixed_discount_rate = ? WHERE email = ?";
+        String sql = "UPDATE RegisteredCustomer SET name = ?, " +
+                "isValued = ?, " +
+                "spentThisMonth = ?, " +
+                "discountOrRefundToReturn = ? " +
+                "WHERE email = ?";
 
         try {
 
@@ -145,12 +150,71 @@ public class CustomerSQLHelper extends JDBC {
             preparedStatement.setBoolean(2, customer.isValued());
             preparedStatement.setDouble(3, customer.getSpentThisMonth());
             preparedStatement.setDouble(4, customer.getDiscountToRefundOrReturn());
-            preparedStatement.setDouble(5, customer.getFixedDiscountRate());
-            preparedStatement.setString(6, customer.getEmail());
+            preparedStatement.setString(5, customer.getEmail());
 
-            // execute query and update customer
-            int rowsUpdated = preparedStatement.executeUpdate();
-            System.out.println(rowsUpdated + " row(s) updated.");
+            // execute query
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateCustomerEmail(String oldEmail, String newEmail) {
+        String sql1 = "UPDATE RegisteredCustomer " +
+                "SET email = ? " +
+                "WHERE email = ?";
+
+        String sql2 = "UPDATE FlexibleDiscount " +
+                "SET email = NULL " +
+                "WHERE email = ?";
+
+        String sql3 = "UPDATE Sale " +
+                "SET customerEmail = NULL " +
+                "WHERE customerEmail = ?";
+
+        String sql4 = "UPDATE FlexibleDiscount " +
+                "SET email = ? " +
+                "WHERE email IS NULL";
+
+        String sql5 = "UPDATE Sale " +
+                "SET customerEmail = ? " +
+                "WHERE customerEmail IS NULL";
+
+        try {
+            // Start transaction
+            connection.setAutoCommit(false);
+
+            // Update FlexibleDiscount table to set email to NULL for records that reference old email
+            preparedStatement = connection.prepareStatement(sql2);
+            preparedStatement.setString(1, oldEmail);
+            preparedStatement.execute();
+
+            // Update Sale table to set customerEmail to NULL for records that reference old email
+            preparedStatement = connection.prepareStatement(sql3);
+            preparedStatement.setString(1, oldEmail);
+            preparedStatement.execute();
+
+            // Update RegisteredCustomer table to set new email address
+            preparedStatement = connection.prepareStatement(sql1);
+            preparedStatement.setString(1, newEmail);
+            preparedStatement.setString(2, oldEmail);
+            preparedStatement.execute();
+
+            // Update FlexibleDiscount table to set email to new email address for updated records
+            preparedStatement = connection.prepareStatement(sql4);
+            preparedStatement.setString(1, newEmail);
+            preparedStatement.execute();
+
+            // Update Sale table to set customerEmail to new email address for updated records
+            preparedStatement = connection.prepareStatement(sql5);
+            preparedStatement.setString(1, newEmail);
+            preparedStatement.execute();
+
+            // Commit transaction
+            connection.commit();
+            connection.setAutoCommit(true);
 
         } catch (SQLException e) {
             e.printStackTrace();

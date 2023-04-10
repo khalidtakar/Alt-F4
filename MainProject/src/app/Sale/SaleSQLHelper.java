@@ -184,4 +184,25 @@ public class SaleSQLHelper extends JDBC {
             throw new RuntimeException(e);
         }
     }
+
+    public void updateCustomerEmail(String oldEmail, String newEmail){
+        sql = "UPDATE Sale SET " +
+                "customerEmail = ? " +
+                "WHERE customerEmail = ?";
+
+        try {
+
+            // create SQL query to insert new customer
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, oldEmail);
+            preparedStatement.setString(2, newEmail);
+            preparedStatement.executeUpdate();
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }
