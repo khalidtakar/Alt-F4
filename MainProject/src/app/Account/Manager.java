@@ -8,4 +8,16 @@ public class Manager {
         this.manID = manID;
         this.username = username;
     }
+
+    public Manager() {
+    }
+
+    public int getManID() {
+        return manID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 }
+

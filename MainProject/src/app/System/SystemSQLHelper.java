@@ -3,6 +3,8 @@ package app.System;
 import app.JDBC;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class SystemSQLHelper extends JDBC {
     public SystemSQLHelper() {}
@@ -13,6 +15,7 @@ public class SystemSQLHelper extends JDBC {
      */
     public System load(){
         System system = null;
+
         sql = "SELECT " +
                 "commissionRate," +
                 "taxRate," +
@@ -31,6 +34,11 @@ public class SystemSQLHelper extends JDBC {
                         resultSet.getDouble("taxRate"),
                         resultSet.getInt("autoBackupFreqDays"),
                         resultSet.getDate("lastBackup"));
+
+                LocalDate lastBackup = system.getLastBackup().toLocalDate();
+                LocalDate today = LocalDate.now();
+                long daysSinceLastBackup = ChronoUnit.DAYS.between(lastBackup, today);
+                system.setDaysSinceLastBackup((int)daysSinceLastBackup);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -41,57 +49,26 @@ public class SystemSQLHelper extends JDBC {
     }
 
     /**
-     * update commissionRate in database
-     * @param commissionRate in DB stored as decimal(5,2)
+     * updates systemSettings in DB to current state in app
+     * @param system instance of system with the latest settings
      */
-    public void setCommissionRate(double commissionRate){
+    public void updateSettings(System system){
         sql="UPDATE SystemSettings " +
-                "SET commissionRate = ?";
+                "SET commissionRate = ?," +
+                "taxRate = ?," +
+                "autoBackupFreqDays = ?," +
+                "lastBackup = ?";
 
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setDouble(1, commissionRate);
+            preparedStatement.setDouble(1, system.getCommissionRate());
+            preparedStatement.setDouble(2, system.getTaxRate());
+            preparedStatement.setInt(3, system.getAutoBackupFreqDays());
+            preparedStatement.setDate(4, system.getLastBackup());
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
-
-    /**
-     * update tax rate in database
-     * @param taxRate in DB stored as decimal(5,2)
-     */
-    public void setTaxRate(double taxRate){
-        sql="UPDATE SystemSettings " +
-                "SET taxRate = ?";
-
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setDouble(1, taxRate);
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    /**
-     * update auto backup frequency in database
-     * @param autoBackupFreqDays
-     */
-    public void setAutoBackupFreqDays(int autoBackupFreqDays){
-        sql="UPDATE SystemSettings " +
-                "SET autoBackupFreqDays = ?";
-
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, autoBackupFreqDays);
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
 }

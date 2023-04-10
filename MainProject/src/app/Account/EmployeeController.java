@@ -1,5 +1,7 @@
 package app.Account;
 
+import app.Main;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -10,7 +12,16 @@ public class EmployeeController {
     private EmployeeSQLHelper employeeSQLHelper = new EmployeeSQLHelper();
     private Employee employee;
 
-    public EmployeeController(){}
+    private Main main;
+
+    public EmployeeController(Main main, Employee employee){
+        this.main = main;
+        this.employee = employee;
+    }
+
+    public EmployeeController(Employee employee){
+        this.employee = employee;
+    }
 
     /**
      * Looks up employee
@@ -20,9 +31,15 @@ public class EmployeeController {
      * @param password plaintext password
      * @return instance of Employee if found in DB
      */
-    public Employee login(String username, String password){
-        String passwordHash = doHashing(password);
-        employee = employeeSQLHelper.findEmployee(username, passwordHash);
+    public void login(String username, String password){
+        //Hash plain text password and lookup employee in database
+        String passwordHash = doHashing(username, password);
+
+        //Make temporary employee load instance to maintain original employee reference
+        //Get and set data from temporary to main employee
+        Employee employeeLoad = employeeSQLHelper.findEmployee(username, passwordHash);
+        employee.setName(employeeLoad.getName());
+        employee.setEmail(employeeLoad.getEmail());
 
         //attempts to initialise all roles for the given email
         employee.setAdvisor(employeeSQLHelper.checkAdvisorEmail(employee.getEmail()));
@@ -31,42 +48,52 @@ public class EmployeeController {
 
         //for the role which was initialied (is no longer null)
         //the name of it is assigned to typeOfEmployee
-        if(employee.getAdvisor() != null){
-            employee.setTypeOfEmployee("advisor");
-        }else if(employee.getAdministrator() != null){
-            employee.setTypeOfEmployee("administrator");
-        }else if(employee.getManager() != null){
-            employee.setTypeOfEmployee("manager");
+        if(main != null) {
+            if (employee.getAdvisor() != null) {
+                main.goToMainPageAdvisor(employee);
+            } else if (employee.getAdministrator() != null) {
+                main.goToMainPageAdmin(employee);
+            } else if (employee.getManager() != null) {
+                main.goToMainPageManager(employee);
+            }
         }
+    }
 
-        return employee;
+    public void changePassword(Employee employee, String password){
+        employee.setPasswordHash(doHashing(employee.getEmail(), password));
+        employeeSQLHelper.changePassword(employee);
     }
 
 
     /**Hashing algorithm, takes plain text and returns a hash to be stored/compared
      * with/in database
+     * @param salt unique string to be used as salt, preferably email
      * @param password plain text password to be hashed
      * @return [64 character] SHA-256 hashed password, can be "safely" stored in database
      */
-    public static String doHashing (String password) {
+    public static String doHashing (String salt, String password) {
+        final String PEPPER = "qFg@qVSdgS7#+a)nDgfR";
+        String hash = null;
+
         try {
+            //select hashing algorithm
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
 
-            messageDigest.update(password.getBytes());
+            //append salt and pepper
+            messageDigest.update(salt.getBytes());
+            messageDigest.update(PEPPER.getBytes());
 
-            byte[] resultByteArray = messageDigest.digest();
-
-            StringBuilder sb = new StringBuilder();
-
-            for (byte b : resultByteArray) {
-                sb.append(String.format("%02x", b));
+            //hash the password
+            byte[] bytes = messageDigest.digest(password.getBytes());
+            StringBuilder stringBuilder = new StringBuilder();
+            for (byte aByte : bytes) {
+                stringBuilder.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
             }
-
-            return sb.toString();
-
+            hash = stringBuilder.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return "";
+
+        return hash;
     }
 }

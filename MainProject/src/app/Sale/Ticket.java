@@ -24,8 +24,54 @@ public class Ticket {
         this.ticketNumber = ticketNumber;
         this.dateReceived = dateReceived;
         this.dateAssigned = dateAssigned;
-        this.saleID = saleID;
-        this.advisorID = advisorID;
+        if(saleID != 0) {
+            this.saleID = saleID;
+        }
+        if(advisorID != 0) {
+            this.advisorID = advisorID;
+        }
+    }
+
+    public Ticket(int ticketType, int ticketNumber, Date dateReceived){
+        this.ticketType = ticketType;
+        this.ticketNumber = ticketNumber;
+        this.dateReceived = dateReceived;
+    }
+
+    public void setTicketType(int ticketType) {
+        this.ticketType = ticketType;
+    }
+
+    public void setTicketNumber(int ticketNumber) {
+        this.ticketNumber = ticketNumber;
+    }
+
+    public void setDateReceived(Date dateReceived) {
+        this.dateReceived = dateReceived;
+    }
+
+    public void setDateAssigned(Date dateAssigned) {
+        this.dateAssigned = dateAssigned;
+    }
+
+    public void setSaleID(int saleID) {
+        if(saleID != 0) {
+            this.saleID = saleID;
+        }
+    }
+
+    public void setSale(Sale sale) {
+        this.sale = sale;
+    }
+
+    public void setAdvisorID(int advisorID) {
+        if(advisorID != 0) {
+            this.advisorID = advisorID;
+        }
+    }
+
+    public void setAdvisor(Advisor advisor) {
+        this.advisor = advisor;
     }
 
     public int getTicketType() {
@@ -50,5 +96,13 @@ public class Ticket {
 
     public int getAdvisorID() {
         return advisorID;
+    }
+
+    public Sale getSale() {
+        return sale;
+    }
+
+    public Advisor getAdvisor() {
+        return advisor;
     }
 }

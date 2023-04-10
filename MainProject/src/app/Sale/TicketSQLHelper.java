@@ -13,6 +13,7 @@ public class TicketSQLHelper extends JDBC {
      * Fetches all tickets in the database
      * @return Arraylist of instances of Ticket
      */
+
     public ArrayList<Ticket> getAllTickets(){
         ArrayList<Ticket> tickets = new ArrayList<>();
 
@@ -34,8 +35,8 @@ public class TicketSQLHelper extends JDBC {
                         , resultSet.getInt("ticketNumber")
                         , resultSet.getDate("dateReceived")
                         , resultSet.getDate("dateAssigned")
-                        , resultSet.getInt("advisorID")
-                        , resultSet.getInt("saleID")));
+                        , resultSet.getInt("saleID")
+                        , resultSet.getInt("advisorID")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,8 +74,8 @@ public class TicketSQLHelper extends JDBC {
                         , resultSet.getInt("ticketNumber")
                         , resultSet.getDate("dateReceived")
                         , resultSet.getDate("dateAssigned")
-                        , resultSet.getInt("advisorID")
-                        , resultSet.getInt("saleID")));
+                        , resultSet.getInt("saleID")
+                        , resultSet.getInt("advisorID")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,5 +83,88 @@ public class TicketSQLHelper extends JDBC {
         }
 
         return tickets;
+    }
+
+    /**
+     * Update all columns for a ticket row with attributes from ticket instance
+     * @param ticket ticket to be updated in DB
+     */
+    public void updateTicket(Ticket ticket){
+
+        sql = "UPDATE Ticket SET " +
+                "dateReceived = ?, " +
+                "dateAssigned = ?, " +
+                "advisorID = ?, " +
+                "saleID = ? " +
+                "WHERE ticketNumber = ? " +
+                "AND ticketType = ?";
+
+        try {
+            //create SQL query to update all columns for a ticket row
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDate(1, ticket.getDateReceived());
+            preparedStatement.setDate(2, ticket.getDateAssigned());
+            if(ticket.getAdvisorID() != 0) {
+                preparedStatement.setInt(3, ticket.getAdvisorID());
+            }else{
+                preparedStatement.setNull(3, 0);
+            }
+            if(ticket.getSaleID() != 0) {
+                preparedStatement.setInt(4, ticket.getSaleID());
+            }else{
+                preparedStatement.setNull(4, 0);
+            }
+            preparedStatement.setInt(5, ticket.getTicketNumber());
+            preparedStatement.setInt(6, ticket.getTicketType());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Adds new row for Ticket in DB based on instance of ticket provided
+     * * SaleID in DB uses auto increment, so you do not need to define it here
+     */
+    public void addTicket(Ticket ticket){
+
+        sql = "INSERT INTO Ticket (ticketType, " +
+                "ticketNumber, " +
+                "dateReceived) " +
+                "VALUES (?, ?, ?)";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, ticket.getTicketType());
+            preparedStatement.setInt(2, ticket.getTicketNumber());
+            preparedStatement.setDate(3, new java.sql.Date(ticket.getDateReceived().getTime()));
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    /**
+     * Removes ticket from the DB
+     *
+     * does not allow tickets to be removed where sale ID is not null
+     * @param ticketType ticket type
+     * @param ticketNo ticket number
+     */
+    public void removeTicket(int ticketType, int ticketNo){
+
+        sql = "DELETE FROM Ticket WHERE ticketType=? AND ticketNumber=? AND saleID IS NULL";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, ticketType);
+            preparedStatement.setInt(2, ticketNo);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

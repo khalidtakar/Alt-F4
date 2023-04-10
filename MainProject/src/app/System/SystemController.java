@@ -1,30 +1,47 @@
 package app.System;
 
-import javax.swing.*;
+
 import java.io.*;
-import java.net.URISyntaxException;
-import java.security.CodeSource;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
-import java.util.concurrent.TimeUnit;
+
 
 public class SystemController {
     private SystemSQLHelper systemSQLHelper = new SystemSQLHelper();
+    private System system;
 
-    public SystemController() {}
+    private static final String DBNAME = "in2018g11";
+    private static final String USERUSERNAME = "in2018g11_d";
+    private static final String USERPASSWORD = "qj3GNH0I";
+    private static final String ADMINUSERNAME = "in2018g11_a";
+    private static final String ADMINPASSWORD = "zj81TlQV";
+    private static final String SERVER = "smcse-stuproj00.city.ac.uk";
+    private static final String PORT = "3306";
+
+    public SystemController(System system) {
+        this.system = system;
+    }
+
+    public SystemController(){}
 
     /**
      * Loads all system settings from the database
      * @return instance of SystemSettings
      */
-    public System load(){
-        return systemSQLHelper.load();
+    public void load(){
+        System loadedSystem = systemSQLHelper.load();
+        system.setLastBackup(loadedSystem.getLastBackup());
+        system.setCommissionRate(loadedSystem.getCommissionRate());
+        system.setTaxRate(loadedSystem.getTaxRate());
+        system.setAutoBackupFreqDays(loadedSystem.getAutoBackupFreqDays());
+    }
+
+    public System getLoad(){
+        System loadedSystem = systemSQLHelper.load();
+
+        return loadedSystem;
     }
 
     /**
@@ -32,9 +49,9 @@ public class SystemController {
      * @param commissionRate double
      * @return updated system settings
      */
-    public System setCommissionRate(double commissionRate){
-        systemSQLHelper.setCommissionRate(commissionRate);
-        return this.load();
+    public void setCommissionRate(double commissionRate){
+        system.setCommissionRate(commissionRate);
+        systemSQLHelper.updateSettings(system);
     }
 
     /**
@@ -42,9 +59,9 @@ public class SystemController {
      * @param taxRate double, in DB stored as decimal(5,2)
      * @return updated system settings
      */
-    public System setTaxRate(double taxRate){
-        systemSQLHelper.setTaxRate(taxRate);
-        return this.load();
+    public void setTaxRate(double taxRate){
+        system.setTaxRate(taxRate);
+        systemSQLHelper.updateSettings(system);
     }
 
     /**
@@ -52,49 +69,48 @@ public class SystemController {
      * @param autoBackupFreqDays int how often you want system to auto backup
      * @return updated system settings
      */
-    public System setAutoBackupFreqDays(int autoBackupFreqDays){
-        systemSQLHelper.setAutoBackupFreqDays(autoBackupFreqDays);
-        return this.load();
+    public void setAutoBackupFreqDays(int autoBackupFreqDays){
+        system.setAutoBackupFreqDays(autoBackupFreqDays);
+        systemSQLHelper.updateSettings(system);
+    }
+
+    public int checkLastBackup(System system){
+        if(system.getDaysSinceLastBackup() >= system.getAutoBackupFreqDays()){
+            backup();
+        }
+        return system.getDaysSinceLastBackup();
     }
 
     /**
      * creates a .sql file in backup folder,
      * with statements to reconstruct database in its current state
      */
-    public static void backup() {
+    public void backup() {
         try {
-            //Creating Database Constraints
-            String DBNAME = "in2018g11";
-            String USERNAME = "in2018g11_a";
-            String PASSWORD = "zj81TlQV";
-            String SERVER = "smcse-stuproj00.city.ac.uk";
-            String PORT = "3306";
-
-            //Creating Path Constraints for backup saving
+            //Creating Path to save backup and date-time format to use in the file name
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy.HH.mm.ss");
-            String backupDate = dateFormat.format(new Date());
+            String backupDate = dateFormat.format(new java.util.Date());
             String backupPath = "backup" + File.separator + "backup_" + backupDate + ".sql";
 
-            //Used to create a cmd command
-            String executeCmd = "mysqldump --host " + SERVER + " --port " + PORT + " --user " + USERNAME + " --password=" + PASSWORD + " --skip-column-statistics " + DBNAME + " > \"" + backupPath + "\"";
+            //Create cmd command to run mysqldump
+            String executeCmd = "mysqldump --host " + SERVER
+                    + " --port " + PORT
+                    + " --user " + ADMINUSERNAME
+                    + " --password=" + ADMINPASSWORD
+                    + " --skip-column-statistics "
+                    + DBNAME
+                    + " > \"" + backupPath + "\"";
 
             ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", executeCmd);
             builder.redirectErrorStream(true);
             Process process = builder.start();
 
             //Read the output and error streams from the process
-            InputStream inputStream = process.getInputStream();
             InputStream errorStream = process.getErrorStream();
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(inputStream));
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
 
-            //Print any output from the process
-            String line;
-            while ((line = inputReader.readLine()) != null) {
-                java.lang.System.out.println(line);
-            }
-
             //Print any error messages from the process
+            String line;
             while ((line = errorReader.readLine()) != null) {
                 java.lang.System.err.println(line);
             }
@@ -107,44 +123,45 @@ public class SystemController {
                 java.lang.System.err.println("Backup failed with exit code " + exitCode);
             }
 
-        } catch (IOException | InterruptedException ex) {
-            ex.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
+        LocalDate now = LocalDate.now();
+        Date sqlNow = java.sql.Date.valueOf(now);
+
+        system.setLastBackup(sqlNow);
+        systemSQLHelper.updateSettings(system);
     }
 
     /**
      * Restores database using .sql dump file
      * @param filePath path to sql dump file
      */
-    public static void restore(String filePath) {
+    public  void restore(String filePath) {
         try {
-            //Creating database constraints
-            String DBNAME = "in2018g11";
-            String USERNAME = "in2018g11_a";
-            String PASSWORD = "zj81TlQV";
-            String SERVER = "smcse-stuproj00.city.ac.uk";
-            String PORT = "3306";
-
-            //Used to create a cmd command
-            String executeCmd = "mysql --host " + SERVER + " --port " + PORT + " --user " + USERNAME + " --password=" + PASSWORD + " " + DBNAME + " < \"" + filePath + "\"";
+            //Create cmd command to execute a .sql file
+            String executeCmd = "mysql --host " + SERVER
+                    + " --port " + PORT
+                    + " --user " + ADMINUSERNAME
+                    + " --password=" + ADMINPASSWORD
+                    + " " + DBNAME
+                    + " < \"" + filePath + "\"";
 
             ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", executeCmd);
             builder.redirectErrorStream(true);
             Process process = builder.start();
 
             //Read the output and error streams from the process
-            InputStream inputStream = process.getInputStream();
             InputStream errorStream = process.getErrorStream();
-            BufferedReader inputReader = new BufferedReader(new InputStreamReader(inputStream));
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(errorStream));
 
-            //Print any output from the process
-            String line;
-            while ((line = inputReader.readLine()) != null) {
-                java.lang.System.out.println(line);
-            }
-
             //Print any error messages from the process
+            String line;
             while ((line = errorReader.readLine()) != null) {
                 java.lang.System.err.println(line);
             }
