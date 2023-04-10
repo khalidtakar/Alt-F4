@@ -37,12 +37,9 @@ public class MainPageAdmin{
     private JLabel userInfo;
     private JLabel logo;
     private JPanel mainPageAdminPanel;
-<<<<<<< Updated upstream
     private JLabel days;
     private JButton restoreFromBackupButton;
-=======
     private JButton changePasswordButton;
->>>>>>> Stashed changes
 
     private Main main;
     private System system;
@@ -99,23 +96,22 @@ public class MainPageAdmin{
                 main.goToLoginPage();
             }
         });
-<<<<<<< Updated upstream
         restoreFromBackupButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser fileChooser = new JFileChooser();
-                int result = fileChooser.showOpenDialog(null);
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = fileChooser.getSelectedFile();
-                    systemController.restore(selectedFile.getPath());
-                }
-                updateTable();
-=======
+              @Override
+              public void actionPerformed(ActionEvent e) {
+                  JFileChooser fileChooser = new JFileChooser();
+                  int result = fileChooser.showOpenDialog(null);
+                  if (result == JFileChooser.APPROVE_OPTION) {
+                      File selectedFile = fileChooser.getSelectedFile();
+                      systemController.restore(selectedFile.getPath());
+                  }
+                  updateTable();
+              }
+        });
         changePasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO change password (don't worry about this yet)
->>>>>>> Stashed changes
             }
         });
     }
