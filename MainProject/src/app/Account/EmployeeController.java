@@ -59,6 +59,11 @@ public class EmployeeController {
         }
     }
 
+    public void changePassword(Employee employee, String password){
+        employee.setPasswordHash(doHashing(employee.getEmail(), password));
+        employeeSQLHelper.changePassword(employee);
+    }
+
 
     /**Hashing algorithm, takes plain text and returns a hash to be stored/compared
      * with/in database

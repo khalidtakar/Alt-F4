@@ -9,12 +9,14 @@ import java.util.ArrayList;
 
 public class EmployeeSQLHelper extends JDBC {
 
-    public EmployeeSQLHelper(){}
+    public EmployeeSQLHelper() {
+    }
 
     /**
      * Looks up for existence of employee and correctly matching password in database,
      * if found employee is initialised and returned
-     * @param username employee email
+     *
+     * @param username     employee email
      * @param passwordHash hashed password (use hashing algorithm in employee controller)
      * @return Employee instance
      */
@@ -47,13 +49,13 @@ public class EmployeeSQLHelper extends JDBC {
     }
 
 
-
     /**
      * checks if the email has this role, if yes then initialises role class
+     *
      * @param username
      * @return Manager instance
      */
-    public Manager checkManagerEmail(String username){
+    public Manager checkManagerEmail(String username) {
         Manager manager = null;
 
         sql = "SELECT manID " +
@@ -66,7 +68,7 @@ public class EmployeeSQLHelper extends JDBC {
 
             resultSet = preparedStatement.executeQuery();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 manager = new Manager(resultSet.getInt("manID"), username);
             }
         } catch (SQLException e) {
@@ -78,10 +80,11 @@ public class EmployeeSQLHelper extends JDBC {
 
     /**
      * checks if the email has this role, if yes then initialises role class
+     *
      * @param username
      * @return Administrator instance
      */
-    public Administrator checkAdministratorEmail(String username){
+    public Administrator checkAdministratorEmail(String username) {
         Administrator administrator = null;
 
         sql = "SELECT admID " +
@@ -94,7 +97,7 @@ public class EmployeeSQLHelper extends JDBC {
 
             resultSet = preparedStatement.executeQuery();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 administrator = new Administrator(resultSet.getInt("admID"), username);
             }
         } catch (SQLException e) {
@@ -106,10 +109,11 @@ public class EmployeeSQLHelper extends JDBC {
 
     /**
      * checks if the email has this role, if yes then initialises role class
+     *
      * @param username
      * @return Advisor instance
      */
-    public Advisor checkAdvisorEmail(String username){
+    public Advisor checkAdvisorEmail(String username) {
         Advisor advisor = null;
 
         sql = "SELECT advID " +
@@ -122,7 +126,7 @@ public class EmployeeSQLHelper extends JDBC {
 
             resultSet = preparedStatement.executeQuery();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 advisor = new Advisor(resultSet.getInt("advID"), username);
             }
         } catch (SQLException e) {
@@ -132,7 +136,7 @@ public class EmployeeSQLHelper extends JDBC {
         return advisor;
     }
 
-    public ArrayList<Employee> getAdvisors(){
+    public ArrayList<Employee> getAdvisors() {
         ArrayList<Employee> advisors = new ArrayList<>();
 
         sql = "SELECT a.advID, " +
@@ -158,6 +162,22 @@ public class EmployeeSQLHelper extends JDBC {
         }
 
         return advisors;
+    }
+
+    public void changePassword(Employee employee) {
+        sql = "UPDATE Employee SET" +
+                "password = ?" +
+                "WHERE email = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, employee.getPasswordHash());
+            preparedStatement.setString(2, employee.getEmail());
+            resultSet = preparedStatement.executeQuery();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

@@ -27,7 +27,7 @@ public class AdvisorEditCustomer extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
 
         //sets the labels to display current information
-        customerEmail.setText("Customer email: " + customer.getEmail());
+        newEmail.setText("Customer email: " + customer.getEmail());
         customerName.setText("Customer name: " + customer.getName());
 
         buttonOK.addActionListener(new ActionListener() {

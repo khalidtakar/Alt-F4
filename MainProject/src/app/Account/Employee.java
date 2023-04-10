@@ -6,6 +6,7 @@ package app.Account;
 public class Employee {
     private String email;
     private String name;
+    private String passwordHash;
     private String typeOfEmployee;
 
     private Administrator administrator = null;
@@ -54,6 +55,14 @@ public class Employee {
     public void setAdvisor(Advisor advisor) {
         this.advisor = advisor;
         typeOfEmployee = "advisor";
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public Administrator getAdministrator() {

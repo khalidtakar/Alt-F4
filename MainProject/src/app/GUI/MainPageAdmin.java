@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainPageAdmin{
@@ -37,6 +38,7 @@ public class MainPageAdmin{
     private JLabel logo;
     private JPanel mainPageAdminPanel;
     private JLabel days;
+    private JButton restoreFromBackupButton;
 
     private Main main;
     private System system;
@@ -66,9 +68,6 @@ public class MainPageAdmin{
         deleteBlanksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                //TODO delete blanks from deleteBlanksStartVal to deleteBlanksEndVal
-
                 //delete blanks from deleteBlanksStartVal to deleteBlanksEndVal
                 tickets = ticketController.removeTickets((Long.parseLong(deleteBlanksStartVal.getText()))
                         , Long.parseLong(deleteBlanksEndVal.getText()));
@@ -94,6 +93,18 @@ public class MainPageAdmin{
             @Override
             public void actionPerformed(ActionEvent e) {
                 main.goToLoginPage();
+            }
+        });
+        restoreFromBackupButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    systemController.restore(selectedFile.getPath());
+                }
+                updateTable();
             }
         });
     }

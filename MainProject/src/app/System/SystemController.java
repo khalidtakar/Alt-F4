@@ -6,7 +6,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.temporal.ChronoUnit;
 
 
 public class SystemController {
@@ -14,8 +13,10 @@ public class SystemController {
     private System system;
 
     private static final String DBNAME = "in2018g11";
-    private static final String USERNAME = "in2018g11_a";
-    private static final String PASSWORD = "zj81TlQV";
+    private static final String USERUSERNAME = "in2018g11_d";
+    private static final String USERPASSWORD = "qj3GNH0I";
+    private static final String ADMINUSERNAME = "in2018g11_a";
+    private static final String ADMINPASSWORD = "zj81TlQV";
     private static final String SERVER = "smcse-stuproj00.city.ac.uk";
     private static final String PORT = "3306";
 
@@ -94,8 +95,8 @@ public class SystemController {
             //Create cmd command to run mysqldump
             String executeCmd = "mysqldump --host " + SERVER
                     + " --port " + PORT
-                    + " --user " + USERNAME
-                    + " --password=" + PASSWORD
+                    + " --user " + ADMINUSERNAME
+                    + " --password=" + ADMINPASSWORD
                     + " --skip-column-statistics "
                     + DBNAME
                     + " > \"" + backupPath + "\"";
@@ -141,13 +142,13 @@ public class SystemController {
      * Restores database using .sql dump file
      * @param filePath path to sql dump file
      */
-    public static void restore(String filePath) {
+    public  void restore(String filePath) {
         try {
             //Create cmd command to execute a .sql file
             String executeCmd = "mysql --host " + SERVER
                     + " --port " + PORT
-                    + " --user " + USERNAME
-                    + " --password=" + PASSWORD
+                    + " --user " + ADMINUSERNAME
+                    + " --password=" + ADMINPASSWORD
                     + " " + DBNAME
                     + " < \"" + filePath + "\"";
 
