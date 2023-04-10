@@ -32,7 +32,7 @@ public class AdvisorEditCustomer extends JDialog {
     private JTextField discountLowerBoundary;
     private JTextField discountUpperBoundary;
     private JButton addNewDiscountButton;
-    private JButton deleteDiscountButton;
+    private JButton deleteSelectedDiscountButton;
 
     private CustomerController customerController = new CustomerController();
     private FlexibleDiscountController flexibleDiscountController = new FlexibleDiscountController();
@@ -52,8 +52,6 @@ public class AdvisorEditCustomer extends JDialog {
         //sets the labels to display current information
         newEmail.setText(customer.getEmail());
         newName.setText(customer.getName());
-
-        deleteDiscountButton.setVisible(false);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -85,7 +83,9 @@ public class AdvisorEditCustomer extends JDialog {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO delete this customer
+                //TODO update details
+
+                
             }
         });
         ListSelectionModel selectionModel = discountsTable.getSelectionModel();
@@ -95,25 +95,27 @@ public class AdvisorEditCustomer extends JDialog {
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     //displays delete button only if discount is selected
-                    deleteDiscountButton.setEnabled(discountsTable.getSelectedRow() != -1);
+                    deleteSelectedDiscountButton.setEnabled(discountsTable.getSelectedRow() != -1);
                 }
             }
         });
         addNewDiscountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO create a new discount using discountRate discountLowerBoundary and discountUpperBoundary
-
                 flexibleDiscountController.addNewFlexibleDiscount(customer.getEmail(), Double.parseDouble(discountRate.getText()),
                         Integer.parseInt(discountLowerBoundary.getText()),
                         Integer.parseInt(discountUpperBoundary.getText()));
                 updateTable();
             }
         });
-        deleteDiscountButton.addActionListener(new ActionListener() {
+        deleteSelectedDiscountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO delete discountsTable.getSelectedRow() from discounts
+                int selectedRow = discountsTable.getSelectedRow();
+                int discountID = (int) discountsTable.getValueAt(selectedRow, 0);
+                flexibleDiscountController.removeFlexibleDiscount(discountID);
+                updateTable();
             }
         });
     }
@@ -144,8 +146,8 @@ public class AdvisorEditCustomer extends JDialog {
             discountsTableModel.insertRow(0, new Object[]{
                     i.getFlexDiscID(),
                     i.getDiscountRate() + "%",
-                    i.getLowerBoundary() + "=<",
-                    "<=" + i.getUpperBoundary()});
+                    i.getLowerBoundary(),
+                    i.getUpperBoundary()});
         }
 
         discountsSorter = new TableRowSorter<>(discountsTableModel);

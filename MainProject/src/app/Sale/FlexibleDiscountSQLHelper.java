@@ -18,8 +18,6 @@ public class FlexibleDiscountSQLHelper extends JDBC {
     public ArrayList<FlexibleDiscount> getFlexibleDiscountsForCustomer(String customerEmail){
         ArrayList<FlexibleDiscount> flexibleDiscounts = new ArrayList<>();
 
-        System.out.println(customerEmail);
-
         sql = "SELECT flexDiscID, " +
                 "email, " +
                 "discountRate, " +
@@ -35,7 +33,6 @@ public class FlexibleDiscountSQLHelper extends JDBC {
 
             //for each row found, initialise a new Ticket and add to arraylist
 
-            System.out.println(resultSet.getFetchSize());
             while (resultSet.next()) {
                 flexibleDiscounts.add(new FlexibleDiscount(resultSet.getInt("flexDiscID"),
                         resultSet.getString("email"),
