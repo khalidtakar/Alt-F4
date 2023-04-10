@@ -148,17 +148,24 @@ not the same as sale exchange rate - which is for the sale and is saved for refu
 /* Other assign statements for reports */
 
 INSERT INTO RegisteredCustomer VALUES
-	("dylan@gmail.com", "Dylan Dylandson", False, 0, 0, NULL);
+	("chris@gmail.com", "Chris Smart", True, 0, 0, 1),
+	("sarah@gmail.com", "Sarah Broklehurst", True, 0, 0, 2);
+
+
+INSERT INTO `FlexibleDiscount`(`email`, `discountRate`, `lowerBoundary`, `upperBoundary`) VALUES ('david@gmail.com','0%-2%',1000,2000);
+
+
+
 
 INSERT INTO Employee VALUES
-	("bob@gmail.com", "f709f35d0b4b0b88149ee7fd0483d14ca8d1bf5e6956d3372b6accd6b5a0e6ff", "bob"),
-	("dave@gmail.com", "f6169ad34b442eb8cbcd3565c141d3ab593dc88ef5903c80802eaf1b763c0969", "bob"),
-	("Arthur Daley", "72d3209d73fe29b863b1a57453e12312e02ad70e229cd32dfbb6dce1ca4eb1cf", "Arthur Daley");
-	("minnie.minx@gmail.com", "cf8d94fba9deb7244e9f78338d7dbb1cdb9465efa4d6572361a7885d9bddbf58", "Minnie Minx");
+	("penelope@gmail.com","e1e3fac4b86b779810bbafad03f8ce22d8f01ade21ffc3db527429213b6b9bb8","Penelope Pitstop"),
+	("dennis@gmail.com","953c31a4ff959efa5a72f76330c84c48aac221baaa75ad8860939c10cc3afc84","Dennis Menace"),
+	("minnie@gmail.com","aaa1aef4546b3c6745c207628af82d192fc2255020a754cad2959810c89860bf","Minnie Minx"),
+	("arthur@gmail.com","b571432fce3f132d02903adbcc437e40fa70adb0b9e08dcbd98cbe2a2496446f","Arthur Daley");
 
 INSERT INTO Advisor VALUES
-	(1, "bob@gmail.com"),
-	(2, "dave@gmail.com");
+	(250,"penelope@gmail.com"),
+	(211,"dennis@gmail.com");ß
 
 INSERT INTO Administrator VALUES
 	(320, "Arthur Daley");
@@ -195,6 +202,10 @@ INSERT INTO Sale(advisorID,
 		1000, 2000, 500, 
 		False, False, 
 		False, False);
+
+
+
+
 
 
 
