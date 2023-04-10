@@ -34,8 +34,6 @@ public class MainPageAdvisor {
     private TableRowSorter<DefaultTableModel> ticketsSorter;
 
     private JTextField searchCustomersTextField;
-    private JComboBox comboBox1;
-    private JComboBox comboBox2;
     private JButton viewSalesButton;
     private JPanel mainPageAdvisorPanel;
 

@@ -42,7 +42,6 @@ public class MainPageManager {
     private DefaultTableModel tableModel;
     private TableRowSorter<DefaultTableModel> sorter;
     private JTextField advisorTableSearch;
-    private JComboBox advisorTableSort;
     private JPanel mainPageManagerPanel;
 
     private ArrayList<Employee> advisors;
