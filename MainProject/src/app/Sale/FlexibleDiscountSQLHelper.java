@@ -34,10 +34,9 @@ public class FlexibleDiscountSQLHelper extends JDBC {
             resultSet = preparedStatement.executeQuery();
 
             //for each row found, initialise a new Ticket and add to arraylist
-            System.out.println("pass 2");
+
             System.out.println(resultSet.getFetchSize());
             while (resultSet.next()) {
-                System.out.println("pass 3");
                 flexibleDiscounts.add(new FlexibleDiscount(resultSet.getInt("flexDiscID"),
                         resultSet.getString("email"),
                         resultSet.getDouble("discountRate"),

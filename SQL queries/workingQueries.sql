@@ -86,6 +86,7 @@ CREATE TABLE Sale(
 	saleCommissionAmount integer(10),
 	isDomestic tinyint(1),
 	isPaid tinyint(1) DEFAULT 0,
+	datePaid date NULL,
 	refundRequested tinyint(1) DEFAULT 0,
 	isRefunded tinyint(1) DEFAULT 0,
 
@@ -149,10 +150,16 @@ not the same as sale exchange rate - which is for the sale and is saved for refu
 
 INSERT INTO RegisteredCustomer VALUES
 	("chris@gmail.com", "Chris Smart", True, 0, 0, 1),
-	("sarah@gmail.com", "Sarah Broklehurst", True, 0, 0, 2);
+	("sarah@gmail.com", "Sarah Broklehurst", True, 0, 0, 2),
+	('david@gmail.com', "david", true, 0,0,0);
 
 
-INSERT INTO `FlexibleDiscount`(`email`, `discountRate`, `lowerBoundary`, `upperBoundary`) VALUES ('david@gmail.com','0%-2%',1000,2000);
+INSERT INTO FlexibleDiscount(`email`, `discountRate`, `lowerBoundary`, `upperBoundary`) 
+VALUES 
+	('david@gmail.com', 0,Null,100),
+	('david@gmail.com', 1,1000,2000),
+	('david@gmail.com', 2,2000,null),
+	("sarah@gmail.com", 2, null, null);
 
 
 
@@ -165,13 +172,13 @@ INSERT INTO Employee VALUES
 
 INSERT INTO Advisor VALUES
 	(250,"penelope@gmail.com"),
-	(211,"dennis@gmail.com");ß
+	(211,"dennis@gmail.com");
 
 INSERT INTO Administrator VALUES
-	(320, "Arthur Daley");
+	(320, "arthur@gmail.com");
 
 INSERT INTO Manager VALUES
-	(220, "Minnie Minx");
+	(220, "minnie@gmail.com");
 
 INSERT INTO Sale(advisorID, 
 	customerEmail, 

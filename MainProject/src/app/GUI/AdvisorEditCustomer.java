@@ -124,7 +124,6 @@ public class AdvisorEditCustomer extends JDialog {
     }
 
     public void updateTable(){
-        System.out.println("pass 1");
         discounts = flexibleDiscountController.getFlexibleDiscountsForCustomer(customer.getEmail());
 
         //get the table object from GUI
@@ -142,7 +141,6 @@ public class AdvisorEditCustomer extends JDialog {
 
         //insert rows
         for (FlexibleDiscount i : discounts) {
-            System.out.println("pass");
             discountsTableModel.insertRow(0, new Object[]{
                     i.getFlexDiscID(),
                     i.getDiscountRate() + "%",
