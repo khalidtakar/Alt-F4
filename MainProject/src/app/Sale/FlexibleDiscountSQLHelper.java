@@ -18,25 +18,31 @@ public class FlexibleDiscountSQLHelper extends JDBC {
     public ArrayList<FlexibleDiscount> getFlexibleDiscountsForCustomer(String customerEmail){
         ArrayList<FlexibleDiscount> flexibleDiscounts = new ArrayList<>();
 
+        System.out.println(customerEmail);
+
         sql = "SELECT flexDiscID, " +
                 "email, " +
                 "discountRate, " +
                 "lowerBoundary, " +
                 "upperBoundary " +
-                "FROM FlexibleDiscount" +
+                "FROM FlexibleDiscount " +
                 "WHERE email = ?";
 
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, customerEmail);
+            resultSet = preparedStatement.executeQuery();
 
             //for each row found, initialise a new Ticket and add to arraylist
+            System.out.println("pass 2");
+            System.out.println(resultSet.getFetchSize());
             while (resultSet.next()) {
+                System.out.println("pass 3");
                 flexibleDiscounts.add(new FlexibleDiscount(resultSet.getInt("flexDiscID"),
                         resultSet.getString("email"),
                         resultSet.getDouble("discountRate"),
-                        resultSet.getDouble("lowerBoundary"),
-                        resultSet.getDouble("uppedBoundary")));
+                        resultSet.getInt("lowerBoundary"),
+                        resultSet.getInt("upperBoundary")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,16 +60,16 @@ public class FlexibleDiscountSQLHelper extends JDBC {
     public void addNewFlexibleDiscount(FlexibleDiscount flexibleDiscount){
         sql = "INSERT INTO FlexibleDiscount (email, " +
                 "discountRate, " +
-                "lowerBoundary " +
-                "upperBoundary " +
+                "lowerBoundary, " +
+                "upperBoundary) " +
                 "VALUES (?, ?, ?, ?)";
 
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, flexibleDiscount.getEmail());
             preparedStatement.setDouble(2, flexibleDiscount.getDiscountRate());
-            preparedStatement.setDouble(3, flexibleDiscount.getLowerBoundary());
-            preparedStatement.setDouble(4, flexibleDiscount.getUpperBoundary());
+            preparedStatement.setInt(3, flexibleDiscount.getLowerBoundary());
+            preparedStatement.setInt(4, flexibleDiscount.getUpperBoundary());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

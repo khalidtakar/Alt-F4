@@ -14,8 +14,8 @@ public class FlexibleDiscountController {
         return discount;
     }
 
-    public void addNewFlexibleDiscount(FlexibleDiscount flexibleDiscount){
-        flexibleDiscountSQLHelper.addNewFlexibleDiscount(flexibleDiscount);
+    public void addNewFlexibleDiscount(String email, double discountRate, int lowerBoundary, int upperBoundary){
+        flexibleDiscountSQLHelper.addNewFlexibleDiscount(new FlexibleDiscount(email, discountRate, lowerBoundary, upperBoundary));
     }
 
     public ArrayList<FlexibleDiscount> getFlexibleDiscountsForCustomer(String customerEmail){

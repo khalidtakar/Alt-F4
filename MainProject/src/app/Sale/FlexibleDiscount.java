@@ -4,13 +4,20 @@ public class FlexibleDiscount {
     private int flexDiscID;
     private String email;
     private double discountRate;
-    private double lowerBoundary;
-    private double upperBoundary;
+    private int lowerBoundary;
+    private int upperBoundary;
 
     private Customer customer;
 
-    public FlexibleDiscount(int flexDiscID, String email, double discountRate, double lowerBoundary, double upperBoundary) {
+    public FlexibleDiscount(int flexDiscID, String email, double discountRate, int lowerBoundary, int upperBoundary) {
         this.flexDiscID = flexDiscID;
+        this.email = email;
+        this.discountRate = discountRate;
+        this.lowerBoundary = lowerBoundary;
+        this.upperBoundary = upperBoundary;
+    }
+
+    public FlexibleDiscount(String email, double discountRate, int lowerBoundary, int upperBoundary) {
         this.email = email;
         this.discountRate = discountRate;
         this.lowerBoundary = lowerBoundary;
@@ -36,11 +43,11 @@ public class FlexibleDiscount {
         return discountRate;
     }
 
-    public double getLowerBoundary() {
+    public int getLowerBoundary() {
         return lowerBoundary;
     }
 
-    public double getUpperBoundary() {
+    public int getUpperBoundary() {
         return upperBoundary;
     }
 
@@ -56,11 +63,11 @@ public class FlexibleDiscount {
         this.discountRate = discountRate;
     }
 
-    public void setLowerBoundary(double lowerBoundary) {
+    public void setLowerBoundary(int lowerBoundary) {
         this.lowerBoundary = lowerBoundary;
     }
 
-    public void setUpperBoundary(double upperBoundary) {
+    public void setUpperBoundary(int upperBoundary) {
         this.upperBoundary = upperBoundary;
     }
 

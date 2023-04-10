@@ -116,7 +116,6 @@ public class Main{
     }
 
     public void goToMainPageAdvisor(Employee employee){
-        java.lang.System.out.println("pass");
         this.employee = employee;
 
         //initialise controllers
