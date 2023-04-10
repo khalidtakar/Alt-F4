@@ -2,20 +2,30 @@ package app.Sale;
 
 public class FlexibleDiscount {
     private int flexDiscID;
+    private String email;
     private double discountRate;
     private double lowerBoundary;
     private double upperBoundary;
 
     private Customer customer;
 
-    public FlexibleDiscount(int flexDiscID, double discountRate, double lowerBoundary, double upperBoundary) {
+    public FlexibleDiscount(int flexDiscID, String email, double discountRate, double lowerBoundary, double upperBoundary) {
         this.flexDiscID = flexDiscID;
+        this.email = email;
         this.discountRate = discountRate;
         this.lowerBoundary = lowerBoundary;
         this.upperBoundary = upperBoundary;
     }
 
     public FlexibleDiscount() {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public int getFlexDiscID() {

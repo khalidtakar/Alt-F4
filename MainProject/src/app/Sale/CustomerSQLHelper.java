@@ -25,7 +25,14 @@ public class CustomerSQLHelper extends JDBC {
     public Customer getCustomerByEmail(String email){
         Customer customer = null;
 
-        sql = "SELECT * FROM customers WHERE email = ?";
+        sql = "SELECT email, " +
+                "name, " +
+                "isValued, " +
+                "spentThisMonth, " +
+                "discountOrRefundToReturn, " +
+                "fixedDiscountRate " +
+                "FROM RegisteredCustomer " +
+                "WHERE email = ?";
 
         try {
             // create SQL query to retrieve customer by email
@@ -98,7 +105,7 @@ public class CustomerSQLHelper extends JDBC {
     public void addNewCustomer(Customer customer){
 
 
-        String sql = "INSERT INTO RegisteredCustomer (email, name, isValued, spentThisMonth, discountOrRefundToReturn, fixedDiscountRate) VALUES (?, ?, ?, ?, ?, ?)";
+        sql = "INSERT INTO RegisteredCustomer (email, name, isValued, spentThisMonth, discountOrRefundToReturn, fixedDiscountRate) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
 

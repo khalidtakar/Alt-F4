@@ -3,6 +3,8 @@ package app.System;
 import app.JDBC;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class SystemSQLHelper extends JDBC {
     public SystemSQLHelper() {}
@@ -13,6 +15,7 @@ public class SystemSQLHelper extends JDBC {
      */
     public System load(){
         System system = null;
+
         sql = "SELECT " +
                 "commissionRate," +
                 "taxRate," +
@@ -31,6 +34,11 @@ public class SystemSQLHelper extends JDBC {
                         resultSet.getDouble("taxRate"),
                         resultSet.getInt("autoBackupFreqDays"),
                         resultSet.getDate("lastBackup"));
+
+                LocalDate lastBackup = system.getLastBackup().toLocalDate();
+                LocalDate today = LocalDate.now();
+                long daysSinceLastBackup = ChronoUnit.DAYS.between(lastBackup, today);
+                system.setDaysSinceLastBackup((int)daysSinceLastBackup);
             }
         } catch (SQLException e) {
             e.printStackTrace();

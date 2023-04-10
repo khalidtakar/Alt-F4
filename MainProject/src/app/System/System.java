@@ -6,6 +6,7 @@ public class System {
     private double commisionRate;
     private double taxRate;
     private int autoBackupFreqDays;
+    private int daysSinceLastBackup;
     private Date lastBackup;
 
     public System(double commisionRate, double taxRate, int autoBackupFreqDays, Date lastBackup) {
@@ -43,6 +44,22 @@ public class System {
 
     public Date getLastBackup() {
         return lastBackup;
+    }
+
+    public double getCommisionRate() {
+        return commisionRate;
+    }
+
+    public int getDaysSinceLastBackup() {
+        return daysSinceLastBackup;
+    }
+
+    public void setCommisionRate(double commisionRate) {
+        this.commisionRate = commisionRate;
+    }
+
+    public void setDaysSinceLastBackup(int daysSinceLastBackup) {
+        this.daysSinceLastBackup = daysSinceLastBackup;
     }
 
     public int getAutoBackupFreqDays() {

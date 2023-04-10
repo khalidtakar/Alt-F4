@@ -76,7 +76,54 @@ public class SaleSQLHelper extends JDBC {
      * @param sale instance of sale to be added to DB
      */
     public void addNewSale(Sale sale){
+        sql = "INSERT INTO Sale " +
+                "(advisorID, " +
+                "customerEmail, " +
+                "dateSold, " +
+                "paymentType, " +
+                "cardNo, " +
+                "paymentProvider, " +
+                "localCurrency, " +
+                "exchangeRate, " +
+                "priceLocal, " +
+                "priceUSD, " +
+                "saleDiscountAmount, " +
+                "taxAmount, " +
+                "saleCommissionAmount, " +
+                "isDomestic, " +
+                "isPaid," +
+                "isRefunded)" +
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
+        try {
+
+            // create SQL query to insert new customer
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, sale.getAdvisorID());
+            preparedStatement.setString(2,sale.getCustomerEmail());
+            preparedStatement.setDate(3,sale.getDateSold());
+            preparedStatement.setString(4, sale.getPaymentType());
+            preparedStatement.setInt(5, sale.getCardNo());
+            preparedStatement.setString(6, sale.getPaymentProvider());
+            preparedStatement.setString(7, sale.getLocalCurrency());
+            preparedStatement.setDouble(8,sale.getExchangeRate());
+            preparedStatement.setDouble(9,sale.getPriceLocal());
+            preparedStatement.setDouble(10,sale.getPriceUSD());
+            preparedStatement.setDouble(11, sale.getSaleDiscountAmount());
+            preparedStatement.setDouble(12,sale.getTaxAmount());
+            preparedStatement.setDouble(13,sale.getSaleCommissionAmount());
+            preparedStatement.setBoolean(14,sale.isDomestic());
+            preparedStatement.setBoolean(15,sale.isPaid());
+            preparedStatement.setBoolean(16,sale.isRefunded());
+            preparedStatement.executeUpdate();
+
+            // execute query and insert new customer
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -87,6 +134,54 @@ public class SaleSQLHelper extends JDBC {
      * @param sale instance of sale to be updated in DB
      */
     public void updateSale(Sale sale){
+        sql = "UPDATE Sale SET " +
+                "advisorID = ?, " +
+                "customerEmail = ?, " +
+                "dateSold = ?, " +
+                "paymentType = ?, " +
+                "cardNo = ?, " +
+                "paymentProvider = ?, " +
+                "localCurrency = ?, " +
+                "exchangeRate = ?, " +
+                "priceLocal = ?, " +
+                "priceUSD = ?, " +
+                "saleDiscountAmount = ?, " +
+                "taxAmount = ?, " +
+                "saleCommissionAmount = ?, " +
+                "isDomestic = ?, " +
+                "isPaid = ?," +
+                "isRefunded = ?" +
+                "WHERE saleID = ?";
 
+        try {
+
+            // create SQL query to insert new customer
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, sale.getAdvisorID());
+            preparedStatement.setString(2,sale.getCustomerEmail());
+            preparedStatement.setDate(3,sale.getDateSold());
+            preparedStatement.setString(4, sale.getPaymentType());
+            preparedStatement.setInt(5, sale.getCardNo());
+            preparedStatement.setString(6, sale.getPaymentProvider());
+            preparedStatement.setString(7, sale.getLocalCurrency());
+            preparedStatement.setDouble(8,sale.getExchangeRate());
+            preparedStatement.setDouble(9,sale.getPriceLocal());
+            preparedStatement.setDouble(10,sale.getPriceUSD());
+            preparedStatement.setDouble(11, sale.getSaleDiscountAmount());
+            preparedStatement.setDouble(12,sale.getTaxAmount());
+            preparedStatement.setDouble(13,sale.getSaleCommissionAmount());
+            preparedStatement.setBoolean(14,sale.isDomestic());
+            preparedStatement.setBoolean(15,sale.isPaid());
+            preparedStatement.setBoolean(16,sale.isRefunded());
+            preparedStatement.setInt(17, sale.getSaleID());
+            preparedStatement.executeUpdate();
+
+            // execute query and insert new customer
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

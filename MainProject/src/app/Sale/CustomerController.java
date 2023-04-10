@@ -25,8 +25,10 @@ public class CustomerController {
     }
 
     public Customer getCustomerByEmail(String email) {
-        Customer customer = null;
-        customer = customerSQLHelper.getCustomerByEmail(email);
-        return customer;
+        return customerSQLHelper.getCustomerByEmail(email);
+    }
+
+    public void updateCustomerBySale(Customer customer, Sale sale){
+
     }
 }

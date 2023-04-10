@@ -5,6 +5,7 @@ import app.GUI.*;
 import app.Sale.TicketController;
 import app.System.System;
 import app.System.SystemController;
+import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -149,6 +150,8 @@ public class Main{
     }
 
     public static void main(String[] args){
+        FlatLightLaf.setup();
+
         new Main();
     }
 }

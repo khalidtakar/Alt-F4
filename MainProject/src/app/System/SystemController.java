@@ -6,6 +6,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 
 
 public class SystemController {
@@ -70,6 +71,13 @@ public class SystemController {
     public void setAutoBackupFreqDays(int autoBackupFreqDays){
         system.setAutoBackupFreqDays(autoBackupFreqDays);
         systemSQLHelper.updateSettings(system);
+    }
+
+    public int checkLastBackup(System system){
+        if(system.getDaysSinceLastBackup() >= system.getAutoBackupFreqDays()){
+            backup();
+        }
+        return system.getDaysSinceLastBackup();
     }
 
     /**

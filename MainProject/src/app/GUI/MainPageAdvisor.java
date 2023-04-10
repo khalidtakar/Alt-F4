@@ -105,8 +105,9 @@ public class MainPageAdvisor {
                 if (!event.getValueIsAdjusting()) {
                     int selectedRow = customersTable.getSelectedRow();
                     String customerEmail = (String) customersTable.getValueAt(selectedRow, 0);
+
                     // opens the customer editing window for the selected customer
-                    JDialog dialog = new AdvisorEditCustomer(customerEmail);
+                    JDialog dialog = new AdvisorEditCustomer(customerController.getCustomerByEmail(customerEmail));
                     dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                     dialog.setLocationRelativeTo(null);
                     dialog.pack();

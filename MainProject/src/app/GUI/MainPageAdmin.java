@@ -36,6 +36,7 @@ public class MainPageAdmin{
     private JLabel userInfo;
     private JLabel logo;
     private JPanel mainPageAdminPanel;
+    private JLabel days;
 
     private Main main;
     private System system;
@@ -51,7 +52,7 @@ public class MainPageAdmin{
         this.ticketController = ticketController;
 
         backupFrequency.setText(String.valueOf(system.getAutoBackupFreqDays()));
-
+        days.setText(String.valueOf(systemController.checkLastBackup(system)));
 
         addBlanksButton.addActionListener(new ActionListener() {
             @Override

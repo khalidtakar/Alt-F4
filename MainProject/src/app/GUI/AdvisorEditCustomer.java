@@ -1,5 +1,7 @@
 package app.GUI;
 
+import app.Sale.Customer;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -17,14 +19,16 @@ public class AdvisorEditCustomer extends JDialog {
     private JLabel customerName;
     private JTable discountsTable;
 
-    public AdvisorEditCustomer(String email) {
+    private Customer customer;
+
+    public AdvisorEditCustomer(Customer customer) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
         //sets the labels to display current information
-        customerEmail.setText("Current email: " + email);
-        customerName.setText("Current name: " + ""); //TODO add the customers name here
+        customerEmail.setText("Customer email: " + customer.getEmail());
+        customerName.setText("Customer name: " + customer.getName());
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
