@@ -7,20 +7,23 @@ public class AdvisorLatePayment extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JComboBox comboBox1;
+    private JComboBox paymentMethod;
     private JButton cancelPaymentButton;
     private JButton confirmPaymentButton;
+    private JLabel customerEmail;
+    private JLabel customerName;
+    private JLabel paymentAmount;
 
     public AdvisorLatePayment(int saleID) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        //TODO set customer details and payment amount
+        customerName.setText("Name: ");
+        customerEmail.setText("Email: ");
+        paymentAmount.setText("Payment amount: ");
+
 
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -42,15 +45,21 @@ public class AdvisorLatePayment extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-    }
-
-    private void onOK() {
-        // add your code here
-        dispose();
+        cancelPaymentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO cancel this payment
+            }
+        });
+        confirmPaymentButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO confirm this payment using paymentMethod.getSelectedItem()
+            }
+        });
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 

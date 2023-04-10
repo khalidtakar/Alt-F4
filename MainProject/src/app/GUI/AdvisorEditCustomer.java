@@ -17,7 +17,13 @@ public class AdvisorEditCustomer extends JDialog {
     private JButton deleteCustomerButton;
     private JLabel customerEmail;
     private JLabel customerName;
+
     private JTable discountsTable;
+    private JTextField discountRate;
+    private JTextField discountLowerBoundary;
+    private JTextField discountUpperBoundary;
+    private JButton addNewDiscountButton;
+    private JButton deleteDiscountButton;
 
     private Customer customer;
 
@@ -29,6 +35,8 @@ public class AdvisorEditCustomer extends JDialog {
         //sets the labels to display current information
         newEmail.setText("Customer email: " + customer.getEmail());
         customerName.setText("Customer name: " + customer.getName());
+
+        deleteDiscountButton.setVisible(false);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -67,10 +75,23 @@ public class AdvisorEditCustomer extends JDialog {
         selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         selectionModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent event) {
-                if (!event.getValueIsAdjusting()) {
-                    // TODO should open some kind of discount editor
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    //displays delete button only if discount is selected
+                    deleteDiscountButton.setEnabled(discountsTable.getSelectedRow() != -1);
                 }
+            }
+        });
+        addNewDiscountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO create a new discount using discountRate discountLowerBoundary and discountUpperBoundary
+            }
+        });
+        deleteDiscountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO delete discountsTable.getSelectedRow() from discounts
             }
         });
     }
