@@ -18,7 +18,7 @@ public class JFrameToPDF {
         try {
             // Create a new PDF document
             Document document = new Document();
-            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("panel.pdf"));
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("report.pdf"));
             document.open();
 
             // Add a new page to the document
