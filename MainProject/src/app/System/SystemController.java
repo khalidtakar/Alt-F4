@@ -12,18 +12,30 @@ public class SystemController {
     private SystemSQLHelper systemSQLHelper = new SystemSQLHelper();
     private System system;
 
-    private static final String DBNAME = "in2018g11";
-    private static final String USERUSERNAME = "in2018g11_d";
-    private static final String USERPASSWORD = "qj3GNH0I";
-    private static final String ADMINUSERNAME = "in2018g11_a";
-    private static final String ADMINPASSWORD = "zj81TlQV";
-    private static final String SERVER = "smcse-stuproj00.city.ac.uk";
-    private static final String PORT = "3306";
+    protected static String ADMINUSERNAME;
+    protected static String ADMINPASSWORD;
+    protected static String USERUSERNAME;
+    protected static String USERPASSWORD;
+    protected static String URL;
+    protected static String SERVERNAME;
+    protected static String PORT;
+    protected static String DBNAME;
 
     public SystemController(System system) {
         this.system = system;
     }
 
+    {
+        SetupController setup = new SetupController();
+        ADMINUSERNAME = setup.getADMINUSERNAME();
+        ADMINPASSWORD = setup.getADMINPASSWORD();
+        USERUSERNAME = setup.getUSERUSERNAME();
+        USERPASSWORD = setup.getUSERPASSWORD();
+        URL = setup.getUrl();
+        SERVERNAME = setup.getServerName();
+        PORT = setup.getPortNumber();
+        DBNAME = setup.getDbName();
+    }
     public SystemController(){}
 
     /**
@@ -93,7 +105,7 @@ public class SystemController {
             String backupPath = "backup" + File.separator + "backup_" + backupDate + ".sql";
 
             //Create cmd command to run mysqldump
-            String executeCmd = "mysqldump --host " + SERVER
+            String executeCmd = "mysqldump --host " + SERVERNAME
                     + " --port " + PORT
                     + " --user " + ADMINUSERNAME
                     + " --password=" + ADMINPASSWORD
@@ -145,7 +157,7 @@ public class SystemController {
     public  void restore(String filePath) {
         try {
             //Create cmd command to execute a .sql file
-            String executeCmd = "mysql --host " + SERVER
+            String executeCmd = "mysql --host " + SERVERNAME
                     + " --port " + PORT
                     + " --user " + ADMINUSERNAME
                     + " --password=" + ADMINPASSWORD
