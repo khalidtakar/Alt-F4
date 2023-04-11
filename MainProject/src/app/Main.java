@@ -20,12 +20,13 @@ public class Main{
     private MainPageManager mainPageManager;
     private MainPageAdvisor mainPageAdvisor;
     private SalesAdvisor salesPageAdvisor;
-    private JPanel loginPanel, mainPageAdminPanel, mainPageManagerPanel, mainPageAdvisorPanel, salesPageAdvisorPanel;
+    private Setup setupPage;
+    private JPanel loginPanel, mainPageAdminPanel, mainPageManagerPanel, mainPageAdvisorPanel, salesPageAdvisorPanel, setupPagePanel;
 
-    private Employee employee;
+    private Employee employee = null;
     private System system;
 
-    private EmployeeController employeeController;
+    private EmployeeController employeeController = null;
     private SystemController systemController;
     private TicketController ticketController;
 
@@ -35,7 +36,6 @@ public class Main{
     public Main(){
         //Initialise controllers
         employee = new Employee();
-        employeeController = new EmployeeController(this, employee);
 
         //main frame
         frame = new JFrame("ATS");
@@ -56,7 +56,7 @@ public class Main{
 
     public void goToLoginPage(){
         //create panels
-        login = new Login(employeeController);
+        login = new Login(this, employee);
         loginPanel = login.getPanel();
 
         //remove previous cards
@@ -144,6 +144,16 @@ public class Main{
 
         cardPane.add("salesPageAdvisor", salesPageAdvisorPanel);
         cardLayout.show(cardPane, "salesPageAdvisor");
+        frame.pack();
+        frame.repaint();
+    }
+
+    public void goToSetupPage(){
+        setupPage = new Setup(this);
+        setupPagePanel = setupPage.getPanel();
+
+        cardPane.add("setupPage", setupPagePanel);
+        cardLayout.show(cardPane, "setupPage");
         frame.pack();
         frame.repaint();
     }

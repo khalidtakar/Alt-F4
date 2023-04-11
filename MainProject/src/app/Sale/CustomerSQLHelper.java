@@ -121,7 +121,6 @@ public class CustomerSQLHelper extends JDBC {
 
             // execute query and insert new customer
             int rowsInserted = preparedStatement.executeUpdate();
-            System.out.println(rowsInserted + " row(s) inserted.");
 
         } catch (SQLException e) {
             e.printStackTrace();

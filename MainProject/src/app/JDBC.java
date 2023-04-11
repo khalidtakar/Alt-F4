@@ -1,6 +1,8 @@
 package app;
 
-import java.io.*;
+import app.GUI.Setup;
+import app.System.SetupController;
+
 import java.sql.DriverManager;
 import java.util.Properties;
 import java.sql.Connection;
@@ -10,12 +12,14 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 public abstract class JDBC{
-    private static final String USERNAME = "in2018g11_d";
-    private static final String PASSWORD = "qj3GNH0I";
-    private static final String URL = "jdbc:mysql://";
-    private static final String SERVERNAME = "smcse-stuproj00.city.ac.uk";
-    private static final int PORTNUMBER = 3306;
-    private static final String DBNAME = "in2018g11";
+    protected static String ADMINUSERNAME;
+    protected static String ADMINPASSWORD;
+    protected static String USERUSERNAME;
+    protected static String USERPASSWORD;
+    protected static String URL;
+    protected static String SERVERNAME;
+    protected static String PORTNUMBER;
+    protected static String DBNAME;
 
     //variables to be inherited by SQL helpers
     protected static Connection connection;
@@ -28,6 +32,16 @@ public abstract class JDBC{
         //If this is the first time this class is initialised
         //Make a new connection
         if (connection == null){
+            SetupController setup = new SetupController();
+
+            USERUSERNAME = setup.getUSERUSERNAME();
+            USERPASSWORD = setup.getUSERPASSWORD();
+            URL = setup.getUrl();
+            SERVERNAME = setup.getServerName();
+            PORTNUMBER = setup.getPortNumber();
+            DBNAME = setup.getDbName();
+
+
             try {
                 this.setupConnection();
             } catch (SQLException e) {
@@ -54,8 +68,8 @@ public abstract class JDBC{
             Properties connectionProps = new Properties();
             connection = DriverManager.getConnection(
                     URL + SERVERNAME + ":" + PORTNUMBER + "/" + DBNAME,
-                    USERNAME,
-                    PASSWORD);
+                    USERUSERNAME,
+                    USERPASSWORD);
             connection.setTransactionIsolation(2);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

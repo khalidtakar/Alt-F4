@@ -29,12 +29,9 @@ public class MainPageManager {
     private JTextField taxRate;
     private JLabel taxRateDisplay;
 
-    private JButton changeDiscountButton;
-    private JTextField discountRate;
-    private JTextField flexDiscountRate;
-    private JTextField flexDiscountAmount;
-    private JLabel discountRateDisplay;
-    private JLabel flexDiscountRateDisplay;
+    private JButton addAdvisorButton;
+    private JTextField advisorName;
+    private JTextField advisorEmail;
 
     private JTable advisorTable;
     private DefaultTableModel tableModel;
@@ -89,7 +86,7 @@ public class MainPageManager {
                 taxRateDisplay.setText("Tax rate: " + taxRate + "%");
             }
         });
-        changeDiscountButton.addActionListener(new ActionListener() {
+        addAdvisorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 /*TODO change discount rate to discountRate
