@@ -1,10 +1,8 @@
 package app.GUI;
 
-import app.Account.Advisor;
 import app.Account.Employee;
 import app.Account.EmployeeSQLHelper;
 import app.Main;
-import app.Sale.Ticket;
 import app.Sale.TicketController;
 import app.System.System;
 import app.System.SystemController;
@@ -43,6 +41,8 @@ public class MainPageManager {
     private TableRowSorter<DefaultTableModel> sorter;
     private JTextField advisorTableSearch;
     private JPanel mainPageManagerPanel;
+    private JComboBox reportType;
+    private JButton changePasswordButton;
 
     private ArrayList<Employee> advisors;
 
@@ -129,6 +129,12 @@ public class MainPageManager {
             @Override
             public void actionPerformed(ActionEvent e) {
                 main.goToLoginPage();
+            }
+        });
+        changePasswordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO change password
             }
         });
     }

@@ -31,6 +31,7 @@ public class SalesAdvisor {
     private JButton returnButton;
     private JButton generateReportPDFButton;
     private JPanel salesPageAdvisorPanel;
+    private JButton changePasswordButton;
 
     private Main main;
     private Employee employee;
@@ -100,6 +101,18 @@ public class SalesAdvisor {
                     dialog.pack();
                     dialog.setVisible(true);
                 }
+            }
+        });
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO log out
+            }
+        });
+        changePasswordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO change password
             }
         });
     }
