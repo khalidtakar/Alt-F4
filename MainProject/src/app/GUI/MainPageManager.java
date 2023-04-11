@@ -3,6 +3,7 @@ package app.GUI;
 import app.Account.Employee;
 import app.Account.EmployeeSQLHelper;
 import app.Main;
+import app.Reports.JFrameToPDF;
 import app.Sale.TicketController;
 import app.System.System;
 import app.System.SystemController;
@@ -70,6 +71,9 @@ public class MainPageManager {
         generateReportPDFButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                JFrameToPDF jFrameToPDF = new JFrameToPDF();
+                jFrameToPDF.makePDF(getPanel());
                 //opens report generation dialog
             }
         });
