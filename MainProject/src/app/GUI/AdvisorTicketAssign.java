@@ -86,7 +86,6 @@ public class AdvisorTicketAssign extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int confirmation = JOptionPane.showConfirmDialog(null, "Set this as a late payment?", "Confirm Sale", JOptionPane.YES_NO_OPTION);
-                //TODO confirm that this ticket has an assigned customer
 //                if () { //TODO confirm that this ticket has an assigned customer
 //                    //customer is registered
 //                    if (confirmation == JOptionPane.YES_OPTION) {

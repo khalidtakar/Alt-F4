@@ -54,7 +54,7 @@ public class ManagerGenerateReport extends JDialog {
     }
 
     private void onOK() {
-        //TODO generate report using reportStartDate.getDate() and reportEndDate.getDate()
+        //TODO generate report using reportStartDate.getDate() and reportEndDate.getDate() [ as soon as i get JDateChooser to work >:( ]
         dispose();
     }
 

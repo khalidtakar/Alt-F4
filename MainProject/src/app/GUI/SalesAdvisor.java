@@ -112,7 +112,16 @@ public class SalesAdvisor {
         changePasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO change password
+                JPanel panel = new JPanel();
+                JLabel label = new JLabel("New password:");
+                JPasswordField passwordField = new JPasswordField();
+                panel.add(label, passwordField);
+
+                int option = JOptionPane.showConfirmDialog(null, passwordField, "Change password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                if (option == JOptionPane.OK_OPTION) {
+                    String password = new String(passwordField.getPassword());
+                    //TODO set the new password
+                }
             }
         });
     }
