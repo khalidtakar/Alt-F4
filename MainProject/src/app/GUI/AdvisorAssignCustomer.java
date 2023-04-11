@@ -70,15 +70,14 @@ public class AdvisorAssignCustomer extends JDialog {
         selectionModel.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 if (!event.getValueIsAdjusting()) {
-                    //sets email to selected customers
+                    //sets email to selected customers and closes
                     int selectedRow = customersTable.getSelectedRow();
                     email = (String) customersTable.getValueAt(selectedRow, 0);
+                    dispose();
                 }
             }
         });
     }
-
-    //TODO set table contents
 
     private void onCancel() {
         dispose();

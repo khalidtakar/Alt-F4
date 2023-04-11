@@ -29,7 +29,11 @@ public class MainPageManager {
     private JTextField taxRate;
     private JLabel taxRateDisplay;
 
-    private JButton addAdvisorButton;
+    private JButton changeDiscountButton;
+    private JTextField discountRate;
+    private JLabel discountRateDisplay;
+
+    private JButton addNewAdvisorButton;
     private JTextField advisorName;
     private JTextField advisorEmail;
 
@@ -38,7 +42,6 @@ public class MainPageManager {
     private TableRowSorter<DefaultTableModel> sorter;
     private JTextField advisorTableSearch;
     private JPanel mainPageManagerPanel;
-    private JComboBox reportType;
     private JButton changePasswordButton;
 
     private ArrayList<Employee> advisors;
@@ -67,7 +70,7 @@ public class MainPageManager {
         generateReportPDFButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO generate a pdf report, self-explanatory
+                //opens report generation dialog
             }
         });
         changeCommissionButton.addActionListener(new ActionListener() {
@@ -86,14 +89,21 @@ public class MainPageManager {
                 taxRateDisplay.setText("Tax rate: " + taxRate + "%");
             }
         });
-        addAdvisorButton.addActionListener(new ActionListener() {
+        changeDiscountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /*TODO change discount rate to discountRate
-                    change discountRateDisplay to display "Discount: " + discountRate + "%"
-                    change flexible discount rate to flexDiscountRate at flexDiscountAmount USD
-                    change flexDiscountRateDisplay to display "Flexible discount: " + discountRate "% at" + flexDiscountAmount + "USD"
-                */
+                //TODO change global discount to discountRate
+            }
+        });
+        addNewAdvisorButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // opens the advisor creation window
+                JDialog dialog = new ManagerAddAdvisor();
+                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                dialog.setLocationRelativeTo(null);
+                dialog.pack();
+                dialog.setVisible(true);
             }
         });
         ListSelectionModel selectionModel = advisorTable.getSelectionModel();
@@ -114,11 +124,13 @@ public class MainPageManager {
                     }
 
                     //open pop up window for manager to assign tickets to an advisor
-                    JDialog dialog = new ManagerTicketAssign(advisor);
-                    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                    dialog.setLocationRelativeTo(null);
-                    dialog.pack();
-                    dialog.setVisible(true);
+                    if (advisor != null) {
+                        JDialog dialog = new ManagerTicketAssign(advisor);
+                        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                        dialog.setLocationRelativeTo(null);
+                        dialog.pack();
+                        dialog.setVisible(true);
+                    }
                 }
             }
         });

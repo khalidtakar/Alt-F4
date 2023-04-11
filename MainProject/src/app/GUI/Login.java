@@ -28,6 +28,7 @@ public class Login{
                 }
             }
         });
+        //TODO consider also logging in with enter
     }
 
     public JPanel getPanel(){
