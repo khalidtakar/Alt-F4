@@ -4,6 +4,7 @@ import app.Sale.Sale;
 import app.Sale.SaleController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class AdvisorLatePayment extends JDialog {
@@ -33,7 +34,7 @@ public class AdvisorLatePayment extends JDialog {
         SaleController saleController = new SaleController();
         sale = saleController.getSaleByID(saleID);
 
-        //TODO set customer details and payment amount
+        //set customer details and payment amount
         customerEmail.setText(sale.getCustomerEmail());
         paymentAmount.setText("Amount: " + sale.getPriceUSD());
         currency.setText(sale.getLocalCurrency());
@@ -62,9 +63,9 @@ public class AdvisorLatePayment extends JDialog {
         cancelPaymentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //cancel this payment
                 saleController.cancelLatePayment(sale);
                 salesAdvisor.update();
-                //TODO cancel this payment
             }
         });
         confirmPaymentButton.addActionListener(new ActionListener() {
@@ -75,9 +76,16 @@ public class AdvisorLatePayment extends JDialog {
                 if(!cardNoTextField.getText().isEmpty()){
                     cardNo = Integer.parseInt(cardNoTextField.getText());
                 }
-                saleController.makeLatePayment(sale,cardNo,providerTextField.getText(), paymentMethod.getSelectedItem().toString());
-                salesAdvisor.update();
-                //TODO confirm this payment using paymentMethod.getSelectedItem()
+                //confirm this payment
+                int confirmation = JOptionPane.showConfirmDialog(null, "Confirm this sale?", "Confirm Sale", JOptionPane.YES_NO_OPTION);
+                if (confirmation == JOptionPane.YES_OPTION) {
+                    saleController.makeLatePayment(sale,cardNo,providerTextField.getText(), paymentMethod.getSelectedItem().toString());
+                    salesAdvisor.update();
+                } else {
+                    Window option = SwingUtilities.getWindowAncestor(confirmPaymentButton);
+                    option.dispose();
+                }
+
             }
         });
     }

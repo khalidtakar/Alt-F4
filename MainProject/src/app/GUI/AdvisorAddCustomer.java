@@ -54,19 +54,12 @@ public class AdvisorAddCustomer extends JDialog {
     private void onOK() {
         Customer customer;
 
-        if(valuedCheckBox.isSelected()){
-            customer = new Customer(customerEmail.getText(), customerName.getText(), true);
-        }else{
-            customer = new Customer(customerEmail.getText(), customerName.getText(), false);
-        }
+        customer = new Customer(customerEmail.getText(), customerName.getText(), valuedCheckBox.isSelected());
 
         CustomerController customerController = new CustomerController();
         customerController.addNewCustomer(customer);
 
         mainPageAdvisor.updateCustomersTable();
-
-
-        //TODO add new registered customer using customerEmail.getText() and customerName.getText()
         dispose();
     }
 
