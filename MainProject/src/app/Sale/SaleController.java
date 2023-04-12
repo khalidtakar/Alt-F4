@@ -171,7 +171,7 @@ public class SaleController {
         FlexibleDiscount greatest = new FlexibleDiscount("",0,0,0);
         try {
             for (FlexibleDiscount i : discounts) {
-                if ((i.getUpperBoundary() == 0) && (i.getDiscountRate() > greatest.getDiscountRate())) {
+                if (((i.getUpperBoundary() == 0) && i.getLowerBoundary() != 0) && (i.getDiscountRate() > greatest.getDiscountRate())) {
                     greatest = i;
                 } else if ((customer.getSpentThisMonth() <= i.getUpperBoundary())
                         && (customer.getSpentThisMonth() >= i.getLowerBoundary())

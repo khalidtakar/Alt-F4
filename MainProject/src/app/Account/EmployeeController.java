@@ -4,6 +4,7 @@ import app.Main;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 /**
  * Implements employee access to system
@@ -17,6 +18,9 @@ public class EmployeeController {
     public EmployeeController(Main main, Employee employee){
         this.main = main;
         this.employee = employee;
+    }
+
+    public EmployeeController(){
     }
 
     public EmployeeController(Employee employee){
@@ -62,6 +66,14 @@ public class EmployeeController {
     public void changePassword(String password){
         employee.setPasswordHash(doHashing(employee.getEmail(), password));
         employeeSQLHelper.changePassword(employee);
+    }
+
+    public ArrayList<Employee> getAdvisors(){
+        return employeeSQLHelper.getAdvisors();
+    }
+
+    public void addAdvisor(String email, String name, String password){
+        employeeSQLHelper.addAdvisor(email, name, doHashing(email, password));
     }
 
 

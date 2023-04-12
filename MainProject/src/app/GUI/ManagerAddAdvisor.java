@@ -1,5 +1,8 @@
 package app.GUI;
 
+import app.Account.Employee;
+import app.Account.EmployeeController;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -10,15 +13,20 @@ public class ManagerAddAdvisor extends JDialog {
     private JTextField advisorEmail;
     private JPasswordField advisorPassword;
     private JTextField advisorName;
-    private JLabel advisorID;
 
-    public ManagerAddAdvisor() {
+    private MainPageManager mainPageManager;
+    private Employee employee;
+
+    public ManagerAddAdvisor(MainPageManager mainPageManager, Employee employee) {
+        this.mainPageManager = mainPageManager;
+        this.employee = employee;
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
         //TODO set advisor ID display to what their new ID will be
-        advisorID.setText("ID: ");
+        //advisorID.setText("ID: ");
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -50,6 +58,9 @@ public class ManagerAddAdvisor extends JDialog {
 
     private void onOK() {
         //TODO add advisor with advisorName advisorEmail advisorPassword
+        EmployeeController employeeController = new EmployeeController();
+        employeeController.addAdvisor(advisorEmail.getText(), advisorName.getText(), advisorPassword.getPassword().toString());
+        mainPageManager.update();
         dispose();
     }
 
@@ -57,10 +68,11 @@ public class ManagerAddAdvisor extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
-        ManagerAddAdvisor dialog = new ManagerAddAdvisor();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }
+
+//    public static void main(String[] args) {
+//        ManagerAddAdvisor dialog = new ManagerAddAdvisor();
+//        dialog.pack();
+//        dialog.setVisible(true);
+//        System.exit(0);
+//    }
 }

@@ -55,6 +55,8 @@ public class MainPageManager {
     private EmployeeSQLHelper employeeSQLHelper;
     private Employee employee;
 
+    private MainPageManager mainPageManager;
+
 
     public MainPageManager(Main main,
                            System system,
@@ -68,6 +70,8 @@ public class MainPageManager {
         this.ticketController = ticketController;
         this.employeeSQLHelper = employeeSQLHelper;
         this.employee = employee;
+
+        this.mainPageManager = this;
 
         manName.setText(employee.getName());
         manEmail.setText(employee.getEmail());
@@ -112,7 +116,7 @@ public class MainPageManager {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // opens the advisor creation window
-                JDialog dialog = new ManagerAddAdvisor();
+                JDialog dialog = new ManagerAddAdvisor(mainPageManager, employee);
                 dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 dialog.setLocationRelativeTo(null);
                 dialog.pack();
@@ -196,6 +200,10 @@ public class MainPageManager {
 
         sorter = new TableRowSorter<>(tableModel);
         advisorTable.setRowSorter(sorter);
+    }
+
+    public void update(){
+        main.goToMainPageAdvisor(employee);
     }
 
     public JPanel getPanel(){

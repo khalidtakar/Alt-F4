@@ -21,7 +21,7 @@ CREATE TABLE Employee(
 );
 
 CREATE TABLE Administrator(
-	admID integer(3),
+	admID integer(3) AUTO_INCREMENT,
 	email varchar(30) NOT NULL,
 
 	PRIMARY KEY (admID),
@@ -29,7 +29,7 @@ CREATE TABLE Administrator(
 );
 
 CREATE TABLE Manager(
-	manID integer(3),
+	manID integer(3) AUTO_INCREMENT,
 	email varchar(30) NOT NULL,
 
 	PRIMARY KEY (manID),
@@ -37,7 +37,7 @@ CREATE TABLE Manager(
 );
 
 CREATE TABLE Advisor(
-	advID integer(3),
+	advID integer(3) AUTO_INCREMENT,
 	email varchar(30) NOT NULL,
 
 	PRIMARY KEY (advID),
@@ -185,17 +185,17 @@ INSERT INTO Manager VALUES
 	INSERT INTO Sale
 	(`saleID`, `advisorID`, `customerEmail`, `dateSold`, `paymentType`, `cardNo`, `paymentProvider`, `localCurrency`, `exchangeRate`, `priceLocal`, `priceUSD`, `saleDiscountAmount`, `taxAmount`, `saleCommissionAmount`, `isDomestic`, `isPaid`, `datePaid`, `refundRequested`, `isRefunded`) 
 	VALUES 
-	(11,250,"sarah@gmail.com",'01-01-2023','Cash',NULL,'Sarah Broklehurst','GBP',0.8054,'[value-10]','[value-11]',2,'[value-13]',9,False,True,NULL,False,False),
+	(11,250,"sarah@gmail.com",'01-01-2023','Cash',NULL,NULL,'GBP',0.8054, 220, 273.16, 2, 44, 9,False,True,NULL,False,False),
 
-	(12,250,NULL,'01-01-2023','Card', "VISA 4901 0002 2345 3456",NULL,'GBP',0.8054,'[value-10]','[value-11]',NULL,'[value-13]',9,False,False,NULL,True,True),
+	(12,250,NULL,'01-01-2023','Card', 4901000223453456, 'VISA','GBP',0.8054,273.16, 0, NULL, 44,9,False,False,NULL,True,True),
+ 
+	(13,250,NULL,'01-01-2023','Cash', NULL,NULL,'USD',1.0000,43,43,8.6,NULL,5,True,True,NULL,False,False),
 
-	(13,250,NULL,'01-01-2023','Cash', NULL,NULL,'USD',1.0000,'[value-10]','[value-11]','[value-12]',NULL,5,True,True,NULL,False,False),
-
-	(28,250,"david@gmail.com",'02-02-2023','Card', "VISA 5899 4554 3265 5121","David Dodson",'GBP',0.8054,'[value-10]','[value-11]','[value-12]','[value-13]',9,False,True,"15-03-2023",False,False),
+	(28,250,"david@gmail.com",'02-02-2023','Card', 5899455432655121,"VISA",'GBP',0.8054,'[value-10]','[value-11]','[value-12]','[value-13]',9,False,True,"15-03-2023",False,False),
 
 	(29,250,"chris@gmail.com",'02-02-2023',NULL, NULL,"Chris Smart",'GBP',0.8054,'[value-10]','[value-11]','[value-12]','[value-13]',9,False,False,NULL,False,False),
 
-	(30,250,NULL,'02-02-2023',Card,"VISA 6454 9863 8733 8876",NULL,'USD',1.0000,'[value-10]','[value-11]',NULL,'[value-13]',5,False,True,NULL,False,False),
+	(30,250,NULL,'02-02-2023',Card,6454986387338876,"VISA",'USD',1.0000,'[value-10]','[value-11]',NULL,'[value-13]',5,False,True,NULL,False,False),
 
 	(45,211,"sarah@gmail.com",'02-02-2023',Card,"MC 5301 0234 5698 1234",'Sarah Broklehurst','GBP',0.8054,'[value-10]','[value-11]',2,'[value-13]',9,False,True,'13-02-2023',False,False),
 
@@ -233,18 +233,13 @@ INSERT INTO Ticket (ticketType, ticketNumber, advisorId, saleID, isValid, dateRe
 
 
 
-/* add coupons for international ticket with 3 legs for journey */
-INSERT INTO Coupon(ticketType, ticketNumber, flightDepartureDate, flightDepartureTime, departFrom, flightTo) VALUES
-	(444, 00000007, "2023-05-20", 1230, 'London','Paris'),
-	(444, 00000007, "2023-05-20", 1500, 'Paris','Berlin'),
-	(444, 00000007, "2023-05-20", 1915, 'Berlin','Amsterdam');
 
 INSERT INTO SystemSettings(
 	commissionRate,
 	taxRate,
 	autoBackupFreqDays,
 	lastBackup) VALUES
-	(10, 20, 3, "2023-05-20");
+	(10, 20, 3, "2023-04-04");
 
 
 

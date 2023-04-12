@@ -8,8 +8,12 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Window;
 import java.util.Currency;
+import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class AdvisorAssignTicket extends JDialog {
     private JPanel contentPane;
@@ -25,6 +29,7 @@ public class AdvisorAssignTicket extends JDialog {
     private JLabel ticketNumber;
     private JTextField cardNoTextField;
     private JTextField paymentProviderTextField;
+    private JLabel priceDisplay;
 
     private String email;
     private int advID;
@@ -157,6 +162,33 @@ public class AdvisorAssignTicket extends JDialog {
                 } else {
                     //customer is not registered warning
                     JOptionPane.showMessageDialog(null, "Customer is not selected OR is not valued!", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        enterPriceTextField.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {updateLabel();}
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {updateLabel();}
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {updateLabel();}
+
+            private void updateLabel() {
+                String priceInput = enterPriceTextField.getText();
+                try {
+                    int price = Integer.parseInt(priceInput);
+                    //TODO convert price to USD -> add discounts -> set priceDisplay
+                    priceDisplay.setText("Total price: " + "" + currencyBox.getSelectedItem());
+                } catch (NumberFormatException e) {
+                    if (Objects.equals(priceInput, "")) {
+                        //price is empty
+                        priceDisplay.setText("Total price: 0" + currencyBox.getSelectedItem());
+                    } else {
+                        //price error
+                        priceDisplay.setText("PRICE ERROR!");
+                    }
                 }
             }
         });
