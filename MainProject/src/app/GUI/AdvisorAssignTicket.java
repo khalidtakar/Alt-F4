@@ -11,7 +11,7 @@ import java.util.Currency;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class AdvisorTicketAssign extends JDialog {
+public class AdvisorAssignTicket extends JDialog {
     private JPanel contentPane;
     private JButton latePaymentButton;
     private JButton buttonCancel;
@@ -32,13 +32,13 @@ public class AdvisorTicketAssign extends JDialog {
     private Ticket ticket;
     private MainPageAdvisor mainPageAdvisor;
 
-    public AdvisorTicketAssign(Ticket ticket, MainPageAdvisor mainPageAdvisor, int advID) {
+    public AdvisorAssignTicket(Ticket ticket, MainPageAdvisor mainPageAdvisor, int advID) {
         this.ticket = ticket;
         this.mainPageAdvisor = mainPageAdvisor;
         this.advID = advID;
 
         ticketType.setText(String.valueOf(ticket.getTicketType()));
-        ticketNumber.setText(String.valueOf(ticket.getTicketNumber()));
+        ticketNumber.setText("Ticket No." + String.valueOf(ticket.getTicketNumber()));
 
         SortedSet<String> currencyCodes = new TreeSet<String>();
         for (Currency currency : Currency.getAvailableCurrencies()) {

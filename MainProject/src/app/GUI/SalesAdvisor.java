@@ -67,7 +67,7 @@ public class SalesAdvisor {
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                main.goToLoginPage();
+                //TODO log out
             }
         });
         generateReportPDFButton.addActionListener(new ActionListener() {

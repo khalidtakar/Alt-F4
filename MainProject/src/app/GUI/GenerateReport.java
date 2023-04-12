@@ -84,7 +84,9 @@ public class GenerateReport extends JDialog {
         //TODO generate report using startDate and endDate
         /*
         if (employee is manager) {
-            generate manager report of reportType using
+            generate manager report of reportType
+        } else {
+            generate an advisor report (we can assume it is an advisor, since there is no alternative)
         }
         dispose();
 

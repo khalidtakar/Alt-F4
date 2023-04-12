@@ -126,7 +126,7 @@ public class MainPageAdvisor {
                         }
                     }
                     // opens the ticket assignment window for the selected ticket
-                    JDialog dialog = new AdvisorTicketAssign(ticket, mainPageAdvisor, advisor.getAdvisorID());
+                    JDialog dialog = new AdvisorAssignTicket(ticket, mainPageAdvisor, advisor.getAdvisorID());
                     dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                     dialog.setLocationRelativeTo(null);
                     dialog.pack();

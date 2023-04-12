@@ -138,7 +138,7 @@ public class MainPageManager {
 
                     //open pop up window for manager to assign tickets to an advisor
                     if (advisor != null) {
-                        JDialog dialog = new ManagerTicketAssign(advisor);
+                        JDialog dialog = new ManagerAssignTickets(advisor);
                         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                         dialog.setLocationRelativeTo(null);
                         dialog.pack();

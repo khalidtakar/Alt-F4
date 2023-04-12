@@ -1,8 +1,6 @@
 package app.GUI;
 
-import app.Account.Advisor;
 import app.Account.Employee;
-import app.Reports.JFrameToPDF;
 import app.Sale.Ticket;
 import app.Sale.TicketController;
 
@@ -12,7 +10,7 @@ import javax.swing.table.TableRowSorter;
 import java.awt.event.*;
 import java.util.ArrayList;
 
-public class ManagerTicketAssign extends JDialog{
+public class ManagerAssignTickets extends JDialog{
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -29,7 +27,7 @@ public class ManagerTicketAssign extends JDialog{
 
     private ArrayList<Ticket> tickets;
 
-    public ManagerTicketAssign(Employee advisor) {
+    public ManagerAssignTickets(Employee advisor) {
         this.advisor = advisor;
 
         setContentPane(contentPane);

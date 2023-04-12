@@ -41,6 +41,8 @@ public class MainPageAdmin{
     private JButton changePasswordButton;
     private JLabel adminName;
     private JLabel adminEmail;
+    private JComboBox addBlanksType;
+    private JComboBox deleteBlanksType;
 
     private Main main;
     private System system;
@@ -67,8 +69,10 @@ public class MainPageAdmin{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //create new blanks from textField1 to textField2
-                tickets = ticketController.addTickets((Long.parseLong(addBlanksStartVal.getText()))
-                        , Long.parseLong(addBlanksEndVal.getText()));
+                String addStartVal = addBlanksType.getSelectedItem().toString() + addBlanksStartVal.getText();
+                String addEndVal = addBlanksType.getSelectedItem().toString() + addBlanksEndVal.getText();
+                tickets = ticketController.addTickets((Long.parseLong(addStartVal))
+                        , Long.parseLong(addEndVal));
                 updateTable();
             }
         });
@@ -76,8 +80,10 @@ public class MainPageAdmin{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //delete blanks from deleteBlanksStartVal to deleteBlanksEndVal
-                tickets = ticketController.removeTickets((Long.parseLong(deleteBlanksStartVal.getText()))
-                        , Long.parseLong(deleteBlanksEndVal.getText()));
+                String deleteStartVal = deleteBlanksType.getSelectedItem().toString() + addBlanksStartVal.getText();
+                String deleteEndVal = deleteBlanksType.getSelectedItem().toString() + addBlanksEndVal.getText();
+                tickets = ticketController.addTickets((Long.parseLong(deleteStartVal))
+                        , Long.parseLong(deleteEndVal));
                 updateTable();
 
             }
