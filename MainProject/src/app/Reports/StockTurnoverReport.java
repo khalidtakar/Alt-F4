@@ -37,8 +37,8 @@ public class StockTurnoverReport {
         this.dateStart = dateFrom;
         this.dateEnd = dateTo;
 
-        this.dateFrom.setText(dateFormat.format(dateFrom));
-        this.dateTo.setText(dateFormat.format(dateTo));
+        this.dateFrom.setText("Period from: " + dateFormat.format(dateFrom));
+        this.dateTo.setText("to: " + dateFormat.format(dateTo));
 
         updateTables();
     }
@@ -56,15 +56,17 @@ public class StockTurnoverReport {
         receivedStockTableModel.addColumn("Ticket Type");
         receivedStockTableModel.addColumn("Ticket No");
 
+        int counter = 0;
         for (Ticket i :tickets){
             if(i.getDateReceived().before(dateEnd) && i.getDateReceived().after(dateStart)){
                 receivedStockTableModel.insertRow(0, new Object[]{
                         i.getTicketType(),
                         i.getTicketNumber()});
+                counter++;
             }
         }
 
-        //TABLE 2 : Received and Assigned Stock (by advID)
+        totalReceivedStock.setText("Total: " + counter);
     }
 
     public JPanel getPanel(){
