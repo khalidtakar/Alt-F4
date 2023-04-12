@@ -44,6 +44,8 @@ public class StockTurnoverReport {
     }
 
     public void updateTables(){
+
+        //TABLE 1 : Received Stock
         TicketController ticketController = new TicketController();
         ArrayList<Ticket> tickets = ticketController.getAllTickets();
 
@@ -61,6 +63,8 @@ public class StockTurnoverReport {
                         i.getTicketNumber()});
             }
         }
+
+        //TABLE 2 : Received and Assigned Stock (by advID)
     }
 
     public JPanel getPanel(){
