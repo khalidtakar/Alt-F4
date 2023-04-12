@@ -76,6 +76,66 @@ public class SaleSQLHelper extends JDBC {
         return sales;
     }
 
+    public Sale saleByID(int saleID){
+        Sale sale = null;
+
+        sql = "SELECT saleID, " +
+                "advisorID, " +
+                "customerEmail, " +
+                "dateSold, " +
+                "paymentType, " +
+                "cardNo, " +
+                "paymentProvider, " +
+                "localCurrency, " +
+                "exchangeRate, " +
+                "priceLocal, " +
+                "priceUSD, " +
+                "saleDiscountAmount, " +
+                "taxAmount, " +
+                "saleCommissionAmount, " +
+                "isDomestic, " +
+                "isPaid," +
+                "datePaid, " +
+                "isRefunded " +
+                "FROM Sale " +
+                "WHERE saleID = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, saleID);
+            resultSet = preparedStatement.executeQuery();
+
+            //for each row found, initialise a new Ticket and add to arraylist
+            while (resultSet.next()) {
+
+                sale = new Sale(
+                        resultSet.getInt("saleID"),
+                        resultSet.getInt("advisorID"),
+                        resultSet.getString("customerEmail"),
+                        resultSet.getDate("dateSold"),
+                        resultSet.getString("paymentType"),
+                        resultSet.getInt("cardNo"),
+                        resultSet.getString("paymentProvider"),
+                        resultSet.getString("localCurrency"),
+                        resultSet.getDouble("exchangeRate"),
+                        resultSet.getDouble("priceLocal"),
+                        resultSet.getDouble("priceUSD"),
+                        resultSet.getDouble("saleDiscountAmount"),
+                        resultSet.getDouble("taxAmount"),
+                        resultSet.getDouble("saleCommissionAmount"),
+                        resultSet.getBoolean("isDomestic"),
+                        resultSet.getBoolean("isPaid"),
+                        resultSet.getDate("datePaid"),
+                        resultSet.getBoolean("isRefunded"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        return sale;
+    }
+
     /**
      * Once an advisor has created and clicked to confirm creating new sale,
      * this will upload a new row in the DB for that Sale
@@ -166,13 +226,13 @@ public class SaleSQLHelper extends JDBC {
                 "isDomestic = ?, " +
                 "isPaid = ?," +
                 "isRefunded = ?, " +
-                "datePaid = ?" +
+                "datePaid = ? " +
                 "WHERE saleID = ?";
 
         try {
 
             // create SQL query to insert new customer
-            preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, sale.getAdvisorID());
             preparedStatement.setString(2,sale.getCustomerEmail());
             preparedStatement.setDate(3,sale.getDateSold());
@@ -189,32 +249,9 @@ public class SaleSQLHelper extends JDBC {
             preparedStatement.setBoolean(14,sale.isDomestic());
             preparedStatement.setBoolean(15,sale.isPaid());
             preparedStatement.setBoolean(16,sale.isRefunded());
-            preparedStatement.setInt(17, sale.getSaleID());
-            preparedStatement.setDate(18, sale.getDatePaid());
+            preparedStatement.setDate(17, sale.getDatePaid());
+            preparedStatement.setInt(18, sale.getSaleID());
             preparedStatement.executeUpdate();
-
-            // execute query and insert new customer
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void updateCustomerEmail(String oldEmail, String newEmail){
-        sql = "UPDATE Sale SET " +
-                "customerEmail = ? " +
-                "WHERE customerEmail = ?";
-
-        try {
-
-            // create SQL query to insert new customer
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, oldEmail);
-            preparedStatement.setString(2, newEmail);
-            preparedStatement.executeUpdate();
-
 
 
         } catch (SQLException e) {

@@ -1,5 +1,8 @@
 package app.GUI;
 
+import app.Sale.Sale;
+import app.Sale.SaleController;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -13,16 +16,27 @@ public class AdvisorLatePayment extends JDialog {
     private JLabel customerEmail;
     private JLabel customerName;
     private JLabel paymentAmount;
+    private JTextField cardNoTextField;
+    private JLabel currency;
+    private JTextField providerTextField;
+    private SalesAdvisor salesAdvisor;
 
-    public AdvisorLatePayment(int saleID) {
+    private Sale sale;
+
+    public AdvisorLatePayment(int saleID, SalesAdvisor salesAdvisor) {
+        this.salesAdvisor = salesAdvisor;
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
+        SaleController saleController = new SaleController();
+        sale = saleController.getSaleByID(saleID);
+
         //TODO set customer details and payment amount
-        customerName.setText("Name: ");
-        customerEmail.setText("Email: ");
-        paymentAmount.setText("Payment amount: ");
+        customerEmail.setText(sale.getCustomerEmail());
+        paymentAmount.setText("Amount: " + sale.getPriceUSD());
+        currency.setText(sale.getLocalCurrency());
 
 
         buttonCancel.addActionListener(new ActionListener() {
@@ -48,12 +62,21 @@ public class AdvisorLatePayment extends JDialog {
         cancelPaymentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                saleController.cancelLatePayment(sale);
+                salesAdvisor.update();
                 //TODO cancel this payment
             }
         });
         confirmPaymentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                int cardNo = 0;
+                if(!cardNoTextField.getText().isEmpty()){
+                    cardNo = Integer.parseInt(cardNoTextField.getText());
+                }
+                saleController.makeLatePayment(sale,cardNo,providerTextField.getText(), paymentMethod.getSelectedItem().toString());
+                salesAdvisor.update();
                 //TODO confirm this payment using paymentMethod.getSelectedItem()
             }
         });

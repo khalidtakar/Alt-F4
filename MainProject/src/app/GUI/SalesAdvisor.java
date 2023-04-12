@@ -33,6 +33,7 @@ public class SalesAdvisor {
     private JPanel salesPageAdvisorPanel;
     private JButton changePasswordButton;
 
+    private SalesAdvisor salesAdvisor;
     private Main main;
     private Employee employee;
     private Advisor advisor;
@@ -46,6 +47,7 @@ public class SalesAdvisor {
         this.main = main;
         this.employee = employee;
         this.advisor = employee.getAdvisor();
+        this.salesAdvisor = this;
 
         updateSalesTable();
         updateLatePaymentsTable();
@@ -81,7 +83,7 @@ public class SalesAdvisor {
                     int selectedRow = latePaymentsTable.getSelectedRow();
                     int saleID = (int) latePaymentsTable.getValueAt(selectedRow, 0);
                     // opens the late payment editor for selected sale
-                    JDialog dialog = new AdvisorLatePayment(saleID);
+                    JDialog dialog = new AdvisorLatePayment(saleID, salesAdvisor);
                     dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                     dialog.setLocationRelativeTo(null);
                     dialog.pack();
@@ -94,12 +96,21 @@ public class SalesAdvisor {
                 if (!event.getValueIsAdjusting()) {
                     int selectedRow = salesTable.getSelectedRow();
                     int saleID = (int) salesTable.getValueAt(selectedRow, 0);
-                    // opens the sale viewer for selected sale
-                    JDialog dialog = new AdvisorViewSale(saleID);
-                    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                    dialog.setLocationRelativeTo(null);
-                    dialog.pack();
-                    dialog.setVisible(true);
+
+                    Sale sale = saleController.getSaleByID(saleID);
+
+                    JPanel panel = new JPanel();
+
+                    int option = JOptionPane.showConfirmDialog(null,
+                            "Confirm refund of " + (sale.getPriceLocal() + sale.getTaxAmount()) + " " + sale.getLocalCurrency() + " (incl. " + sale.getTaxAmount() + " tax)",
+                            "Confirm Refund",
+                            JOptionPane.OK_CANCEL_OPTION,
+                            JOptionPane.PLAIN_MESSAGE);
+                    if (option == JOptionPane.OK_OPTION) {
+                        sale.setRefunded(true);
+                        saleController.updateSale(sale);
+                        update();
+                    }
                 }
             }
         });
@@ -139,6 +150,7 @@ public class SalesAdvisor {
         //set columns
         salesTableModel.addColumn("Sale ID");
         salesTableModel.addColumn("Customer Email");
+        salesTableModel.addColumn("Date Paid");
         salesTableModel.addColumn("Price USD");
         salesTableModel.addColumn("Currency");
         salesTableModel.addColumn("Domestic");
@@ -149,6 +161,7 @@ public class SalesAdvisor {
             salesTableModel.insertRow(0, new Object[]{
                     i.getSaleID(),
             i.getCustomerEmail(),
+                    i.getDatePaid(),
             i.getPriceUSD(),
             i.getLocalCurrency(),
             i.isDomestic(),
@@ -197,6 +210,10 @@ public class SalesAdvisor {
 
         latePaymentsSorter = new TableRowSorter<>(latePaymentsTableModel);
         latePaymentsTable.setRowSorter(latePaymentsSorter);
+    }
+
+    public void update(){
+        main.goToSalesPageAdvisor();
     }
 
     public JPanel getPanel(){

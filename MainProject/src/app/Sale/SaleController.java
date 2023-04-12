@@ -104,6 +104,10 @@ public class SaleController {
         return advisorsSales;
     }
 
+    public Sale getSaleByID(int saleID){
+        return saleSQLHelper.saleByID(saleID);
+    }
+
     public ArrayList<Sale> getAdvisorsCompletedSales(int advID){
         ArrayList<Sale> advisorsSales = getAdvisorsSales(advID);
         ArrayList<Sale> completedSales = new ArrayList<>();
@@ -130,6 +134,10 @@ public class SaleController {
         return lateSales;
     }
 
+    public void updateSale(Sale sale){
+        saleSQLHelper.updateSale(sale);
+    }
+
     public void newSale(int advisorID, String customerEmail, String paymentType, double localPrice, int cardNo, String paymentProvider, String localCurrency, boolean isPaid, Ticket ticket){
         Sale sale = new Sale();
         double priceUSD;
@@ -146,8 +154,8 @@ public class SaleController {
             double exchangeRate = getExchangeRate(localCurrency);
             sale.setExchangeRate(exchangeRate);
             sale.setDomestic(false);
-            sale.setPriceUSD(exchangeRate / localPrice);
-            priceUSD = exchangeRate * localPrice;
+            sale.setPriceUSD(localPrice / exchangeRate );
+            priceUSD = localPrice / exchangeRate;
         }else{
             sale.setExchangeRate(1);
             sale.setDomestic(true);
@@ -202,5 +210,22 @@ public class SaleController {
         }catch (Exception e){
 
         }
+    }
+
+    public void makeLatePayment(Sale sale, int cardNo, String provider,String paymentType){
+        sale.setCardNo(cardNo);
+        sale.setPaymentProvider(provider);
+        sale.setPaymentType(paymentType);
+        sale.setDatePaid(Date.valueOf(LocalDate.now()));
+        sale.setPaid(true);
+
+        saleSQLHelper.updateSale(sale);
+    }
+
+    public void cancelLatePayment(Sale sale){
+        sale.setPaid(true);
+        sale.setRefunded(true);
+        sale.setDatePaid(Date.valueOf(LocalDate.now()));
+        saleSQLHelper.updateSale(sale);
     }
 }

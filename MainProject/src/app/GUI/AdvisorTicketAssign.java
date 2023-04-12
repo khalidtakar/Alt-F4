@@ -135,11 +135,17 @@ public class AdvisorTicketAssign extends JDialog {
                     //customer is registered
                     if (confirmation == JOptionPane.YES_OPTION) {
                         SaleController saleController = new SaleController();
+
+                        int cardNo = 0;
+                        if(!cardNoTextField.getText().isEmpty()){
+                            cardNo = Integer.parseInt(cardNoTextField.getText());
+                        }
+
                         saleController.newSale(advID,
                                 email,
                                 payTypeBox.getModel().getSelectedItem().toString(),
                                 Double.parseDouble(enterPriceTextField.getText()),
-                                Integer.parseInt(cardNoTextField.getText()),
+                                cardNo,
                                 paymentProviderTextField.getText(),
                                 currencyBox.getSelectedItem().toString(),
                                 false, ticket);
