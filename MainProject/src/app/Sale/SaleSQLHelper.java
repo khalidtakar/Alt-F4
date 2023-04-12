@@ -2,7 +2,10 @@ package app.Sale;
 
 import app.JDBC;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class SaleSQLHelper extends JDBC {
@@ -33,15 +36,22 @@ public class SaleSQLHelper extends JDBC {
                 "saleCommissionAmount, " +
                 "isDomestic, " +
                 "isPaid," +
+                "datePaid, " +
                 "isRefunded " +
                 "FROM Sale";
 
         try {
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(sql);
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
 
             //for each row found, initialise a new Ticket and add to arraylist
             while (resultSet.next()) {
+                System.out.println("pass 3");
+                System.out.println(resultSet.isLast());
+                System.out.println(resultSet.isAfterLast());
+                int rowCount = resultSet.getRow();
+                System.out.println("Number of rows: " + rowCount);
+
                 sales.add(new Sale(
                         resultSet.getInt("saleID"),
                         resultSet.getInt("advisorID"),
@@ -59,7 +69,13 @@ public class SaleSQLHelper extends JDBC {
                         resultSet.getDouble("saleCommissionAmount"),
                         resultSet.getBoolean("isDomestic"),
                         resultSet.getBoolean("isPaid"),
+                        resultSet.getDate("datePaid"),
                         resultSet.getBoolean("isRefunded")));
+
+                System.out.println(resultSet.isLast());
+                System.out.println(resultSet.isAfterLast());
+                rowCount = resultSet.getRow();
+                System.out.println("Number of rows: " + rowCount);
 
             }
         } catch (SQLException e) {
@@ -75,7 +91,7 @@ public class SaleSQLHelper extends JDBC {
      * this will upload a new row in the DB for that Sale
      * @param sale instance of sale to be added to DB
      */
-    public void addNewSale(Sale sale){
+    public int addNewSale(Sale sale){
         sql = "INSERT INTO Sale " +
                 "(advisorID, " +
                 "customerEmail, " +
@@ -92,13 +108,14 @@ public class SaleSQLHelper extends JDBC {
                 "saleCommissionAmount, " +
                 "isDomestic, " +
                 "isPaid," +
-                "isRefunded)" +
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "isRefunded, " +
+                "datePaid)" +
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try {
 
             // create SQL query to insert new customer
-            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, sale.getAdvisorID());
             preparedStatement.setString(2,sale.getCustomerEmail());
             preparedStatement.setDate(3,sale.getDateSold());
@@ -115,15 +132,23 @@ public class SaleSQLHelper extends JDBC {
             preparedStatement.setBoolean(14,sale.isDomestic());
             preparedStatement.setBoolean(15,sale.isPaid());
             preparedStatement.setBoolean(16,sale.isRefunded());
-            preparedStatement.executeUpdate();
+            preparedStatement.setDate(17,sale.getDatePaid());
+            int rowsChanged = preparedStatement.executeUpdate();
 
             // execute query and insert new customer
-            preparedStatement.executeUpdate();
+            if (rowsChanged == 1) {
+                resultSet = preparedStatement.getGeneratedKeys();
+                if (resultSet.next()) {
+                    return (int) resultSet.getLong(1);
+                }
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+
+        return 0;
     }
 
 
@@ -150,7 +175,8 @@ public class SaleSQLHelper extends JDBC {
                 "saleCommissionAmount = ?, " +
                 "isDomestic = ?, " +
                 "isPaid = ?," +
-                "isRefunded = ?" +
+                "isRefunded = ?, " +
+                "datePaid = ?" +
                 "WHERE saleID = ?";
 
         try {
@@ -174,6 +200,7 @@ public class SaleSQLHelper extends JDBC {
             preparedStatement.setBoolean(15,sale.isPaid());
             preparedStatement.setBoolean(16,sale.isRefunded());
             preparedStatement.setInt(17, sale.getSaleID());
+            preparedStatement.setDate(18, sale.getDatePaid());
             preparedStatement.executeUpdate();
 
             // execute query and insert new customer

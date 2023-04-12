@@ -25,4 +25,5 @@ public class FlexibleDiscountController {
     public void removeFlexibleDiscount(int flexDiscID){
         flexibleDiscountSQLHelper.removeFlexibleDiscount(flexDiscID);
     }
+
 }

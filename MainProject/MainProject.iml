@@ -21,5 +21,8 @@
     </orderEntry>
     <orderEntry type="library" name="itextpdf.itext.pdfa" level="project" />
     <orderEntry type="library" name="itextpdf" level="project" />
+    <orderEntry type="library" name="swinglabs.swingx.all" level="project" />
+    <orderEntry type="library" name="jcalendar-1.4" level="project" />
+    <orderEntry type="library" name="DateChooser" level="project" />
   </component>
 </module>

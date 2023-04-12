@@ -1,5 +1,7 @@
 package app.Sale;
 
+import app.System.System;
+import app.System.SystemController;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -8,6 +10,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -91,7 +96,9 @@ public class SaleController {
         ArrayList<Sale> advisorsSales = new ArrayList<>();
 
         for(Sale i : sales){
+            java.lang.System.out.println("pass 2");
             if(i.getAdvisorID() == advID) {
+                java.lang.System.out.println("pass 2a");
                 advisorsSales.add(i);
             }
         }
@@ -104,7 +111,9 @@ public class SaleController {
         ArrayList<Sale> completedSales = new ArrayList<>();
 
         for(Sale i : advisorsSales){
+            java.lang.System.out.println("pass");
             if(i.isPaid() == true) {
+                java.lang.System.out.println("pass");
                 completedSales.add(i);
             }
         }
@@ -123,5 +132,79 @@ public class SaleController {
         }
 
         return lateSales;
+    }
+
+    public void newSale(int advisorID, String customerEmail, String paymentType, double localPrice, int cardNo, String paymentProvider, String localCurrency, boolean isPaid, Ticket ticket){
+        Sale sale = new Sale();
+        double priceUSD;
+
+        sale.setAdvisorID(advisorID);
+        sale.setCustomerEmail(customerEmail);
+        sale.setDateSold(Date.valueOf(LocalDate.now()));
+        sale.setPaymentType(paymentType);
+        sale.setCardNo(cardNo);
+        sale.setPaymentProvider(paymentProvider);
+        sale.setPriceLocal(localPrice);
+        sale.setLocalCurrency(localCurrency);
+        if(localCurrency != "USD"){
+            double exchangeRate = getExchangeRate(localCurrency);
+            sale.setExchangeRate(exchangeRate);
+            sale.setDomestic(false);
+            sale.setPriceUSD(exchangeRate / localPrice);
+            priceUSD = exchangeRate * localPrice;
+        }else{
+            sale.setExchangeRate(1);
+            sale.setDomestic(true);
+            sale.setPriceUSD(localPrice);
+            priceUSD = localPrice;
+        }
+        CustomerController customerController = new CustomerController();
+        Customer customer = customerController.getCustomerByEmail(customerEmail);
+
+        FlexibleDiscountController flexibleDiscountController = new FlexibleDiscountController();
+        ArrayList<FlexibleDiscount> discounts = flexibleDiscountController.getFlexibleDiscountsForCustomer(customerEmail);
+
+        FlexibleDiscount greatest = new FlexibleDiscount("",0,0,0);
+        try {
+            for (FlexibleDiscount i : discounts) {
+                if ((i.getUpperBoundary() == 0) && (i.getDiscountRate() > greatest.getDiscountRate())) {
+                    greatest = i;
+                } else if ((customer.getSpentThisMonth() <= i.getUpperBoundary())
+                        && (customer.getSpentThisMonth() >= i.getLowerBoundary())
+                        && (i.getDiscountRate() > greatest.getDiscountRate())) {
+                    greatest = i;
+                }
+            }
+            sale.setSaleDiscountAmount(localPrice * 0.01 * greatest.getDiscountRate());
+        }catch (Exception e){
+            sale.setSaleDiscountAmount(0);
+        }
+
+        System system = new System();
+        SystemController systemController = new SystemController(system);
+        system = systemController.getLoad();
+
+        sale.setTaxAmount(system.getTaxRate() * 0.01 * localPrice);
+        sale.setSaleCommissionAmount(priceUSD * 0.01 / system.getCommissionRate());
+        sale.setPaid(isPaid);
+        if(isPaid){
+            sale.setDatePaid(Date.valueOf(LocalDate.now()));
+        }
+
+        sale.setRefunded(false);
+
+        int saleID = saleSQLHelper.addNewSale(sale);
+
+        TicketController ticketController = new TicketController();
+        ticket.setSaleID(saleID);
+        ticketController.updateTicket(ticket);
+
+        try {
+            customer.setSpentThisMonth(customer.getSpentThisMonth() + priceUSD);
+            customer.setDiscountToRefundOrReturn(customer.getDiscountToRefundOrReturn() + (localPrice * 0.01 * greatest.getDiscountRate()));
+            customerController.updateCustomer(customer);
+        }catch (Exception e){
+
+        }
     }
 }

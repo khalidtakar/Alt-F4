@@ -71,16 +71,6 @@
           <text value="Blanks"/>
         </properties>
       </component>
-      <component id="6b627" class="javax.swing.JTextField" binding="blanksSearchField">
-        <constraints>
-          <grid row="0" column="4" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
-          </grid>
-        </constraints>
-        <properties>
-          <text value="Search blanks..."/>
-        </properties>
-      </component>
       <hspacer id="cdb73">
         <constraints>
           <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>

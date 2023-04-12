@@ -41,7 +41,6 @@ public class MainPageManager {
     private JTable advisorTable;
     private DefaultTableModel tableModel;
     private TableRowSorter<DefaultTableModel> sorter;
-    private JTextField advisorTableSearch;
     private JPanel mainPageManagerPanel;
     private JButton changePasswordButton;
 
@@ -71,9 +70,13 @@ public class MainPageManager {
         generateReportPDFButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JDialog dialog = new ManagerGenerateReport();
+                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                dialog.setLocationRelativeTo(null);
+                dialog.pack();
+                dialog.setVisible(true);
 
-                JFrameToPDF jFrameToPDF = new JFrameToPDF();
-                jFrameToPDF.makePDF(getPanel());
+
                 //opens report generation dialog
             }
         });

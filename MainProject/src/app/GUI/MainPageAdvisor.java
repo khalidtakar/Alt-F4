@@ -32,7 +32,6 @@ public class MainPageAdvisor {
     private DefaultTableModel ticketsTableModel;
     private TableRowSorter<DefaultTableModel> ticketsSorter;
 
-    private JTextField searchCustomersTextField;
     private JButton viewSalesButton;
     private JPanel mainPageAdvisorPanel;
     private JButton changePasswordButton;
@@ -86,13 +85,6 @@ public class MainPageAdvisor {
                 main.goToLoginPage();
             }
         });
-        searchCustomersTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String query = searchCustomersTextField.getText();
-                //TODO display all entries in customersTable with an instance of 'query'
-            }
-        });
         ListSelectionModel selectionModelCustomers = customersTable.getSelectionModel();
         ListSelectionModel selectionModelTickets = ticketsTable.getSelectionModel();
         selectionModelCustomers.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -128,7 +120,7 @@ public class MainPageAdvisor {
                         }
                     }
                     // opens the ticket assignment window for the selected ticket
-                    JDialog dialog = new AdvisorTicketAssign(ticket, mainPageAdvisor);
+                    JDialog dialog = new AdvisorTicketAssign(ticket, mainPageAdvisor, advisor.getAdvisorID());
                     dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                     dialog.setLocationRelativeTo(null);
                     dialog.pack();

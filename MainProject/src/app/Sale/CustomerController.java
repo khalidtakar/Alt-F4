@@ -39,7 +39,7 @@ public class CustomerController {
         }
     }
 
-    public void updateCustomerBySale(Customer customer, Sale sale){
-
+    public void updateCustomer(Customer customer){
+        customerSQLHelper.updateCustomer(customer);
     }
 }

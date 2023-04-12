@@ -126,4 +126,8 @@ public class TicketController {
 
         return allTickets;
     }
+
+    public void updateTicket(Ticket ticket){
+        ticketSQLHelper.updateTicket(ticket);
+    }
 }

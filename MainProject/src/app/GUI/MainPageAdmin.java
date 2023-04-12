@@ -15,7 +15,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class MainPageAdmin{
-    private JTextField blanksSearchField;
     private JTable blanksTable;
     private DefaultTableModel tableModel;
     private TableRowSorter<DefaultTableModel> sorter;

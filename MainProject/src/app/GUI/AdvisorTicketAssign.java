@@ -1,10 +1,15 @@
 package app.GUI;
 
+import app.Sale.CustomerController;
+import app.Sale.SaleController;
 import app.Sale.Ticket;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Window;
+import java.util.Currency;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class AdvisorTicketAssign extends JDialog {
     private JPanel contentPane;
@@ -12,23 +17,40 @@ public class AdvisorTicketAssign extends JDialog {
     private JButton buttonCancel;
     private JButton confirmSaleButton;
     private JButton assignTicketToRegisteredButton;
-    private JComboBox comboBox1;
+    private JComboBox payTypeBox;
     private JTextField enterPriceTextField;
-    private JComboBox comboBox2;
+    private JComboBox currencyBox;
     private JLabel assignedLabel;
     private JLabel ticketType;
     private JLabel ticketNumber;
+    private JTextField cardNoTextField;
+    private JTextField paymentProviderTextField;
+
+    private String email;
+    private int advID;
 
     private Ticket ticket;
     private MainPageAdvisor mainPageAdvisor;
 
-    public AdvisorTicketAssign(Ticket ticket, MainPageAdvisor mainPageAdvisor) {
+    public AdvisorTicketAssign(Ticket ticket, MainPageAdvisor mainPageAdvisor, int advID) {
         this.ticket = ticket;
         this.mainPageAdvisor = mainPageAdvisor;
+        this.advID = advID;
 
         ticketType.setText(String.valueOf(ticket.getTicketType()));
         ticketNumber.setText(String.valueOf(ticket.getTicketNumber()));
 
+        SortedSet<String> currencyCodes = new TreeSet<String>();
+        for (Currency currency : Currency.getAvailableCurrencies()) {
+            currencyCodes.add(currency.getCurrencyCode());
+        }
+
+        currencyBox.addItem("USD");
+        for (String currencyCode : currencyCodes) {
+            if (!currencyCode.equals("USD")) {
+                currencyBox.addItem(currencyCode);
+            }
+        }
 
         setContentPane(contentPane);
         setModal(true);
@@ -64,7 +86,7 @@ public class AdvisorTicketAssign extends JDialog {
                 dialog.setLocationRelativeTo(null);
                 dialog.pack();
                 dialog.setVisible(true);
-                String email = dialog.getCustomerEmail();
+                email = dialog.getCustomerEmail();
                 assignedLabel.setText("This ticket is assigned to " + email);
                 //TODO assign ticket to this email
             }
@@ -75,6 +97,18 @@ public class AdvisorTicketAssign extends JDialog {
                 int confirmation = JOptionPane.showConfirmDialog(null, "Confirm this sale?", "Confirm Sale", JOptionPane.YES_NO_OPTION);
                 if (confirmation == JOptionPane.YES_OPTION) {
                     //TODO confirm this sale then dispose()
+
+
+                    SaleController saleController = new SaleController();
+                    saleController.newSale(advID,
+                            email,
+                            payTypeBox.getModel().getSelectedItem().toString(),
+                            Double.parseDouble(enterPriceTextField.getText()),
+                            Integer.parseInt(cardNoTextField.getText()),
+                            paymentProviderTextField.getText(),
+                            currencyBox.getSelectedItem().toString(),
+                            true, ticket);
+
                 } else {
                     //closes the option pane
                     Window option = SwingUtilities.getWindowAncestor(confirmSaleButton);
@@ -85,20 +119,31 @@ public class AdvisorTicketAssign extends JDialog {
         latePaymentButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                CustomerController customerController = new CustomerController();
+
+
                 int confirmation = JOptionPane.showConfirmDialog(null, "Set this as a late payment?", "Confirm Sale", JOptionPane.YES_NO_OPTION);
-//                if () { //TODO confirm that this ticket has an assigned customer
-//                    //customer is registered
-//                    if (confirmation == JOptionPane.YES_OPTION) {
-//                        // TODO confirm this sale then dispose()
-//                    } else {
-//                        //closes the option pane
-//                        Window option = SwingUtilities.getWindowAncestor(latePaymentButton);
-//                        option.dispose();
-//                    }
-//                } else {
-//                    //customer is not registered warning
-//                    JOptionPane.showMessageDialog(null, "Customer is not registered!", "Warning", JOptionPane.WARNING_MESSAGE);
-//                }
+                if ((assignedLabel.equals("This ticket is unassigned.")) || !(customerController.getCustomerByEmail(email)).isValued()) {
+                    //customer is registered
+                    if (confirmation == JOptionPane.YES_OPTION) {
+                        SaleController saleController = new SaleController();
+                        saleController.newSale(advID,
+                                email,
+                                payTypeBox.getModel().getSelectedItem().toString(),
+                                Double.parseDouble(enterPriceTextField.getText()),
+                                Integer.parseInt(cardNoTextField.getText()),
+                                paymentProviderTextField.getText(),
+                                currencyBox.getSelectedItem().toString(),
+                                false, ticket);
+                    } else {
+                        //closes the option pane
+                        Window option = SwingUtilities.getWindowAncestor(latePaymentButton);
+                        option.dispose();
+                    }
+                } else {
+                    //customer is not registered warning
+                    JOptionPane.showMessageDialog(null, "Customer is not registered OR is not valued!", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
             }
         });
     }

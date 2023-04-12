@@ -21,13 +21,14 @@ public class Sale {
     private double saleCommissionAmount;
     private boolean isDomestic;
     private boolean isPaid;
+    private Date datePaid;
     private boolean refundRequested;
     private boolean isRefunded;
 
     private Customer customer;
     private Advisor advisor;
 
-    public Sale(int saleID, int advisorID, String customerEmail, Date dateSold, String paymentType, int cardNo, String paymentProvider, String localCurrency, double exchangeRate, double priceLocal, double priceUSD, double saleDiscountAmount, double taxAmount, double saleCommissionAmount, boolean isDomestic, boolean isPaid, boolean isRefunded) {
+    public Sale(int saleID, int advisorID, String customerEmail, Date dateSold, String paymentType, int cardNo, String paymentProvider, String localCurrency, double exchangeRate, double priceLocal, double priceUSD, double saleDiscountAmount, double taxAmount, double saleCommissionAmount, boolean isDomestic, boolean isPaid, Date datePaid, boolean isRefunded) {
         this.saleID = saleID;
         this.advisorID = advisorID;
         this.customerEmail = customerEmail;
@@ -44,6 +45,7 @@ public class Sale {
         this.saleCommissionAmount = saleCommissionAmount;
         this.isDomestic = isDomestic;
         this.isPaid = isPaid;
+        this.datePaid = datePaid;
         this.isRefunded = isRefunded;
 
 
@@ -90,6 +92,14 @@ public class Sale {
         return exchangeRate;
     }
 
+    public Date getDatePaid() {
+        return datePaid;
+    }
+
+    public void setDatePaid(Date datePaid) {
+        this.datePaid = datePaid;
+    }
+
     public double getPriceUSD() {
         return priceUSD;
     }
@@ -97,6 +107,8 @@ public class Sale {
     public double getSaleDiscountAmount() {
         return saleDiscountAmount;
     }
+
+
 
     public double getTaxAmount() {
         return taxAmount;
