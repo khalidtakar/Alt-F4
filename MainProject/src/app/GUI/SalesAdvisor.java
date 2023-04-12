@@ -164,6 +164,7 @@ public class SalesAdvisor {
         salesTableModel.addColumn("Customer Email");
         salesTableModel.addColumn("Date Paid");
         salesTableModel.addColumn("Price USD");
+        salesTableModel.addColumn("Discount AM.");
         salesTableModel.addColumn("Currency");
         salesTableModel.addColumn("Domestic");
         salesTableModel.addColumn("Refunded");
@@ -175,6 +176,7 @@ public class SalesAdvisor {
             i.getCustomerEmail(),
                     i.getDatePaid(),
             i.getPriceUSD(),
+                    i.getSaleDiscountAmount(),
             i.getLocalCurrency(),
             i.isDomestic(),
             i.isRefunded()});
@@ -200,6 +202,7 @@ public class SalesAdvisor {
         latePaymentsTableModel.addColumn("Days not paid");
         latePaymentsTableModel.addColumn("Customer Email");
         latePaymentsTableModel.addColumn("Price USD");
+        salesTableModel.addColumn("Discount AM.");
         latePaymentsTableModel.addColumn("Currency");
         latePaymentsTableModel.addColumn("Domestic");
         latePaymentsTableModel.addColumn("Refunded");
@@ -215,6 +218,7 @@ public class SalesAdvisor {
                     daysNotPaid,
                     i.getCustomerEmail(),
                     i.getPriceUSD(),
+                    i.getSaleDiscountAmount(),
                     i.getLocalCurrency(),
                     i.isDomestic(),
                     i.isRefunded()});
