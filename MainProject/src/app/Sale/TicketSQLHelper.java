@@ -23,7 +23,8 @@ public class TicketSQLHelper extends JDBC {
                 "dateAssigned," +
                 "advisorID," +
                 "saleID " +
-                "FROM Ticket";
+                "FROM Ticket " +
+                "ORDER BY ticketType, ticketNumber";
 
         try {
             statement = connection.createStatement();
