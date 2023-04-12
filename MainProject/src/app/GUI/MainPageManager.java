@@ -1,6 +1,7 @@
 package app.GUI;
 
 import app.Account.Employee;
+import app.Account.EmployeeController;
 import app.Account.EmployeeSQLHelper;
 import app.Main;
 import app.Reports.JFrameToPDF;
@@ -51,18 +52,21 @@ public class MainPageManager {
     private SystemController systemController;
     private TicketController ticketController;
     private EmployeeSQLHelper employeeSQLHelper;
+    private Employee employee;
 
 
     public MainPageManager(Main main,
                            System system,
                            SystemController systemController,
                            TicketController ticketController,
-                           EmployeeSQLHelper employeeSQLHelper) {
+                           EmployeeSQLHelper employeeSQLHelper,
+                           Employee employee) {
         this.main = main;
         this.system = system;
         this.systemController = systemController;
         this.ticketController = ticketController;
         this.employeeSQLHelper = employeeSQLHelper;
+        this.employee = employee;
 
         taxRate.setText(String.valueOf(system.getTaxRate()));
         commissionRate.setText(String.valueOf(system.getCommissionRate()));
@@ -158,7 +162,8 @@ public class MainPageManager {
                 int option = JOptionPane.showConfirmDialog(null, passwordField, "Change password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
                     String password = new String(passwordField.getPassword());
-                    //TODO set the new password
+                    EmployeeController employeeController = new EmployeeController(employee);
+                    employeeController.changePassword(password);
                 }
             }
         });

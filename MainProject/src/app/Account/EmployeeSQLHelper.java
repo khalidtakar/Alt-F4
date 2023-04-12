@@ -165,15 +165,15 @@ public class EmployeeSQLHelper extends JDBC {
     }
 
     public void changePassword(Employee employee) {
-        sql = "UPDATE Employee SET" +
-                "password = ?" +
+        sql = "UPDATE Employee SET " +
+                "password = ? " +
                 "WHERE email = ?";
 
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, employee.getPasswordHash());
             preparedStatement.setString(2, employee.getEmail());
-            resultSet = preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

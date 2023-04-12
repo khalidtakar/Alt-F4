@@ -1,5 +1,7 @@
 package app.GUI;
 
+import app.Account.Employee;
+import app.Account.EmployeeController;
 import app.Main;
 import app.Sale.Ticket;
 import app.Sale.TicketController;
@@ -43,14 +45,16 @@ public class MainPageAdmin{
     private System system;
     private SystemController systemController;
     private TicketController ticketController;
+    private Employee employee;
 
     private ArrayList<Ticket> tickets;
 
-    public MainPageAdmin(Main main, System system, SystemController systemController, TicketController ticketController){
+    public MainPageAdmin(Main main, System system, SystemController systemController, TicketController ticketController, Employee employee){
         this.main = main;
         this.system = system;
         this.systemController = systemController;
         this.ticketController = ticketController;
+        this.employee = employee;
 
         backupFrequency.setText(String.valueOf(system.getAutoBackupFreqDays()));
         days.setText(String.valueOf(systemController.checkLastBackup(system)));
@@ -117,7 +121,8 @@ public class MainPageAdmin{
                 int option = JOptionPane.showConfirmDialog(null, passwordField, "Change password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
                     String password = new String(passwordField.getPassword());
-                    //TODO set the new password
+                    EmployeeController employeeController = new EmployeeController(employee);
+                    employeeController.changePassword(password);
                 }
             }
         });

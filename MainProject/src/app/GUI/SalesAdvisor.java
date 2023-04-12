@@ -2,6 +2,7 @@ package app.GUI;
 
 import app.Account.Advisor;
 import app.Account.Employee;
+import app.Account.EmployeeController;
 import app.Main;
 import app.Sale.Sale;
 import app.Sale.SaleController;
@@ -117,7 +118,7 @@ public class SalesAdvisor {
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO log out
+                main.goToLoginPage();
             }
         });
         changePasswordButton.addActionListener(new ActionListener() {
@@ -131,7 +132,8 @@ public class SalesAdvisor {
                 int option = JOptionPane.showConfirmDialog(null, passwordField, "Change password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
                     String password = new String(passwordField.getPassword());
-                    //TODO set the new password
+                    EmployeeController employeeController = new EmployeeController(employee);
+                    employeeController.changePassword(password);
                 }
             }
         });

@@ -85,7 +85,7 @@ public class Main{
 
 
         //create admin page panel
-        mainPageAdmin = new MainPageAdmin(this, system, systemController, ticketController);
+        mainPageAdmin = new MainPageAdmin(this, system, systemController, ticketController, employee);
         mainPageAdmin.updateTable();
         mainPageAdminPanel = mainPageAdmin.getPanel();
 
@@ -106,7 +106,12 @@ public class Main{
         ticketController = new TicketController();
 
         //create admin page panel
-        mainPageManager = new MainPageManager(this, system, systemController, ticketController, new EmployeeSQLHelper());
+        mainPageManager = new MainPageManager(this,
+                system,
+                systemController,
+                ticketController,
+                new EmployeeSQLHelper(),
+                employee);
         mainPageManager.updateAdvisorsTable();
         mainPageManagerPanel = mainPageManager.getPanel();
 

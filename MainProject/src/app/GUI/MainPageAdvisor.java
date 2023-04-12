@@ -2,6 +2,7 @@ package app.GUI;
 
 import app.Account.Advisor;
 import app.Account.Employee;
+import app.Account.EmployeeController;
 import app.Main;
 import app.Sale.Customer;
 import app.Sale.CustomerController;
@@ -139,7 +140,8 @@ public class MainPageAdvisor {
                 int option = JOptionPane.showConfirmDialog(null, passwordField, "Change password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
                     String password = new String(passwordField.getPassword());
-                    //TODO set the new password
+                    EmployeeController employeeController = new EmployeeController(employee);
+                    employeeController.changePassword(password);
                 }
             }
         });

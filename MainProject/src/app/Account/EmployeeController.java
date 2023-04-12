@@ -59,7 +59,7 @@ public class EmployeeController {
         }
     }
 
-    public void changePassword(Employee employee, String password){
+    public void changePassword(String password){
         employee.setPasswordHash(doHashing(employee.getEmail(), password));
         employeeSQLHelper.changePassword(employee);
     }
