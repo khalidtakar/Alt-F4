@@ -151,7 +151,7 @@ not the same as sale exchange rate - which is for the sale and is saved for refu
 INSERT INTO RegisteredCustomer VALUES
 	("chris@gmail.com", "Chris Smart", True, 0, 0, 1),
 	("sarah@gmail.com", "Sarah Broklehurst", True, 0, 0, 2),
-	('david@gmail.com', "david", true, 0,0,0);
+	('david@gmail.com', "David Dodson", true, 0,0,0);
 
 
 INSERT INTO FlexibleDiscount(`email`, `discountRate`, `lowerBoundary`, `upperBoundary`) 
@@ -180,43 +180,28 @@ INSERT INTO Administrator VALUES
 INSERT INTO Manager VALUES
 	(220, "minnie@gmail.com");
 
-INSERT INTO Sale(advisorID, 
-	customerEmail, 
-	dateSold, 
-	paymentType,
-	localCurrency, 
-	priceLocal, 
-	saleDiscountAmount, taxAmount, saleCommissionAmount, 
-	isDomestic, isPaid, 
-	refundRequested, isRefunded) VALUES
-	(1, NULL, "2023-02-22", "card", "USD",
-		20000, 
-		1000, 2000, 500, 
-		False, True, 
-		False, False),
-	(1, NULL, "2023-02-22", "card", "USD",
-		23000, 
-		1500, 2000, 500, 
-		False, True, 
-		False, False),
-	(1, NULL, "1990-02-22", "card", "USD",
-		16000, 
-		1500, 2000, 500, 
-		False, True, 
-		False, False),
-	(2, NULL, "2023-02-22", "card", "USD",
-		20000, 
-		1000, 2000, 500, 
-		False, False, 
-		False, False);
 
 
+	INSERT INTO Sale
+	(`saleID`, `advisorID`, `customerEmail`, `dateSold`, `paymentType`, `cardNo`, `paymentProvider`, `localCurrency`, `exchangeRate`, `priceLocal`, `priceUSD`, `saleDiscountAmount`, `taxAmount`, `saleCommissionAmount`, `isDomestic`, `isPaid`, `datePaid`, `refundRequested`, `isRefunded`) 
+	VALUES 
+	(11,250,"sarah@gmail.com",'01-01-2023','Cash',NULL,'Sarah Broklehurst','GBP',0.8054,'[value-10]','[value-11]',2,'[value-13]',9,False,True,NULL,False,False),
 
+	(12,250,NULL,'01-01-2023','Card', "VISA 4901 0002 2345 3456",NULL,'GBP',0.8054,'[value-10]','[value-11]',NULL,'[value-13]',9,False,False,NULL,True,True),
 
+	(13,250,NULL,'01-01-2023','Cash', NULL,NULL,'USD',1.0000,'[value-10]','[value-11]','[value-12]',NULL,5,True,True,NULL,False,False),
 
+	(28,250,"david@gmail.com",'02-02-2023','Card', "VISA 5899 4554 3265 5121","David Dodson",'GBP',0.8054,'[value-10]','[value-11]','[value-12]','[value-13]',9,False,True,"15-03-2023",False,False),
 
+	(29,250,"chris@gmail.com",'02-02-2023',NULL, NULL,"Chris Smart",'GBP',0.8054,'[value-10]','[value-11]','[value-12]','[value-13]',9,False,False,NULL,False,False),
 
+	(30,250,NULL,'02-02-2023',Card,"VISA 6454 9863 8733 8876",NULL,'USD',1.0000,'[value-10]','[value-11]',NULL,'[value-13]',5,False,True,NULL,False,False),
 
+	(45,211,"sarah@gmail.com",'02-02-2023',Card,"MC 5301 0234 5698 1234",'Sarah Broklehurst','GBP',0.8054,'[value-10]','[value-11]',2,'[value-13]',9,False,True,'13-02-2023',False,False),
+
+	(46,211,NULL,'02-02-2023',Card,"VISA 7449 1555 4589 3456",NULL,'GBP',0.8054,'[value-10]','[value-11]',NULL,'[value-13]',9,False,True,NULL,False,False),
+
+	(47,211,NULL,'02-02-2023',Cash,NULL,NULL,'USD',1.0000,'[value-10]','[value-11]',NULL,'[value-13]',5,True,True,NULL,True,True);
 
 
 
