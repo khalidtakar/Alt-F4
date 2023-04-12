@@ -80,8 +80,8 @@ public class MainPageAdmin{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //delete blanks from deleteBlanksStartVal to deleteBlanksEndVal
-                String deleteStartVal = deleteBlanksType.getSelectedItem().toString() + addBlanksStartVal.getText();
-                String deleteEndVal = deleteBlanksType.getSelectedItem().toString() + addBlanksEndVal.getText();
+                String deleteStartVal = deleteBlanksType.getSelectedItem().toString() + deleteBlanksStartVal.getText();
+                String deleteEndVal = deleteBlanksType.getSelectedItem().toString() + deleteBlanksEndVal.getText();
                 tickets = ticketController.addTickets((Long.parseLong(deleteStartVal))
                         , Long.parseLong(deleteEndVal));
                 updateTable();
