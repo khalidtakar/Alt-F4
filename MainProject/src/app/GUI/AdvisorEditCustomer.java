@@ -87,21 +87,14 @@ public class AdvisorEditCustomer extends JDialog {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO update details
+                //update details
 
-                if(valuedCheckBox.isSelected()){
-                    customerController.updateCustomerDetails(customer,
-                            newEmail.getText(),
-                            newName.getText(),
-                            true);
-                    customer.setValued(true);
-                }else{
-                    customerController.updateCustomerDetails(customer,
-                            newEmail.getText(),
-                            newName.getText(),
-                            false);
-                    customer.setValued(false);
-                }
+                customerController.updateCustomerDetails(customer,
+                        newEmail.getText(),
+                        newName.getText(),
+                        valuedCheckBox.isSelected());
+
+                customer.setValued(valuedCheckBox.isSelected());
 
                 customer.setEmail(newEmail.getText());
                 customer.setName(newName.getText());
@@ -134,7 +127,7 @@ public class AdvisorEditCustomer extends JDialog {
         deleteSelectedDiscountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO delete discountsTable.getSelectedRow() from discounts
+                //delete selected row from discounts
                 int selectedRow = discountsTable.getSelectedRow();
                 int discountID = (int) discountsTable.getValueAt(selectedRow, 0);
                 flexibleDiscountController.removeFlexibleDiscount(discountID);

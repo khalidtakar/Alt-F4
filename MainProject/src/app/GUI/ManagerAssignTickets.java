@@ -65,7 +65,7 @@ public class ManagerAssignTickets extends JDialog{
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        advisorInfo.setText(advisor.getAdvisor().getAdvisorID() + ": " + advisor.getName()); //TODO make sure to also display the email
+        advisorInfo.setText(advisor.getAdvisor().getAdvisorID() + ": " + advisor.getName());
     }
 
     public void updateTable() {

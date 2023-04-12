@@ -88,7 +88,6 @@ public class AdvisorAssignTicket extends JDialog {
                 dialog.setVisible(true);
                 email = dialog.getCustomerEmail();
                 assignedLabel.setText("This ticket is assigned to " + email);
-                //TODO assign ticket to this email
             }
         });
         confirmSaleButton.addActionListener(new ActionListener() {
@@ -96,8 +95,7 @@ public class AdvisorAssignTicket extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 int confirmation = JOptionPane.showConfirmDialog(null, "Confirm this sale?", "Confirm Sale", JOptionPane.YES_NO_OPTION);
                 if (confirmation == JOptionPane.YES_OPTION) {
-                    //TODO confirm this sale then dispose()
-
+                    //confirm this sale
 
                     SaleController saleController = new SaleController();
 
