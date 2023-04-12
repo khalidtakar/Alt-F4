@@ -44,6 +44,8 @@ public class MainPageManager {
     private TableRowSorter<DefaultTableModel> sorter;
     private JPanel mainPageManagerPanel;
     private JButton changePasswordButton;
+    private JLabel manName;
+    private JLabel manEmail;
 
     private ArrayList<Employee> advisors;
 
@@ -67,6 +69,9 @@ public class MainPageManager {
         this.ticketController = ticketController;
         this.employeeSQLHelper = employeeSQLHelper;
         this.employee = employee;
+
+        manName.setText(employee.getName());
+        manEmail.setText(employee.getEmail());
 
         taxRate.setText(String.valueOf(system.getTaxRate()));
         commissionRate.setText(String.valueOf(system.getCommissionRate()));

@@ -33,6 +33,8 @@ public class SalesAdvisor {
     private JButton generateReportPDFButton;
     private JPanel salesPageAdvisorPanel;
     private JButton changePasswordButton;
+    private JLabel advName;
+    private JLabel advEmail;
 
     private SalesAdvisor salesAdvisor;
     private Main main;
@@ -49,6 +51,9 @@ public class SalesAdvisor {
         this.employee = employee;
         this.advisor = employee.getAdvisor();
         this.salesAdvisor = this;
+
+        advName.setText(employee.getName());
+        advEmail.setText(employee.getEmail());
 
         updateSalesTable();
         updateLatePaymentsTable();

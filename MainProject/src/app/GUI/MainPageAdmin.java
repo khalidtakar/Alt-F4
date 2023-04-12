@@ -34,12 +34,13 @@ public class MainPageAdmin{
 
     private JButton logOutButton;
     private JLabel welcomeText;
-    private JLabel userInfo;
     private JLabel logo;
     private JPanel mainPageAdminPanel;
     private JLabel days;
     private JButton restoreFromBackupButton;
     private JButton changePasswordButton;
+    private JLabel adminName;
+    private JLabel adminEmail;
 
     private Main main;
     private System system;
@@ -55,6 +56,9 @@ public class MainPageAdmin{
         this.systemController = systemController;
         this.ticketController = ticketController;
         this.employee = employee;
+
+        adminName.setText(employee.getName());
+        adminEmail.setText(employee.getEmail());
 
         backupFrequency.setText(String.valueOf(system.getAutoBackupFreqDays()));
         days.setText(String.valueOf(systemController.checkLastBackup(system)));

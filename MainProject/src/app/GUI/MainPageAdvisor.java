@@ -36,6 +36,8 @@ public class MainPageAdvisor {
     private JButton viewSalesButton;
     private JPanel mainPageAdvisorPanel;
     private JButton changePasswordButton;
+    private JLabel advName;
+    private JLabel advEmail;
 
     private Main main;
     private System system;
@@ -59,6 +61,9 @@ public class MainPageAdvisor {
         this.advisor = employee.getAdvisor();
 
         this.mainPageAdvisor = this;
+
+        advName.setText(employee.getName());
+        advEmail.setText(employee.getEmail());
 
         updateTicketsTable();
         updateCustomersTable();
