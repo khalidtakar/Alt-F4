@@ -1,16 +1,11 @@
 package app.GUI;
 
-import app.Sale.CustomerController;
-import app.Sale.SaleController;
-import app.Sale.Ticket;
+import app.Sale.*;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Window;
-import java.util.Currency;
-import java.util.Objects;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -30,6 +25,7 @@ public class AdvisorAssignTicket extends JDialog {
     private JTextField cardNoTextField;
     private JTextField paymentProviderTextField;
     private JLabel priceDisplay;
+    private JLabel finalPriceDisplay;
 
     private String email;
     private int advID;
@@ -41,6 +37,9 @@ public class AdvisorAssignTicket extends JDialog {
         this.ticket = ticket;
         this.mainPageAdvisor = mainPageAdvisor;
         this.advID = advID;
+
+        SaleController saleController = new SaleController();
+        FlexibleDiscountController flexibleDiscountController = new FlexibleDiscountController();
 
         ticketType.setText(String.valueOf(ticket.getTicketType()));
         ticketNumber.setText("Ticket No." + String.valueOf(ticket.getTicketNumber()));
@@ -137,7 +136,6 @@ public class AdvisorAssignTicket extends JDialog {
                 if (!(assignedLabel.getText().equals("This ticket is unassigned.")) && (customerController.getCustomerByEmail(email)).isValued()) {
                     //customer is registered
                     if (confirmation == JOptionPane.YES_OPTION) {
-                        SaleController saleController = new SaleController();
 
                         int cardNo = 0;
                         if(!cardNoTextField.getText().isEmpty()){
@@ -179,15 +177,35 @@ public class AdvisorAssignTicket extends JDialog {
                 String priceInput = enterPriceTextField.getText();
                 try {
                     int price = Integer.parseInt(priceInput);
-                    //TODO convert price to USD -> add discounts -> set priceDisplay
-                    priceDisplay.setText("Total price: " + "" + currencyBox.getSelectedItem());
+                    double convertedPrice = price / saleController.getExchangeRate((String) currencyBox.getSelectedItem());
+
+                    if (email != null) {
+                        //displays discount if user is registered
+                        ArrayList<FlexibleDiscount> discounts = flexibleDiscountController.getFlexibleDiscountsForCustomer(email);
+                        FlexibleDiscount greatest = new FlexibleDiscount("",0,0,0);
+
+                        try {
+                            double discount = saleController.calculateDiscounts(email, discounts, convertedPrice);
+                            priceDisplay.setText("Initial price: " + convertedPrice + " USD");
+                            finalPriceDisplay.setText("Initial price: " + (convertedPrice - (convertedPrice * 0.01 * discount) + " USD"));
+                        }catch (Exception e){
+                            priceDisplay.setText("Initial price: " + convertedPrice + " USD");
+                            finalPriceDisplay.setText("Final price: " + convertedPrice + " USD");
+                        }
+                    } else {
+                        //user is not registered - no discount
+                        priceDisplay.setText("Initial price: " + convertedPrice + " USD");
+                        finalPriceDisplay.setText("Initial price: " + convertedPrice + " USD");
+                    }
                 } catch (NumberFormatException e) {
                     if (Objects.equals(priceInput, "")) {
                         //price is empty
-                        priceDisplay.setText("Total price: 0" + currencyBox.getSelectedItem());
+                        priceDisplay.setText("Initial price:");
+                        finalPriceDisplay.setText("Final price:");
                     } else {
-                        //price error
+                        //price error (invalid input)
                         priceDisplay.setText("PRICE ERROR!");
+                        finalPriceDisplay.setText("");
                     }
                 }
             }

@@ -11,7 +11,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -138,7 +137,7 @@ public class SaleController {
         saleSQLHelper.updateSale(sale);
     }
 
-    public void newSale(int advisorID, String customerEmail, String paymentType, double localPrice, int cardNo, String paymentProvider, String localCurrency, boolean isPaid, Ticket ticket){
+    public void newSale(int advisorID, String customerEmail, String paymentType, double price, int cardNo, String paymentProvider, String localCurrency, boolean isPaid, Ticket ticket){
         Sale sale = new Sale();
         double priceUSD;
 
@@ -148,19 +147,19 @@ public class SaleController {
         sale.setPaymentType(paymentType);
         sale.setCardNo(cardNo);
         sale.setPaymentProvider(paymentProvider);
-        sale.setPriceLocal(localPrice);
+        sale.setPriceLocal(price);
         sale.setLocalCurrency(localCurrency);
         if(localCurrency != "USD"){
             double exchangeRate = getExchangeRate(localCurrency);
             sale.setExchangeRate(exchangeRate);
             sale.setDomestic(false);
-            sale.setPriceUSD(localPrice / exchangeRate );
-            priceUSD = localPrice / exchangeRate;
+            sale.setPriceUSD(price / exchangeRate );
+            priceUSD = price / exchangeRate;
         }else{
             sale.setExchangeRate(1);
             sale.setDomestic(true);
-            sale.setPriceUSD(localPrice);
-            priceUSD = localPrice;
+            sale.setPriceUSD(price);
+            priceUSD = price;
         }
         CustomerController customerController = new CustomerController();
         Customer customer = customerController.getCustomerByEmail(customerEmail);
@@ -170,16 +169,8 @@ public class SaleController {
 
         FlexibleDiscount greatest = new FlexibleDiscount("",0,0,0);
         try {
-            for (FlexibleDiscount i : discounts) {
-                if (((i.getUpperBoundary() == 0) && i.getLowerBoundary() != 0) && (i.getDiscountRate() > greatest.getDiscountRate())) {
-                    greatest = i;
-                } else if ((customer.getSpentThisMonth() <= i.getUpperBoundary())
-                        && (customer.getSpentThisMonth() >= i.getLowerBoundary())
-                        && (i.getDiscountRate() > greatest.getDiscountRate())) {
-                    greatest = i;
-                }
-            }
-            sale.setSaleDiscountAmount(localPrice * 0.01 * greatest.getDiscountRate());
+            double discount = calculateDiscounts(customerEmail, discounts, price);
+            sale.setSaleDiscountAmount(price * 0.01 * discount);
         }catch (Exception e){
             sale.setSaleDiscountAmount(0);
         }
@@ -188,7 +179,7 @@ public class SaleController {
         SystemController systemController = new SystemController(system);
         system = systemController.getLoad();
 
-        sale.setTaxAmount(system.getTaxRate() * 0.01 * localPrice);
+        sale.setTaxAmount(system.getTaxRate() * 0.01 * price);
         sale.setSaleCommissionAmount(priceUSD * 0.01 / system.getCommissionRate());
         sale.setPaid(isPaid);
         if(isPaid){
@@ -205,11 +196,31 @@ public class SaleController {
 
         try {
             customer.setSpentThisMonth(customer.getSpentThisMonth() + priceUSD);
-            customer.setDiscountToRefundOrReturn(customer.getDiscountToRefundOrReturn() + (localPrice * 0.01 * greatest.getDiscountRate()));
+            customer.setDiscountToRefundOrReturn(customer.getDiscountToRefundOrReturn() + (price * 0.01 * greatest.getDiscountRate()));
             customerController.updateCustomer(customer);
         }catch (Exception e){
 
         }
+    }
+
+    public double calculateDiscounts(String customerEmail, ArrayList<FlexibleDiscount> discounts, double price) {
+        FlexibleDiscountController flexibleDiscountController = new FlexibleDiscountController();
+        CustomerController customerController = new CustomerController();
+
+        Customer customer = customerController.getCustomerByEmail(customerEmail);
+
+        FlexibleDiscount greatest = new FlexibleDiscount("",0,0,0);
+        for (FlexibleDiscount i : discounts) {
+            if (((i.getUpperBoundary() == 0) && i.getLowerBoundary() != 0) && (i.getDiscountRate() > greatest.getDiscountRate())) {
+                greatest = i;
+            } else if ((customer.getSpentThisMonth() <= i.getUpperBoundary())
+                    && (customer.getSpentThisMonth() >= i.getLowerBoundary())
+                    && (i.getDiscountRate() > greatest.getDiscountRate())) {
+                greatest = i;
+            }
+        }
+
+        return greatest.getDiscountRate();
     }
 
     public void makeLatePayment(Sale sale, int cardNo, String provider,String paymentType){
