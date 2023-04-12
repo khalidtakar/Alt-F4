@@ -23,10 +23,14 @@ public class GenerateReport extends JDialog {
     private JDateChooser reportStartDate;
     private JDateChooser reportEndDate;
 
+    private Employee employee;
+
     public GenerateReport(Employee employee) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+
+        this.employee = employee;
 
         SpinnerModel dayModel = new SpinnerNumberModel(1, 1, 31, 1);
         SpinnerModel monthModel = new SpinnerNumberModel(1, 1, 12, 1);
@@ -40,7 +44,7 @@ public class GenerateReport extends JDialog {
 
         //TODO edit combobox based on user
         /*
-        if (userID is advisor) {
+        if (employee is advisor) {
             reportType.removeItem("Stock");
         }
          */
@@ -75,10 +79,16 @@ public class GenerateReport extends JDialog {
     }
 
     private void onOK() {
-        /*TODO generate report using startDay, startMonth, startYear and endDay, endMonth, endYear
-            it should be generated for the user of userID
-         */
+        String startDate = String.format("%d/%d/%d/", startDay.getValue(), startMonth.getValue(), startYear.getValue());
+        String endDate = String.format("%d/%d/%d/", endDay.getValue(), endMonth.getValue(), endYear.getValue());
+        //TODO generate report using startDate and endDate
+        /*
+        if (employee is manager) {
+            generate manager report of reportType using
+        }
         dispose();
+
+         */
     }
 
     private void onCancel() {
