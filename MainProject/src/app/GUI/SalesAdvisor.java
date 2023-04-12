@@ -73,7 +73,12 @@ public class SalesAdvisor {
         generateReportPDFButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO generate a pdf report of all sales made by this advisor
+                //opens report generation window
+                JDialog dialog = new GenerateReport(employee);
+                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                dialog.setLocationRelativeTo(null);
+                dialog.pack();
+                dialog.setVisible(true);
             }
         });
 

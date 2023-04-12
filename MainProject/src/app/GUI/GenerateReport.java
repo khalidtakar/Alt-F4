@@ -1,29 +1,50 @@
 package app.GUI;
+import app.Account.Employee;
 import com.toedter.calendar.JDateChooser;
 
 
 import javax.swing.*;
 import java.awt.event.*;
 
-public class ManagerGenerateReport extends JDialog {
+public class GenerateReport extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JComboBox reportType;
+
     private JPanel reportDetailsPane;
+    private JSpinner startDay;
+    private JSpinner startMonth;
+    private JSpinner startYear;
+    private JSpinner endDay;
+    private JSpinner endMonth;
+    private JSpinner endYear;
+
     private JDateChooser reportStartDate;
     private JDateChooser reportEndDate;
 
-    public ManagerGenerateReport() {
+    public GenerateReport(Employee employee) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        /*add date selectors
-        JDateChooser reportStartDate = new JDateChooser();
-        JDateChooser reportEndDate = new JDateChooser();
-        reportDetailsPane.add(reportStartDate, reportEndDate);
+        SpinnerModel dayModel = new SpinnerNumberModel(1, 1, 31, 1);
+        SpinnerModel monthModel = new SpinnerNumberModel(1, 1, 12, 1);
+        SpinnerModel yearModel = new SpinnerNumberModel(1, 1, 2023, 1); //TODO set maximum to current year
+        startDay.setModel(dayModel);
+        startMonth.setModel(monthModel);
+        startYear.setModel(yearModel);
+        endDay.setModel(dayModel);
+        endMonth.setModel(monthModel);
+        endYear.setModel(yearModel);
+
+        //TODO edit combobox based on user
+        /*
+        if (userID is advisor) {
+            reportType.removeItem("Stock");
+        }
          */
+
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -54,23 +75,13 @@ public class ManagerGenerateReport extends JDialog {
     }
 
     private void onOK() {
-        //TODO generate report using reportStartDate.getDate() and reportEndDate.getDate() [ as soon as i get JDateChooser to work >:( ]
+        /*TODO generate report using startDay, startMonth, startYear and endDay, endMonth, endYear
+            it should be generated for the user of userID
+         */
         dispose();
     }
 
     private void onCancel() {
         dispose();
-    }
-
-    public static void main(String[] args) {
-        ManagerGenerateReport dialog = new ManagerGenerateReport();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
-    }
-
-    private void createUIComponents() {
-        reportStartDate.setDateFormatString("dd/MM/yyyy");
-        reportEndDate.setDateFormatString("dd/MM/yyyy");
     }
 }

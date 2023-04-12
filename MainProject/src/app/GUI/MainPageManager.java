@@ -4,7 +4,6 @@ import app.Account.Employee;
 import app.Account.EmployeeController;
 import app.Account.EmployeeSQLHelper;
 import app.Main;
-import app.Reports.JFrameToPDF;
 import app.Sale.TicketController;
 import app.System.System;
 import app.System.SystemController;
@@ -79,14 +78,12 @@ public class MainPageManager {
         generateReportPDFButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JDialog dialog = new ManagerGenerateReport();
+                //opens report generation window
+                JDialog dialog = new GenerateReport(employee);
                 dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 dialog.setLocationRelativeTo(null);
                 dialog.pack();
                 dialog.setVisible(true);
-
-
-                //opens report generation dialog
             }
         });
         changeCommissionButton.addActionListener(new ActionListener() {
