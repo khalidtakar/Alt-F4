@@ -56,6 +56,8 @@ public class Main{
 
     public void goToLoginPage(){
         //create panels
+
+        employee = new Employee();
         login = new Login(this, employee);
         loginPanel = login.getPanel();
 

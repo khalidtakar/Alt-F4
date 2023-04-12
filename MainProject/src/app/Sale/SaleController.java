@@ -96,9 +96,7 @@ public class SaleController {
         ArrayList<Sale> advisorsSales = new ArrayList<>();
 
         for(Sale i : sales){
-            java.lang.System.out.println("pass 2");
             if(i.getAdvisorID() == advID) {
-                java.lang.System.out.println("pass 2a");
                 advisorsSales.add(i);
             }
         }
@@ -111,9 +109,7 @@ public class SaleController {
         ArrayList<Sale> completedSales = new ArrayList<>();
 
         for(Sale i : advisorsSales){
-            java.lang.System.out.println("pass");
             if(i.isPaid() == true) {
-                java.lang.System.out.println("pass");
                 completedSales.add(i);
             }
         }

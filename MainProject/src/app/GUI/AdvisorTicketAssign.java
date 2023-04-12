@@ -100,18 +100,26 @@ public class AdvisorTicketAssign extends JDialog {
 
 
                     SaleController saleController = new SaleController();
+
+                    int cardNo = 0;
+                    if(!cardNoTextField.getText().isEmpty()){
+                        cardNo = Integer.parseInt(cardNoTextField.getText());
+                    }
+
                     saleController.newSale(advID,
                             email,
                             payTypeBox.getModel().getSelectedItem().toString(),
                             Double.parseDouble(enterPriceTextField.getText()),
-                            Integer.parseInt(cardNoTextField.getText()),
+                            cardNo,
                             paymentProviderTextField.getText(),
                             currencyBox.getSelectedItem().toString(),
                             true, ticket);
 
+                    dispose();
                 } else {
                     //closes the option pane
                     Window option = SwingUtilities.getWindowAncestor(confirmSaleButton);
+                    mainPageAdvisor.updateTicketsTable();
                     option.dispose();
                 }
             }
@@ -123,7 +131,7 @@ public class AdvisorTicketAssign extends JDialog {
 
 
                 int confirmation = JOptionPane.showConfirmDialog(null, "Set this as a late payment?", "Confirm Sale", JOptionPane.YES_NO_OPTION);
-                if ((assignedLabel.equals("This ticket is unassigned.")) || !(customerController.getCustomerByEmail(email)).isValued()) {
+                if (!(assignedLabel.getText().equals("This ticket is unassigned.")) && (customerController.getCustomerByEmail(email)).isValued()) {
                     //customer is registered
                     if (confirmation == JOptionPane.YES_OPTION) {
                         SaleController saleController = new SaleController();
@@ -135,6 +143,8 @@ public class AdvisorTicketAssign extends JDialog {
                                 paymentProviderTextField.getText(),
                                 currencyBox.getSelectedItem().toString(),
                                 false, ticket);
+                        mainPageAdvisor.update();
+                        dispose();
                     } else {
                         //closes the option pane
                         Window option = SwingUtilities.getWindowAncestor(latePaymentButton);
@@ -142,7 +152,7 @@ public class AdvisorTicketAssign extends JDialog {
                     }
                 } else {
                     //customer is not registered warning
-                    JOptionPane.showMessageDialog(null, "Customer is not registered OR is not valued!", "Warning", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Customer is not selected OR is not valued!", "Warning", JOptionPane.WARNING_MESSAGE);
                 }
             }
         });

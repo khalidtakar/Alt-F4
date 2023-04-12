@@ -46,11 +46,6 @@ public class SaleSQLHelper extends JDBC {
 
             //for each row found, initialise a new Ticket and add to arraylist
             while (resultSet.next()) {
-                System.out.println("pass 3");
-                System.out.println(resultSet.isLast());
-                System.out.println(resultSet.isAfterLast());
-                int rowCount = resultSet.getRow();
-                System.out.println("Number of rows: " + rowCount);
 
                 sales.add(new Sale(
                         resultSet.getInt("saleID"),
@@ -71,11 +66,6 @@ public class SaleSQLHelper extends JDBC {
                         resultSet.getBoolean("isPaid"),
                         resultSet.getDate("datePaid"),
                         resultSet.getBoolean("isRefunded")));
-
-                System.out.println(resultSet.isLast());
-                System.out.println(resultSet.isAfterLast());
-                rowCount = resultSet.getRow();
-                System.out.println("Number of rows: " + rowCount);
 
             }
         } catch (SQLException e) {

@@ -213,6 +213,10 @@ public class MainPageAdvisor {
         customersTable.setRowSorter(customersSorter);
     }
 
+    public void update(){
+        main.goToMainPageAdvisor(employee);
+    }
+
     public JPanel getPanel(){
         return mainPageAdvisorPanel;
     }
