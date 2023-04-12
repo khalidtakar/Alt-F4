@@ -45,19 +45,17 @@ public class TicketController {
      * @param endRange First 3 digits ticket type, rest ticket number
      * @return new Arraylist of tickets, now with the tickets that were added
      */
-    public ArrayList<Ticket> addTickets(long startRange, long endRange) {
+    public ArrayList<Ticket> addTickets(int type, int startRange, int endRange) {
         Ticket ticket;
         LocalDate now = LocalDate.now();
         Date sqlNow = java.sql.Date.valueOf(now);
-        int startRangeType = Integer.parseInt(Long.toString(startRange).substring(0, 3));
-        int startRangeNumber = Integer.parseInt(Long.toString(startRange).substring(3));
+
 
         //loop through all tickets in provided arraylist
         // and check if they satisfy requirements to be removed
-        for (int i = 0; i < (endRange - startRange); i++) {
-            ticket = new Ticket(startRangeType, startRangeNumber, sqlNow);
+        for (int i = startRange; i <= endRange; i++) {
+            ticket = new Ticket(type, i, sqlNow);
             ticketSQLHelper.addTicket(ticket);
-            startRangeNumber++;
         }
 
         return getAllTickets();
@@ -69,17 +67,16 @@ public class TicketController {
      * @param endRange First 3 digits ticket type, rest ticket number
      * @return new Arraylist of tickets, now without the tickets that were removed
      */
-    public ArrayList<Ticket> removeTickets(long startRange, long endRange) {
-        int startRangeType = Integer.parseInt(Long.toString(startRange).substring(0, 3));
-        int startRangeNumber = Integer.parseInt(Long.toString(startRange).substring(3));
+    public ArrayList<Ticket> removeTickets(int type, int startRange, int endRange) {
+        Ticket ticket;
+        LocalDate now = LocalDate.now();
+        Date sqlNow = java.sql.Date.valueOf(now);
 
-        int endRangeNumber = Integer.parseInt(Long.toString(endRange).substring(3));
 
         //loop through all tickets in provided arraylist
         // and check if they satisfy requirements to be removed
-        while (startRangeNumber <= (endRangeNumber + 1)) {
-            ticketSQLHelper.removeTicket(startRangeType, startRangeNumber);
-            startRangeNumber++;
+        for (int i = startRange; i <= endRange; i++) {
+            ticketSQLHelper.removeTicket(type, i);
         }
 
         return getAllTickets();

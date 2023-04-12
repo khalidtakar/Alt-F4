@@ -69,21 +69,16 @@ public class MainPageAdmin{
             @Override
             public void actionPerformed(ActionEvent e) {
                 //create new blanks from textField1 to textField2
-                String addStartVal = addBlanksType.getSelectedItem().toString() + addBlanksStartVal.getText();
-                String addEndVal = addBlanksType.getSelectedItem().toString() + addBlanksEndVal.getText();
-                tickets = ticketController.addTickets((Long.parseLong(addStartVal))
-                        , Long.parseLong(addEndVal));
+                tickets = ticketController.addTickets(Integer.parseInt(addBlanksType.getSelectedItem().toString()) ,(Integer.parseInt(addBlanksStartVal.getText()))
+                        , Integer.parseInt(addBlanksEndVal.getText()));
                 updateTable();
             }
         });
         deleteBlanksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //delete blanks from deleteBlanksStartVal to deleteBlanksEndVal
-                String deleteStartVal = deleteBlanksType.getSelectedItem().toString() + deleteBlanksStartVal.getText();
-                String deleteEndVal = deleteBlanksType.getSelectedItem().toString() + deleteBlanksEndVal.getText();
-                tickets = ticketController.addTickets((Long.parseLong(deleteStartVal))
-                        , Long.parseLong(deleteEndVal));
+                tickets = ticketController.removeTickets(Integer.parseInt(deleteBlanksType.getSelectedItem().toString()) ,(Integer.parseInt(deleteBlanksStartVal.getText()))
+                        , Integer.parseInt(deleteBlanksEndVal.getText()));
                 updateTable();
 
             }
@@ -140,6 +135,10 @@ public class MainPageAdmin{
 
     public JPanel getPanel(){
         return mainPageAdminPanel;
+    }
+
+    public void update(){
+        main.goToMainPageAdmin(employee);
     }
 
     //updates blanks table with the latest state of ticket stocks

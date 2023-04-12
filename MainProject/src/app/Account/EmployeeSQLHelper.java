@@ -179,5 +179,33 @@ public class EmployeeSQLHelper extends JDBC {
             throw new RuntimeException(e);
         }
     }
+
+    public void addAdvisor(String email, String name, String passwordHash){
+        String sql1 = "INSERT INTO Employee (email, " +
+                "password, " +
+                "name) " +
+                "VALUES (?, ?, ?)";
+
+        String sql2 = "INSERT INTO Advisor (email) " +
+                "VALUES (?)";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql1);
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, passwordHash);
+            preparedStatement.setString(3, name);
+            preparedStatement.executeUpdate();
+
+            preparedStatement = connection.prepareStatement(sql2);
+            preparedStatement.setString(1, email);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }
 
