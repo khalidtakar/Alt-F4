@@ -59,7 +59,7 @@ public class ManagerAddAdvisor extends JDialog {
     private void onOK() {
         //TODO add advisor with advisorName advisorEmail advisorPassword
         EmployeeController employeeController = new EmployeeController();
-        employeeController.addAdvisor(advisorEmail.getText(), advisorName.getText(), advisorPassword.getPassword().toString());
+        employeeController.addAdvisor(advisorEmail.getText(), advisorName.getText(),new String(advisorPassword.getPassword()));
         mainPageManager.update();
         dispose();
     }
