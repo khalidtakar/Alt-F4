@@ -1,10 +1,14 @@
 package app.GUI;
 import app.Account.Employee;
+import app.Reports.GlobalInterlineSalesReport;
+import app.Reports.JPanelToPDF;
+import app.Reports.StockTurnoverReport;
 import com.toedter.calendar.JDateChooser;
 
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.Date;
 
 public class GenerateReport extends JDialog {
     private JPanel contentPane;
@@ -81,16 +85,32 @@ public class GenerateReport extends JDialog {
     private void onOK() {
         String startDate = String.format("%d/%d/%d/", startDay.getValue(), startMonth.getValue(), startYear.getValue());
         String endDate = String.format("%d/%d/%d/", endDay.getValue(), endMonth.getValue(), endYear.getValue());
-        //TODO generate report using startDate and endDate
-        /*
-        if (employee is manager) {
-            generate manager report of reportType
-        } else {
-            generate an advisor report (we can assume it is an advisor, since there is no alternative)
-        }
-        dispose();
 
-         */
+        System.out.println(startDate);
+
+        if(reportType.getSelectedItem().toString().equals("Interline")){
+            GlobalInterlineSalesReport report = new GlobalInterlineSalesReport(Date.valueOf("2023-01-01"),
+                    Date.valueOf("2023-05-01"));
+            JFrame frame = new JFrame();
+            frame.add(report.getPanel());
+            frame.pack();
+            frame.setVisible(true);
+            frame.repaint();
+
+            JPanelToPDF jFrameToPDF = new JPanelToPDF();
+            jFrameToPDF.makePDF(report.getPanel());
+        } else {
+            StockTurnoverReport report = new StockTurnoverReport(Date.valueOf("2023-01-01"),
+                    Date.valueOf("2023-05-01"));
+            JFrame frame = new JFrame();
+            frame.add(report.getPanel());
+            frame.pack();
+            frame.setVisible(true);
+            frame.repaint();
+
+            JPanelToPDF jFrameToPDF = new JPanelToPDF();
+            jFrameToPDF.makePDF(report.getPanel());
+        }
     }
 
     private void onCancel() {
