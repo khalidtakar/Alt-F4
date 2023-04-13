@@ -11,6 +11,7 @@ import app.System.SystemController;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -59,6 +60,11 @@ public class MainPageAdmin{
         this.systemController = systemController;
         this.ticketController = ticketController;
         this.employee = employee;
+
+        //set logo
+        ImageIcon imageIcon = new ImageIcon("resources/logo.png");
+        logo.setIcon(imageIcon);
+        logo.setText("");
 
         adminName.setText(employee.getName());
         adminEmail.setText(employee.getEmail());
@@ -121,21 +127,7 @@ public class MainPageAdmin{
         changePasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel panel = new JPanel();
-                JLabel label = new JLabel("New password:");
                 JPasswordField passwordField = new JPasswordField();
-                panel.add(label, passwordField);
-                JButton showPasswordButton = new JButton();
-                showPasswordButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (passwordField.getEchoChar() == '•') {
-                            passwordField.setEchoChar((char) 0);
-                        } else {
-                            passwordField.setEchoChar('•');
-                        }
-                    }
-                });
 
                 int option = JOptionPane.showConfirmDialog(null, passwordField, "Change password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {

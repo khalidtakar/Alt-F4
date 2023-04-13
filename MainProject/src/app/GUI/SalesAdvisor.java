@@ -35,6 +35,7 @@ public class SalesAdvisor {
     private JButton changePasswordButton;
     private JLabel advName;
     private JLabel advEmail;
+    private JLabel logo;
 
     private SalesAdvisor salesAdvisor;
     private Main main;
@@ -51,6 +52,11 @@ public class SalesAdvisor {
         this.employee = employee;
         this.advisor = employee.getAdvisor();
         this.salesAdvisor = this;
+
+        //set logo
+        ImageIcon imageIcon = new ImageIcon("resources/logo.png");
+        logo.setIcon(imageIcon);
+        logo.setText("");
 
         advName.setText(employee.getName());
         advEmail.setText(employee.getEmail());

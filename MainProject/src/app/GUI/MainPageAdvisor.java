@@ -16,6 +16,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class MainPageAdvisor {
     private JButton changePasswordButton;
     private JLabel advName;
     private JLabel advEmail;
+    private JLabel logo;
 
     private Main main;
     private System system;
@@ -61,6 +63,11 @@ public class MainPageAdvisor {
         this.advisor = employee.getAdvisor();
 
         this.mainPageAdvisor = this;
+
+        //set logo
+        ImageIcon imageIcon = new ImageIcon("resources/logo.png");
+        logo.setIcon(imageIcon);
+        logo.setText("");
 
         advName.setText(employee.getName());
         advEmail.setText(employee.getEmail());
@@ -137,21 +144,7 @@ public class MainPageAdvisor {
         changePasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel panel = new JPanel();
-                JLabel label = new JLabel("New password:");
                 JPasswordField passwordField = new JPasswordField();
-                panel.add(label, passwordField);
-                JButton showPasswordButton = new JButton();
-                showPasswordButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (passwordField.getEchoChar() == '•') {
-                            passwordField.setEchoChar((char) 0);
-                        } else {
-                            passwordField.setEchoChar('•');
-                        }
-                    }
-                });
 
                 int option = JOptionPane.showConfirmDialog(null, passwordField, "Change password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {

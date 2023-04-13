@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
@@ -38,6 +39,7 @@ public class MainPageManager {
     private JLabel manEmail;
     private JLabel currentRate;
     private JLabel currentTax;
+    private JLabel logo;
 
     private ArrayList<Employee> advisors;
 
@@ -65,6 +67,11 @@ public class MainPageManager {
         this.employee = employee;
 
         this.mainPageManager = this;
+
+        //set logo
+        ImageIcon imageIcon = new ImageIcon("resources/logo.png");
+        logo.setIcon(imageIcon);
+        logo.setText("");
 
         manName.setText(employee.getName());
         manEmail.setText(employee.getEmail());
@@ -149,21 +156,7 @@ public class MainPageManager {
         changePasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JPanel panel = new JPanel();
-                JLabel label = new JLabel("New password:");
                 JPasswordField passwordField = new JPasswordField();
-                panel.add(label, passwordField);
-                JButton showPasswordButton = new JButton();
-                showPasswordButton.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (passwordField.getEchoChar() == '•') {
-                            passwordField.setEchoChar((char) 0);
-                        } else {
-                            passwordField.setEchoChar('•');
-                        }
-                    }
-                });
 
                 int option = JOptionPane.showConfirmDialog(null, passwordField, "Change password", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
                 if (option == JOptionPane.OK_OPTION) {
