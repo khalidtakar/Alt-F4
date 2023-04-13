@@ -1,6 +1,10 @@
 package app.GUI;
 
+import app.Sale.Sale;
+import app.Sale.SaleController;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class AdvisorViewSale extends JDialog {
@@ -13,20 +17,33 @@ public class AdvisorViewSale extends JDialog {
     private JLabel ticketType;
     private JLabel ticketNumber;
 
-    public AdvisorViewSale(int saleID) {
+    public AdvisorViewSale(Sale sale) {
         setContentPane(contentPane);
         setModal(true);
 
+        SaleController saleController = new SaleController();
+
         //TODO display sale details
-        priceLabel.setText("");
-        discountLabel.setText("");
+        priceLabel.setText(sale.getPriceUSD() + sale.getLocalCurrency() + "via" + sale.getPaymentProvider() + sale.getPaymentType());
+        discountLabel.setText("Final price: " );
         dateLabel.setText("");
         ticketType.setText("");
         ticketNumber.setText("");
 
         refundButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //TODO refund sale with this saleID
+                //refund sale with this saleID
+                int confirmation = JOptionPane.showConfirmDialog(null, "Confirm this refund?", "Confirm Refund", JOptionPane.YES_NO_OPTION);
+                if (confirmation == JOptionPane.YES_OPTION) {
+                    //confirm a refund
+                    sale.setRefunded(true);
+                    saleController.updateSale(sale);
+                    dispose();
+                } else {
+                    //closes the option pane
+                    Window option = SwingUtilities.getWindowAncestor(confirmSaleButton);
+                    option.dispose();
+                }
             }
         });
 

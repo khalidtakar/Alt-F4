@@ -36,16 +36,16 @@ public class GenerateReport extends JDialog {
 
         this.employee = employee;
 
-        SpinnerModel dayModel = new SpinnerNumberModel(1, 1, 31, 1);
-        SpinnerModel monthModel = new SpinnerNumberModel(1, 1, 12, 1);
-        SpinnerModel yearModel = new SpinnerNumberModel(1, 1, 2023, 1); //TODO set maximum to current year
+        SpinnerModel startDayModel = new SpinnerNumberModel(1, 1, 31, 1);
+        SpinnerModel startMonthModel = new SpinnerNumberModel(1, 1, 12, 1);
+        SpinnerModel startYearModel = new SpinnerNumberModel(1, 1, 2023, 1); //TODO set maximum to current year
         SpinnerModel endDayModel = new SpinnerNumberModel(1, 1, 31, 1);
         SpinnerModel endMonthModel = new SpinnerNumberModel(1, 1, 12, 1);
         SpinnerModel endYearModel = new SpinnerNumberModel(1, 1, 2023, 1); //TODO set maximum to current year
 
-        startDay.setModel(dayModel);
-        startMonth.setModel(monthModel);
-        startYear.setModel(yearModel);
+        startDay.setModel(startDayModel);
+        startMonth.setModel(startMonthModel);
+        startYear.setModel(startYearModel);
         endDay.setModel(endDayModel);
         endMonth.setModel(endMonthModel);
         endYear.setModel(endYearModel);

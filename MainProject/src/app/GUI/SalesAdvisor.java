@@ -110,18 +110,6 @@ public class SalesAdvisor {
 
                     Sale sale = saleController.getSaleByID(saleID);
 
-                    JPanel panel = new JPanel();
-
-                    int option = JOptionPane.showConfirmDialog(null,
-                            "Confirm refund of " + (sale.getPriceLocal() + sale.getTaxAmount()) + " " + sale.getLocalCurrency() + " (incl. " + sale.getTaxAmount() + " tax)",
-                            "Confirm Refund",
-                            JOptionPane.OK_CANCEL_OPTION,
-                            JOptionPane.PLAIN_MESSAGE);
-                    if (option == JOptionPane.OK_OPTION) {
-                        sale.setRefunded(true);
-                        saleController.updateSale(sale);
-                        update();
-                    }
                 }
             }
         });

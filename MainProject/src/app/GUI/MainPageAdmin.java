@@ -36,13 +36,14 @@ public class MainPageAdmin{
     private JLabel welcomeText;
     private JLabel logo;
     private JPanel mainPageAdminPanel;
-    private JLabel days;
+    private JLabel daysDisplay;
     private JButton restoreFromBackupButton;
     private JButton changePasswordButton;
     private JLabel adminName;
     private JLabel adminEmail;
     private JComboBox addBlanksType;
     private JComboBox deleteBlanksType;
+    private JLabel frequencyDisplay;
 
     private Main main;
     private System system;
@@ -63,7 +64,8 @@ public class MainPageAdmin{
         adminEmail.setText(employee.getEmail());
 
         backupFrequency.setText(String.valueOf(system.getAutoBackupFreqDays()));
-        days.setText(String.valueOf(systemController.checkLastBackup(system)));
+        daysDisplay.setText(String.valueOf(systemController.checkLastBackup(system)) + " days since last backup");
+        frequencyDisplay.setText("Backup frequency: " + Integer.parseInt(backupFrequency.getText() + " days"));
 
         addBlanksButton.addActionListener(new ActionListener() {
             @Override
