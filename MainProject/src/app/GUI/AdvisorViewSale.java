@@ -2,10 +2,13 @@ package app.GUI;
 
 import app.Sale.Sale;
 import app.Sale.SaleController;
+import app.Sale.Ticket;
+import app.Sale.TicketController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class AdvisorViewSale extends JDialog {
     private JPanel contentPane;
@@ -16,6 +19,9 @@ public class AdvisorViewSale extends JDialog {
     private JLabel dateLabel;
     private JLabel ticketType;
     private JLabel ticketNumber;
+    private JLabel assignLabel;
+    private JLabel finalLabel;
+    private Ticket ticket;
 
     public AdvisorViewSale(Sale sale) {
         setContentPane(contentPane);
@@ -25,15 +31,27 @@ public class AdvisorViewSale extends JDialog {
         if (sale.isRefunded()) {
             refundButton.setVisible(false);
         }
+        TicketController ticketController = new TicketController();
 
         //display sale details
-        /*TODO display price and final price in local currency
-           and reconsider "This sale was unnasigned"*/
-        priceLabel.setText(String.format("Initial price is %.2f%s via %s %s",
-                sale.getPriceUSD(), sale.getLocalCurrency(), sale.getPaymentProvider(),
-                sale.getPaymentType()));
-        discountLabel.setText(String.format("Final price: %.2f USD (-%.2f USD)",
-                sale.getPriceUSD() + sale.getTaxAmount() - sale.getSaleDiscountAmount(), sale.getSaleDiscountAmount() - sale.getTaxAmount()));
+        ArrayList<Ticket> tickets = ticketController.getAllTickets();
+        for (Ticket i : tickets) {
+            if (i.getSaleID() == sale.getSaleID()) {
+                this.ticket = i;
+                ticketType.setText(String.valueOf(ticket.getTicketType()));
+                ticketNumber.setText("Ticket No." + ticket.getTicketNumber());
+            }
+        }
+        if (sale.getCustomerEmail() != null) {
+            assignLabel.setText("This sale was assigned to " + sale.getCustomerEmail());
+        }
+
+        priceLabel.setText(String.format("Initial price is %.2f %s via %s %s",
+                sale.getPriceLocal(), sale.getLocalCurrency(), sale.getPaymentProvider(), sale.getPaymentType()));
+        discountLabel.setText(String.format("-%.2f%s discount and +%.2f%s tax applied",
+                sale.getSaleDiscountAmount(), sale.getLocalCurrency(), sale.getTaxAmount(), sale.getLocalCurrency()));
+        finalLabel.setText(String.format("Final price: %.2f USD",
+                sale.getPriceUSD() + sale.getTaxAmount() - sale.getSaleDiscountAmount()));
         if (!sale.isPaid()) {
             //sale was not late payment
             dateLabel.setText("Sale made on " + sale.getDateSold());
@@ -41,8 +59,6 @@ public class AdvisorViewSale extends JDialog {
             //sale was late payment
             dateLabel.setText("Sale made on " + sale.getDateSold() + " and paid late on " + sale.getDatePaid());
         }
-        ticketType.setText("");
-        ticketNumber.setText("");
 
         refundButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

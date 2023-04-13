@@ -52,7 +52,7 @@ public class AdvisorAssignTicket extends JDialog {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
         ticketType.setText(String.valueOf(ticket.getTicketType()));
-        ticketNumber.setText("Ticket No." + String.valueOf(ticket.getTicketNumber()));
+        ticketNumber.setText("Ticket No." + ticket.getTicketNumber());
 
         SortedSet<String> currencyCodes = new TreeSet<String>();
         for (Currency currency : Currency.getAvailableCurrencies()) {
