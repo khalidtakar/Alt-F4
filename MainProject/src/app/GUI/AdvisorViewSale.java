@@ -27,6 +27,8 @@ public class AdvisorViewSale extends JDialog {
         }
 
         //display sale details
+        /*TODO display price and final price in local currency
+           and reconsider "This sale was unnasigned"*/
         priceLabel.setText(String.format("Initial price is %.2f%s via %s %s",
                 sale.getPriceUSD(), sale.getLocalCurrency(), sale.getPaymentProvider(),
                 sale.getPaymentType()));

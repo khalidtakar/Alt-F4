@@ -28,7 +28,7 @@ For discount if both boundaries are 0, that represents a flat discount
 
 Only 2 reports generated, ran out of time.
 	-Manager Ticket turnover report
-	-Manager Gloal Interline+Domestic sales report. Since low on time wanted to display some functionality and believed combining two reports would be more useful
+	-Manager Gloal Interline+Domestic sales report. Since low on time wanted to display some functionality, lieved combining two reports would be more useful
 	-functionality for advisor to generate induvidual domestic and global report is in place but no report generated
 	-reports are stored in main folder, need to delete report.pdf to see new generated report.
 
