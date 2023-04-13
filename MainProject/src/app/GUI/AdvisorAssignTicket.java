@@ -196,15 +196,15 @@ public class AdvisorAssignTicket extends JDialog {
                             double discountedPrice = convertedPrice - (convertedPrice * 0.01 * discount);
 
                             priceDisplay.setText("Initial price: " + convertedPrice + " USD");
-                            finalPriceDisplay.setText("Final price: " + (discountedPrice * (1 + system.getTaxRate())) + " USD");
+                            finalPriceDisplay.setText("Final price: " + (discountedPrice * (1 + system.getTaxRate()/100)) + " USD");
                         }catch (Exception e){
                             priceDisplay.setText("Initial price: " + convertedPrice + " USD");
-                            finalPriceDisplay.setText("Final price: " + (convertedPrice * (1 + system.getTaxRate())) + " USD");
+                            finalPriceDisplay.setText("Final price: " + (convertedPrice * (1 + system.getTaxRate()/100)) + " USD");
                         }
                     } else {
                         //user is not registered - no discount
                         priceDisplay.setText("Initial price: " + convertedPrice + " USD");
-                        finalPriceDisplay.setText("Final price: " + (convertedPrice * (1 + system.getTaxRate())) + " USD");
+                        finalPriceDisplay.setText("Final price: " + (convertedPrice * (1 + system.getTaxRate()/100)) + " USD");
                     }
                 } catch (NumberFormatException e) {
                     if (Objects.equals(priceInput, "")) {
