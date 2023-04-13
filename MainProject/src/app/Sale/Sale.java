@@ -10,7 +10,7 @@ public class Sale {
     private String customerEmail;
     private Date dateSold;
     private String paymentType;
-    private long cardNo;
+    private Long cardNo;
     private String paymentProvider;
     private String localCurrency;
     private double exchangeRate;
@@ -28,7 +28,7 @@ public class Sale {
     private Customer customer;
     private Advisor advisor;
 
-    public Sale(int saleID, int advisorID, String customerEmail, Date dateSold, String paymentType, int cardNo, String paymentProvider, String localCurrency, double exchangeRate, double priceLocal, double priceUSD, double saleDiscountAmount, double taxAmount, double saleCommissionAmount, boolean isDomestic, boolean isPaid, Date datePaid, boolean isRefunded) {
+    public Sale(int saleID, int advisorID, String customerEmail, Date dateSold, String paymentType, Long cardNo, String paymentProvider, String localCurrency, double exchangeRate, double priceLocal, double priceUSD, double saleDiscountAmount, double taxAmount, double saleCommissionAmount, boolean isDomestic, boolean isPaid, Date datePaid, boolean isRefunded) {
         this.saleID = saleID;
         this.advisorID = advisorID;
         this.customerEmail = customerEmail;
@@ -72,7 +72,7 @@ public class Sale {
         return paymentType;
     }
 
-    public long getCardNo() {
+    public Long getCardNo() {
         return cardNo;
     }
 
@@ -162,7 +162,7 @@ public class Sale {
         this.paymentType = paymentType;
     }
 
-    public void setCardNo(long cardNo) {
+    public void setCardNo(Long cardNo) {
         this.cardNo = cardNo;
     }
 

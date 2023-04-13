@@ -137,7 +137,7 @@ public class SaleController {
         saleSQLHelper.updateSale(sale);
     }
 
-    public void newSale(int advisorID, String customerEmail, String paymentType, double price, long cardNo, String paymentProvider, String localCurrency, boolean isPaid, Ticket ticket){
+    public void newSale(int advisorID, String customerEmail, String paymentType, double price, Long cardNo, String paymentProvider, String localCurrency, boolean isPaid, Ticket ticket){
         Sale sale = new Sale();
         double priceUSD;
 
@@ -223,7 +223,7 @@ public class SaleController {
         return greatest.getDiscountRate();
     }
 
-    public void makeLatePayment(Sale sale, int cardNo, String provider,String paymentType){
+    public void makeLatePayment(Sale sale, Long cardNo, String provider,String paymentType){
         sale.setCardNo(cardNo);
         sale.setPaymentProvider(provider);
         sale.setPaymentType(paymentType);

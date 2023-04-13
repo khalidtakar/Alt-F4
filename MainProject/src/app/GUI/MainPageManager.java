@@ -32,7 +32,6 @@ public class MainPageManager {
 
     private JButton changeDiscountButton;
     private JTextField discountRate;
-    private JLabel discountRateDisplay;
 
     private JButton addNewAdvisorButton;
     private JTextField advisorName;
@@ -95,7 +94,6 @@ public class MainPageManager {
             public void actionPerformed(ActionEvent e) {
                 //change commission rate
                 systemController.setCommissionRate(Double.parseDouble(commissionRate.getText()));
-                commissionRateDisplay.setText("Commission rate: " + commissionRate + "%");
             }
         });
         changeTaxButton.addActionListener(new ActionListener() {
@@ -103,7 +101,6 @@ public class MainPageManager {
             public void actionPerformed(ActionEvent e) {
                 //change tax rate to taxRate
                 systemController.setTaxRate(Double.parseDouble(taxRate.getText()));
-                taxRateDisplay.setText("Tax rate: " + taxRate + "%");
             }
         });
         changeDiscountButton.addActionListener(new ActionListener() {
