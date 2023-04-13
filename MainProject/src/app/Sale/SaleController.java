@@ -112,7 +112,7 @@ public class SaleController {
         ArrayList<Sale> completedSales = new ArrayList<>();
 
         for(Sale i : advisorsSales){
-            if(i.isPaid() == true) {
+            if(i.isPaid()) {
                 completedSales.add(i);
             }
         }
@@ -125,7 +125,7 @@ public class SaleController {
         ArrayList<Sale> lateSales = new ArrayList<>();
 
         for(Sale i : advisorsSales){
-            if(i.isPaid() == false) {
+            if(!i.isPaid()) {
                 lateSales.add(i);
             }
         }
@@ -137,7 +137,7 @@ public class SaleController {
         saleSQLHelper.updateSale(sale);
     }
 
-    public void newSale(int advisorID, String customerEmail, String paymentType, double price, long cardNo, String paymentProvider, String localCurrency, boolean isPaid, Ticket ticket){
+    public void newSale(int advisorID, String customerEmail, String paymentType, double price, Long cardNo, String paymentProvider, String localCurrency, boolean isPaid, Ticket ticket){
         Sale sale = new Sale();
         double priceUSD;
 

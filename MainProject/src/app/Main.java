@@ -22,6 +22,7 @@ public class Main{
     private SalesAdvisor salesPageAdvisor;
     private Setup setupPage;
     private JPanel loginPanel, mainPageAdminPanel, mainPageManagerPanel, mainPageAdvisorPanel, salesPageAdvisorPanel, setupPagePanel;
+    private Dimension maxSize;
 
     private Employee employee = null;
     private System system;
@@ -38,14 +39,17 @@ public class Main{
         employee = new Employee();
 
         //main frame
-        frame = new JFrame("ATS");
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        maxSize = new Dimension(1000, 600);
 
+        frame = new JFrame("ATS");
+        frame.setSize(maxSize);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setMinimumSize(maxSize);
+        frame.setLocationRelativeTo(null);
 
         cardLayout = new CardLayout();
         cardPane = new JPanel(cardLayout);
-
+        cardPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 20, 20));
 
         //display card stack
         frame.setContentPane(cardPane);
@@ -93,6 +97,7 @@ public class Main{
         cardPane.add("mainPageAdmin", mainPageAdminPanel);
         cardLayout.show(cardPane, "mainPageAdmin");
         frame.pack();
+        frame.setSize(maxSize);
         frame.repaint();
     }
 
@@ -119,6 +124,7 @@ public class Main{
         cardPane.add("mainPageManager", mainPageManagerPanel);
         cardLayout.show(cardPane, "mainPageManager");
         frame.pack();
+        frame.setSize(maxSize);
         frame.repaint();
     }
 
@@ -142,6 +148,7 @@ public class Main{
         cardPane.add("mainPageAdvisor", mainPageAdvisorPanel);
         cardLayout.show(cardPane, "mainPageAdvisor");
         frame.pack();
+        frame.setSize(maxSize);
         frame.repaint();
     }
 
@@ -152,6 +159,7 @@ public class Main{
         cardPane.add("salesPageAdvisor", salesPageAdvisorPanel);
         cardLayout.show(cardPane, "salesPageAdvisor");
         frame.pack();
+        frame.setSize(maxSize);
         frame.repaint();
     }
 
@@ -162,6 +170,7 @@ public class Main{
         cardPane.add("setupPage", setupPagePanel);
         cardLayout.show(cardPane, "setupPage");
         frame.pack();
+        frame.setSize(maxSize);
         frame.repaint();
     }
 
