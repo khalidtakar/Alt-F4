@@ -73,6 +73,10 @@ public class SaleSQLHelper extends JDBC {
         return sales;
     }
 
+    /**
+        Returns sale from database with the ID
+        @param saleID sale ID
+     **/
     public Sale saleByID(int saleID){
         Sale sale = null;
 

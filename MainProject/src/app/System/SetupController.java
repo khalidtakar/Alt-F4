@@ -20,6 +20,13 @@ public class SetupController {
         loadSetup();
     }
 
+    /**
+     * update the system setup file with new database connection info
+     * @param serverName server name
+     * @param url server url
+     * @param portNumber server port number
+     * @param dbName database name
+     */
     public void updateSetup(String serverName,
                             String url,
                             String portNumber,
@@ -41,6 +48,9 @@ public class SetupController {
         }
     }
 
+    /*
+        Initialise database connection variables with current state of database setup file
+     */
     public void loadSetup(){
         try (InputStream input = new FileInputStream(propertiesPath)){
             Properties properties = new Properties();

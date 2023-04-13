@@ -86,10 +86,19 @@ public class SaleController {
         return exchangeRate;
     }
 
+    /**
+     *  gets all sales
+     * @return returns arraylist of Sale instances from database
+     */
     public ArrayList<Sale> getAllSales(){
         return saleSQLHelper.getAllSales();
     }
 
+    /**
+     * Gets all sales that contain advisor ID
+     * @param advID advisor ID
+     * @return ArrayList of Sale instances
+     */
     public ArrayList<Sale> getAdvisorsSales(int advID){
         ArrayList<Sale> sales = getAllSales();
         ArrayList<Sale> advisorsSales = new ArrayList<>();
@@ -103,10 +112,20 @@ public class SaleController {
         return advisorsSales;
     }
 
+    /**
+     * Gets sale by sale ID
+     * @param saleID sale id
+     * @return Sale
+     */
     public Sale getSaleByID(int saleID){
         return saleSQLHelper.saleByID(saleID);
     }
 
+    /**
+     * Gets all completed sales associated with advisor ID
+     * @param advID advisor Id
+     * @return ArrayList of completed Sale instances for advisor
+     */
     public ArrayList<Sale> getAdvisorsCompletedSales(int advID){
         ArrayList<Sale> advisorsSales = getAdvisorsSales(advID);
         ArrayList<Sale> completedSales = new ArrayList<>();
@@ -120,6 +139,11 @@ public class SaleController {
         return completedSales;
     }
 
+    /**
+     * Gets all late sales associated with advisor ID
+     * @param advID advisor Id
+     * @return ArrayList of late Sale instances for advisor
+     */
     public ArrayList<Sale> getAdvisorsLateSales(int advID){
         ArrayList<Sale> advisorsSales = getAdvisorsSales(advID);
         ArrayList<Sale> lateSales = new ArrayList<>();
@@ -133,10 +157,26 @@ public class SaleController {
         return lateSales;
     }
 
+    /**
+     * update sale database state with current state of Sale class instance
+     * @param sale Sale instance
+     */
     public void updateSale(Sale sale){
         saleSQLHelper.updateSale(sale);
     }
 
+    /**
+     * Add new sale to database
+     * @param advisorID advisor ID
+     * @param customerEmail customer email
+     * @param paymentType payment type
+     * @param price price
+     * @param cardNo card number
+     * @param paymentProvider card provider eg. VISA
+     * @param localCurrency local currency eg. GBP, USD
+     * @param isPaid is paid?
+     * @param ticket Ticket instance associated with sale
+     */
     public void newSale(int advisorID, String customerEmail, String paymentType, double price, Long cardNo, String paymentProvider, String localCurrency, boolean isPaid, Ticket ticket){
         Sale sale = new Sale();
         double priceUSD;
@@ -206,6 +246,13 @@ public class SaleController {
         }
     }
 
+    /**
+     * return best discount for given customer
+     * @param customerEmail customer email
+     * @param discounts discounts arraylist associated with customer
+     * @param price sale price
+     * @return best discount rate
+     */
     public double calculateDiscounts(String customerEmail, ArrayList<FlexibleDiscount> discounts, double price) {
         FlexibleDiscountController flexibleDiscountController = new FlexibleDiscountController();
         CustomerController customerController = new CustomerController();
@@ -230,6 +277,13 @@ public class SaleController {
         return greatest.getDiscountRate();
     }
 
+    /**
+     * Update late payment sale to complete
+     * @param sale Sale instance
+     * @param cardNo card number
+     * @param provider card provider eg. VISA
+     * @param paymentType payment type eg. cash/ card
+     */
     public void makeLatePayment(Sale sale, Long cardNo, String provider,String paymentType){
         sale.setCardNo(cardNo);
         sale.setPaymentProvider(provider);
@@ -240,6 +294,10 @@ public class SaleController {
         saleSQLHelper.updateSale(sale);
     }
 
+    /**
+     * Complete a late payment ticket without payment (used for late refunds)
+     * @param sale late Sale instance
+     */
     public void cancelLatePayment(Sale sale){
         sale.setPaid(true);
         sale.setRefunded(true);

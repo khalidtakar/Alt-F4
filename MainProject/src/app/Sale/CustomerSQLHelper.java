@@ -160,6 +160,11 @@ public class CustomerSQLHelper extends JDBC {
         }
     }
 
+    /**
+     * update customer email across entire database
+     * @param oldEmail old customer email
+     * @param newEmail new customer email
+     */
     public void updateCustomerEmail(String oldEmail, String newEmail) {
         String sql1 = "UPDATE RegisteredCustomer " +
                 "SET email = ? " +

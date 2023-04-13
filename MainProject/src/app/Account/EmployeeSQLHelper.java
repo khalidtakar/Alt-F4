@@ -136,6 +136,11 @@ public class EmployeeSQLHelper extends JDBC {
         return advisor;
     }
 
+
+    /**
+     * get all advisors
+     * @return Arraylist of Employee objects that are advisors
+     */
     public ArrayList<Employee> getAdvisors() {
         ArrayList<Employee> advisors = new ArrayList<>();
 
@@ -164,6 +169,10 @@ public class EmployeeSQLHelper extends JDBC {
         return advisors;
     }
 
+    /**
+     * change password for employee
+     * @param employee employee
+     */
     public void changePassword(Employee employee) {
         sql = "UPDATE Employee SET " +
                 "password = ? " +
@@ -180,6 +189,12 @@ public class EmployeeSQLHelper extends JDBC {
         }
     }
 
+    /**
+     * add advisor to database
+     * @param email advisor email
+     * @param name name
+     * @param passwordHash password hash, need to use doHashing() function
+     */
     public void addAdvisor(String email, String name, String passwordHash){
         String sql1 = "INSERT INTO Employee (email, " +
                 "password, " +

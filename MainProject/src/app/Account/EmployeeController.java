@@ -63,6 +63,10 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * change password
+     * @param password plain text password
+     */
     public void changePassword(String password){
         employee.setPasswordHash(doHashing(employee.getEmail(), password));
         employeeSQLHelper.changePassword(employee);
@@ -72,6 +76,12 @@ public class EmployeeController {
         return employeeSQLHelper.getAdvisors();
     }
 
+    /**
+     * add advisor to database
+     * @param email email
+     * @param name name
+     * @param password plain text password
+     */
     public void addAdvisor(String email, String name, String password){
         employeeSQLHelper.addAdvisor(email, name, doHashing(email, password));
     }
