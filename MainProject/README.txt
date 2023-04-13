@@ -16,6 +16,10 @@ DB settings page: (works in offline mode)
   system
   setup
 
+Table rows can be clicked to display additional relevant options for row
+
+Not all currencies work in API, stick to common such as: USD, GBP
+
 To use backup and restore you need to:
 	-download mySqlServer
 	-setup path system variable for mysql cmd commands
