@@ -65,7 +65,7 @@ public class MainPageAdmin{
 
         backupFrequency.setText(String.valueOf(system.getAutoBackupFreqDays()));
         daysDisplay.setText(String.valueOf(systemController.checkLastBackup(system)) + " days since last backup");
-        //frequencyDisplay.setText("Backup frequency: " + Integer.parseInt(backupFrequency.getText() + " days"));
+        frequencyDisplay.setText("Backup frequency: " + backupFrequency.getText() + " days");
 
         addBlanksButton.addActionListener(new ActionListener() {
             @Override
@@ -90,6 +90,7 @@ public class MainPageAdmin{
             public void actionPerformed(ActionEvent e) {
                 //change the frequency of database updates
                 systemController.setAutoBackupFreqDays(Integer.parseInt(backupFrequency.getText()));
+                frequencyDisplay.setText("Backup frequency: " + backupFrequency.getText() + " days");
             }
         });
         createBackupNowButton.addActionListener(new ActionListener() {

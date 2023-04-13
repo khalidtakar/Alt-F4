@@ -1,4 +1,4 @@
--Test logins:
+Run /MainProject as intelijIdea project
 
 admin:
   arthur@gmail.com
@@ -15,6 +15,9 @@ advisor:
 DB settings page: (works in offline mode)
   system
   setup
+
+If database breaks beyond repair and backup files are of a bad state as well
+	-use "repairQueriesRunManuallyPHP.sql" file in phpmyadmin to fix the DB
 
 Table rows can be clicked to display additional relevant options for row
 
