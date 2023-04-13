@@ -97,13 +97,13 @@ public class GenerateReport extends JDialog {
         java.sql.Date sqlStartDate = java.sql.Date.valueOf(startDate);
         java.sql.Date sqlEndDate = java.sql.Date.valueOf(endDate);
 
-        if(reportType.getSelectedItem().toString().equals("Interline")){
+        if(reportType.getSelectedItem().toString().equals("Sale")){
             GlobalInterlineSalesReport report = new GlobalInterlineSalesReport(sqlStartDate,
                     sqlEndDate);
             JFrame frame = new JFrame();
             frame.add(report.getPanel());
             frame.pack();
-            frame.setSize(1200,3000);
+            frame.setSize(1200,2000);
             frame.setVisible(true);
             frame.repaint();
 
@@ -115,7 +115,7 @@ public class GenerateReport extends JDialog {
             JFrame frame = new JFrame();
             frame.add(report.getPanel());
             frame.pack();
-            frame.setSize(1200,3000);
+            frame.setSize(1200,2000);
             frame.setVisible(true);
             frame.repaint();
 
