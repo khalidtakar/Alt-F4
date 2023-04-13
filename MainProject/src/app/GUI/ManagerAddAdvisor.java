@@ -25,9 +25,6 @@ public class ManagerAddAdvisor extends JDialog {
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        //TODO set advisor ID display to what their new ID will be
-        //advisorID.setText("ID: ");
-
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -57,7 +54,7 @@ public class ManagerAddAdvisor extends JDialog {
     }
 
     private void onOK() {
-        //TODO add advisor with advisorName advisorEmail advisorPassword
+        //add advisor with advisorName advisorEmail advisorPassword
         EmployeeController employeeController = new EmployeeController();
         employeeController.addAdvisor(advisorEmail.getText(), advisorName.getText(),new String(advisorPassword.getPassword()));
         mainPageManager.update();

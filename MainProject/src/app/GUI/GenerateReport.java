@@ -9,6 +9,7 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.Date;
+import java.util.Objects;
 
 public class GenerateReport extends JDialog {
     private JPanel contentPane;
@@ -27,21 +28,21 @@ public class GenerateReport extends JDialog {
     private JDateChooser reportStartDate;
     private JDateChooser reportEndDate;
 
-    private Employee employee;
+    private String employeeType;
 
-    public GenerateReport(Employee employee) {
+    public GenerateReport(String employeeType) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
-        this.employee = employee;
+        this.employeeType = employeeType;
 
         SpinnerModel startDayModel = new SpinnerNumberModel(1, 1, 31, 1);
         SpinnerModel startMonthModel = new SpinnerNumberModel(1, 1, 12, 1);
-        SpinnerModel startYearModel = new SpinnerNumberModel(1, 1, 2023, 1); //TODO set maximum to current year
+        SpinnerModel startYearModel = new SpinnerNumberModel(1, 1, 2024, 1);
         SpinnerModel endDayModel = new SpinnerNumberModel(1, 1, 31, 1);
         SpinnerModel endMonthModel = new SpinnerNumberModel(1, 1, 12, 1);
-        SpinnerModel endYearModel = new SpinnerNumberModel(1, 1, 2023, 1); //TODO set maximum to current year
+        SpinnerModel endYearModel = new SpinnerNumberModel(1, 1, 2024, 1);
 
         startDay.setModel(startDayModel);
         startMonth.setModel(startMonthModel);
@@ -50,12 +51,12 @@ public class GenerateReport extends JDialog {
         endMonth.setModel(endMonthModel);
         endYear.setModel(endYearModel);
 
-        //TODO edit combobox based on user
-        /*
-        if (employee is advisor) {
-            reportType.removeItem("Stock");
+        if (employeeType == "advisor") {
+            reportType.removeAllItems();
+            reportType.addItem("Interline");
+            reportType.addItem("Domestic");
         }
-         */
+        System.out.print(employeeType);
 
 
         buttonOK.addActionListener(new ActionListener() {

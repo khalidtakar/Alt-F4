@@ -39,7 +39,13 @@ public class AdvisorLatePayment extends JDialog {
         paymentAmount.setText("Amount: " + sale.getPriceUSD());
         currency.setText(sale.getLocalCurrency());
 
-        /*TODO add cardNo and payment provider to inout text fields*/
+        //set cardNo and provider to earlier provided
+        if (sale.getCardNo() != 0L) {
+            cardNoTextField.setText(Long.toString(sale.getCardNo()));
+        }
+        if (sale.getPaymentProvider() != null) {
+            providerTextField.setText(sale.getPaymentProvider());
+        }
 
 
         buttonCancel.addActionListener(new ActionListener() {

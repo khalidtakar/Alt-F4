@@ -74,7 +74,7 @@ public class SalesAdvisor {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //opens report generation window
-                JDialog dialog = new GenerateReport(employee);
+                JDialog dialog = new GenerateReport("advisor");
                 dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 dialog.setLocationRelativeTo(null);
                 dialog.pack();
@@ -100,6 +100,7 @@ public class SalesAdvisor {
                     dialog.pack();
                     dialog.setVisible(true);
                 }
+                updateSalesTable();
             }
         });
         completedSelectionModel.addListSelectionListener(new ListSelectionListener() {

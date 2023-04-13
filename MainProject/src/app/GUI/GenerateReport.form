@@ -63,9 +63,8 @@
             </constraints>
             <properties>
               <model>
-                <item value="Domestic"/>
-                <item value="Interline"/>
-                <item value="Stock"/>
+                <item value="Sale"/>
+                <item value="Ticket turnover"/>
               </model>
             </properties>
           </component>

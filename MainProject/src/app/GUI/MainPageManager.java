@@ -78,7 +78,7 @@ public class MainPageManager {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //opens report generation window
-                JDialog dialog = new GenerateReport(employee);
+                JDialog dialog = new GenerateReport("manager");
                 dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 dialog.setLocationRelativeTo(null);
                 dialog.pack();
