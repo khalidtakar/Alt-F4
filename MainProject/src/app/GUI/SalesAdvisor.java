@@ -157,7 +157,6 @@ public class SalesAdvisor {
                             dialog.setVisible(true);
                         }
                     }
-                    updateSalesTable();
                 }
             }
         });

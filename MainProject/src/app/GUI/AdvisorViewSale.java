@@ -22,9 +22,12 @@ public class AdvisorViewSale extends JDialog {
         setModal(true);
 
         SaleController saleController = new SaleController();
+        if (sale.isRefunded()) {
+            refundButton.setVisible(false);
+        }
 
         //TODO display sale details
-        priceLabel.setText(String.format("Initial price is %.2f %s via %s %s",
+        priceLabel.setText(String.format("Initial price is %.2f%s via %s %s",
                 sale.getPriceUSD(), sale.getLocalCurrency(), sale.getPaymentProvider(),
                 sale.getPaymentType()));
         discountLabel.setText("Final price: " );
