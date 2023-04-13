@@ -17,9 +17,10 @@ public class GlobalInterlineSalesReport {
     private JLabel dateFrom;
     private JLabel dateTo;
     private JPanel globalInterlineSalesReport;
-    private JLabel totalCommissionLabel;
+    private JLabel totalTaxLabel;
     private JLabel totalAgentsDebitLabel;
-    private JLabel totalCommissionAfterTaxLabel;
+    private JLabel totaCommissionLabel;
+    private JLabel totalDiscountLabel;
 
     private Date dateStart;
     private Date dateEnd;
@@ -45,8 +46,6 @@ public class GlobalInterlineSalesReport {
         ArrayList<Sale> sales = saleController.getAllSales();
 
         DefaultTableModel saleTableModel = (DefaultTableModel) saleTable.getModel();
-        saleTableModel.setColumnCount(0);
-        saleTableModel.setRowCount(0);
 
         saleTableModel.addColumn("Ticket Type");
         saleTableModel.addColumn("Ticket No");
@@ -56,28 +55,27 @@ public class GlobalInterlineSalesReport {
         saleTableModel.addColumn("Currency");
         saleTableModel.addColumn("Local Price");
         saleTableModel.addColumn("Taxes");
-        saleTableModel.addColumn("+Tax-DiscPriceUSD");
+        saleTableModel.addColumn("NET PriceUSD");
         saleTableModel.addColumn("Payment");
         saleTableModel.addColumn("Card No");
         saleTableModel.addColumn("Provider");
         saleTableModel.addColumn("Is Paid");
-        saleTableModel.addColumn("Commission Amt.");
+        saleTableModel.addColumn("Commission Amt");
 
 
         double totalCommission = 0;
         double commissionAfterTax = 0;
         double agentsDebit = 0;
 
-        for (Ticket t :tickets){
-            Sale s = null;
-            for(Sale sale : sales){
-                if(t.getSaleID() == sale.getSaleID()){
-                    s = sale;
-                    break;
-                }
-            }
+        for (Sale s : sales){
+            Ticket t = null;
 
-            if(t.getDateReceived().before(dateEnd) && t.getDateReceived().after(dateStart)){
+            if(s.getDateSold().before(dateEnd) && s.getDateSold().after(dateStart)){
+                for(Ticket ticket : tickets){
+                    if(ticket.getSaleID() == s.getSaleID()){
+                        t = ticket;
+                    }
+                }
                 saleTableModel.insertRow(0, new Object[]{
                         t.getTicketType(),
                         t.getTicketNumber(),
@@ -100,8 +98,8 @@ public class GlobalInterlineSalesReport {
             }
         }
 
-        totalCommissionLabel.setText("Total Commission: " + totalCommission);
-        totalCommissionAfterTaxLabel.setText("Commission After Tax: " + commissionAfterTax);
+        totaCommissionLabel.setText("Total Commission: " + totalCommission);
+        totaCommissionLabel.setText("Commission After Tax: " + commissionAfterTax);
         totalAgentsDebitLabel.setText("Total Agent's Debit: " + agentsDebit);
 
     }
