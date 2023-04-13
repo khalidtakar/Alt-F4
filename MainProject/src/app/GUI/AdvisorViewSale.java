@@ -31,7 +31,7 @@ public class AdvisorViewSale extends JDialog {
                 sale.getPriceUSD(), sale.getLocalCurrency(), sale.getPaymentProvider(),
                 sale.getPaymentType()));
         discountLabel.setText(String.format("Final price: %.2f USD (-%.2f USD)",
-                sale.getPriceUSD() + sale.getTaxAmount() - sale.getSaleDiscountAmount(), sale.getSaleDiscountAmount() - sale.getTaxAmount());
+                sale.getPriceUSD() + sale.getTaxAmount() - sale.getSaleDiscountAmount(), sale.getSaleDiscountAmount() - sale.getTaxAmount()));
         if (!sale.isPaid()) {
             //sale was not late payment
             dateLabel.setText("Sale made on " + sale.getDateSold());
