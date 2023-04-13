@@ -183,7 +183,7 @@ public class AdvisorAssignTicket extends JDialog {
             private void updateLabel() {
                 String priceInput = enterPriceTextField.getText();
                 try {
-                    int price = Integer.parseInt(priceInput);
+                    double price = Double.parseDouble(priceInput);
                     double convertedPrice = price / saleController.getExchangeRate((String) currencyBox.getSelectedItem());
 
                     if (email != null) {
