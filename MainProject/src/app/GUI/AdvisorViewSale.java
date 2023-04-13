@@ -26,11 +26,12 @@ public class AdvisorViewSale extends JDialog {
             refundButton.setVisible(false);
         }
 
-        //TODO display sale details
+        //display sale details
         priceLabel.setText(String.format("Initial price is %.2f%s via %s %s",
                 sale.getPriceUSD(), sale.getLocalCurrency(), sale.getPaymentProvider(),
                 sale.getPaymentType()));
-        discountLabel.setText("Final price: " );
+        discountLabel.setText(String.format("Final price: %.2f USD (-%.2f USD)",
+                sale.getPriceUSD() + sale.getTaxAmount() - sale.getSaleDiscountAmount(), sale.getSaleDiscountAmount() - sale.getTaxAmount());
         if (!sale.isPaid()) {
             //sale was not late payment
             dateLabel.setText("Sale made on " + sale.getDateSold());
