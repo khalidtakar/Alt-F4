@@ -23,17 +23,11 @@ public class MainPageManager {
 
     private JButton changeCommissionButton;
     private JTextField commissionRate;
-    private JLabel commissionRateDisplay;
 
     private JButton changeTaxButton;
     private JTextField taxRate;
-    private JLabel taxRateDisplay;
-
-    private JButton changeDiscountButton;
 
     private JButton addNewAdvisorButton;
-    private JTextField advisorName;
-    private JTextField advisorEmail;
 
     private JTable advisorTable;
     private DefaultTableModel tableModel;
@@ -76,9 +70,9 @@ public class MainPageManager {
         manEmail.setText(employee.getEmail());
 
         taxRate.setText(String.valueOf(system.getTaxRate()));
-        taxRate.setText("Current rate: " + Double.parseDouble(taxRate.getText()));
+        currentTax.setText("Current rate: " + Double.parseDouble(taxRate.getText()));
         commissionRate.setText(String.valueOf(system.getCommissionRate()));
-        commissionRateDisplay.setText("Current rate: " + Double.parseDouble(commissionRate.getText()));
+        currentRate.setText("Current rate: " + Double.parseDouble(commissionRate.getText()));
 
         generateReportPDFButton.addActionListener(new ActionListener() {
             @Override
@@ -96,7 +90,7 @@ public class MainPageManager {
             public void actionPerformed(ActionEvent e) {
                 //change commission rate
                 systemController.setCommissionRate(Double.parseDouble(commissionRate.getText()));
-                commissionRateDisplay.setText("Current rate: " + Double.parseDouble(commissionRate.getText()));
+                currentRate.setText("Current rate: " + Double.parseDouble(commissionRate.getText()));
             }
         });
         changeTaxButton.addActionListener(new ActionListener() {
@@ -104,7 +98,7 @@ public class MainPageManager {
             public void actionPerformed(ActionEvent e) {
                 //change tax rate to taxRate
                 systemController.setTaxRate(Double.parseDouble(taxRate.getText()));
-                taxRate.setText("Current rate: " + Double.parseDouble(taxRate.getText()));
+                currentTax.setText("Current rate: " + Double.parseDouble(taxRate.getText()));
             }
         });
         addNewAdvisorButton.addActionListener(new ActionListener() {
