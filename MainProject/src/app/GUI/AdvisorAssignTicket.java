@@ -1,6 +1,8 @@
 package app.GUI;
 
 import app.Sale.*;
+import app.System.System;
+import app.System.SystemController;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -33,6 +35,9 @@ public class AdvisorAssignTicket extends JDialog {
     private Ticket ticket;
     private MainPageAdvisor mainPageAdvisor;
 
+    private System system;
+    private SystemController systemController;
+
     public AdvisorAssignTicket(Ticket ticket, MainPageAdvisor mainPageAdvisor, int advID) {
         this.ticket = ticket;
         this.mainPageAdvisor = mainPageAdvisor;
@@ -40,6 +45,8 @@ public class AdvisorAssignTicket extends JDialog {
 
         SaleController saleController = new SaleController();
         FlexibleDiscountController flexibleDiscountController = new FlexibleDiscountController();
+        systemController = new SystemController();
+        system = systemController.getLoad();
 
         ticketType.setText(String.valueOf(ticket.getTicketType()));
         ticketNumber.setText("Ticket No." + String.valueOf(ticket.getTicketNumber()));
@@ -186,16 +193,18 @@ public class AdvisorAssignTicket extends JDialog {
 
                         try {
                             double discount = saleController.calculateDiscounts(email, discounts, convertedPrice);
+                            double discountedPrice = convertedPrice - (convertedPrice * 0.01 * discount);
+
                             priceDisplay.setText("Initial price: " + convertedPrice + " USD");
-                            finalPriceDisplay.setText("Initial price: " + (convertedPrice - (convertedPrice * 0.01 * discount) + " USD"));
+                            finalPriceDisplay.setText("Final price: " + (discountedPrice * (1 + system.getTaxRate())) + " USD");
                         }catch (Exception e){
                             priceDisplay.setText("Initial price: " + convertedPrice + " USD");
-                            finalPriceDisplay.setText("Final price: " + convertedPrice + " USD");
+                            finalPriceDisplay.setText("Final price: " + (convertedPrice * (1 + system.getTaxRate())) + " USD");
                         }
                     } else {
                         //user is not registered - no discount
                         priceDisplay.setText("Initial price: " + convertedPrice + " USD");
-                        finalPriceDisplay.setText("Initial price: " + convertedPrice + " USD");
+                        finalPriceDisplay.setText("Final price: " + (convertedPrice * (1 + system.getTaxRate())) + " USD");
                     }
                 } catch (NumberFormatException e) {
                     if (Objects.equals(priceInput, "")) {
