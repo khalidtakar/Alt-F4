@@ -110,9 +110,9 @@ public class AdvisorAssignTicket extends JDialog {
 
                     SaleController saleController = new SaleController();
 
-                    int cardNo = 0;
+                    long cardNo = 0;
                     if(!cardNoTextField.getText().isEmpty()){
-                        cardNo = Integer.parseInt(cardNoTextField.getText());
+                        cardNo = Long.parseLong(cardNoTextField.getText());
                     }
 
                     saleController.newSale(advID,
@@ -144,9 +144,9 @@ public class AdvisorAssignTicket extends JDialog {
                     //customer is registered
                     if (confirmation == JOptionPane.YES_OPTION) {
 
-                        int cardNo = 0;
+                        long cardNo = 0;
                         if(!cardNoTextField.getText().isEmpty()){
-                            cardNo = Integer.parseInt(cardNoTextField.getText());
+                            cardNo = Long.parseLong(cardNoTextField.getText());
                         }
 
                         saleController.newSale(advID,

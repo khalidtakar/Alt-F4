@@ -2,10 +2,7 @@ package app.Sale;
 
 import app.JDBC;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class SaleSQLHelper extends JDBC {
@@ -170,7 +167,7 @@ public class SaleSQLHelper extends JDBC {
             preparedStatement.setString(2,sale.getCustomerEmail());
             preparedStatement.setDate(3,sale.getDateSold());
             preparedStatement.setString(4, sale.getPaymentType());
-            preparedStatement.setInt(5, sale.getCardNo());
+            preparedStatement.setLong(5, sale.getCardNo());
             preparedStatement.setString(6, sale.getPaymentProvider());
             preparedStatement.setString(7, sale.getLocalCurrency());
             preparedStatement.setDouble(8,sale.getExchangeRate());
@@ -237,7 +234,7 @@ public class SaleSQLHelper extends JDBC {
             preparedStatement.setString(2,sale.getCustomerEmail());
             preparedStatement.setDate(3,sale.getDateSold());
             preparedStatement.setString(4, sale.getPaymentType());
-            preparedStatement.setInt(5, sale.getCardNo());
+            preparedStatement.setLong(5, sale.getCardNo());
             preparedStatement.setString(6, sale.getPaymentProvider());
             preparedStatement.setString(7, sale.getLocalCurrency());
             preparedStatement.setDouble(8,sale.getExchangeRate());

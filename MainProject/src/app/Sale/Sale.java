@@ -10,7 +10,7 @@ public class Sale {
     private String customerEmail;
     private Date dateSold;
     private String paymentType;
-    private int cardNo;
+    private long cardNo;
     private String paymentProvider;
     private String localCurrency;
     private double exchangeRate;
@@ -72,7 +72,7 @@ public class Sale {
         return paymentType;
     }
 
-    public int getCardNo() {
+    public long getCardNo() {
         return cardNo;
     }
 
@@ -162,7 +162,7 @@ public class Sale {
         this.paymentType = paymentType;
     }
 
-    public void setCardNo(int cardNo) {
+    public void setCardNo(long cardNo) {
         this.cardNo = cardNo;
     }
 

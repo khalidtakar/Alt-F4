@@ -137,7 +137,7 @@ public class SaleController {
         saleSQLHelper.updateSale(sale);
     }
 
-    public void newSale(int advisorID, String customerEmail, String paymentType, double price, int cardNo, String paymentProvider, String localCurrency, boolean isPaid, Ticket ticket){
+    public void newSale(int advisorID, String customerEmail, String paymentType, double price, long cardNo, String paymentProvider, String localCurrency, boolean isPaid, Ticket ticket){
         Sale sale = new Sale();
         double priceUSD;
 
