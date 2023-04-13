@@ -49,7 +49,7 @@ public class Main{
 
         cardLayout = new CardLayout();
         cardPane = new JPanel(cardLayout);
-        cardPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 20, 20));
+        cardPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         //display card stack
         frame.setContentPane(cardPane);

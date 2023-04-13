@@ -41,7 +41,7 @@ public class AdvisorViewSale extends JDialog {
                     dispose();
                 } else {
                     //closes the option pane
-                    Window option = SwingUtilities.getWindowAncestor(confirmSaleButton);
+                    Window option = SwingUtilities.getWindowAncestor(refundButton);
                     option.dispose();
                 }
             }

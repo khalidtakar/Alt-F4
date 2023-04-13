@@ -16,7 +16,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 public class MainPageManager {
-    private JLabel logo;
 
     private JButton logOutButton;
 
@@ -31,7 +30,6 @@ public class MainPageManager {
     private JLabel taxRateDisplay;
 
     private JButton changeDiscountButton;
-    private JTextField discountRate;
 
     private JButton addNewAdvisorButton;
     private JTextField advisorName;
@@ -44,6 +42,8 @@ public class MainPageManager {
     private JButton changePasswordButton;
     private JLabel manName;
     private JLabel manEmail;
+    private JLabel currentRate;
+    private JLabel currentTax;
 
     private ArrayList<Employee> advisors;
 
@@ -94,6 +94,7 @@ public class MainPageManager {
             public void actionPerformed(ActionEvent e) {
                 //change commission rate
                 systemController.setCommissionRate(Double.parseDouble(commissionRate.getText()));
+                commissionRateDisplay.setText("Current rate: " + Double.parseDouble(commissionRate.getText()));
             }
         });
         changeTaxButton.addActionListener(new ActionListener() {
@@ -101,6 +102,7 @@ public class MainPageManager {
             public void actionPerformed(ActionEvent e) {
                 //change tax rate to taxRate
                 systemController.setTaxRate(Double.parseDouble(taxRate.getText()));
+                taxRate.setText("Current rate: " + Double.parseDouble(taxRate.getText()));
             }
         });
         changeDiscountButton.addActionListener(new ActionListener() {
