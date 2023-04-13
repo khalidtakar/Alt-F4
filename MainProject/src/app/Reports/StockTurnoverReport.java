@@ -207,6 +207,7 @@ public class StockTurnoverReport {
         JFrame frame = new JFrame();
         frame.add(report.getPanel());
         frame.pack();
+        frame.setSize(1200,3000);
         frame.setVisible(true);
         frame.repaint();
 

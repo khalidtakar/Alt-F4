@@ -203,7 +203,6 @@ public class MainPageAdvisor {
         customersTableModel.addColumn("Is Valued");
         customersTableModel.addColumn("Spent This Month");
         customersTableModel.addColumn("Amount To Return");
-        customersTableModel.addColumn("Fixed Discount Rate");
 
         //insert rows
         for (Customer i : customers) {
@@ -212,8 +211,7 @@ public class MainPageAdvisor {
                     i.getName(),
                     i.isValued(),
                     i.getSpentThisMonth(),
-                    i.getDiscountToRefundOrReturn(),
-                    i.getFixedDiscountRate()});
+                    i.getDiscountToRefundOrReturn()});
         }
 
         customersSorter = new TableRowSorter<>(customersTableModel);

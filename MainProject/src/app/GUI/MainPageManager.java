@@ -200,7 +200,7 @@ public class MainPageManager {
     }
 
     public void update(){
-        main.goToMainPageAdvisor(employee);
+        main.goToMainPageManager(employee);
     }
 
     public JPanel getPanel(){

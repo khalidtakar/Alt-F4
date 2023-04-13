@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -65,7 +66,7 @@ public class GlobalInterlineSalesReport {
 
 
         double totalCommission = 0;
-        double commissionAfterTax = 0;
+        double totalDiscounts = 0;
         double agentsDebit = 0;
         double totalTax = 0;
 
@@ -87,7 +88,7 @@ public class GlobalInterlineSalesReport {
                         s.getLocalCurrency(),
                         s.getPriceLocal(),
                         s.getTaxAmount(),
-                        s.getPriceUSD()+s.getTaxAmount()-s.getSaleDiscountAmount(),
+                        Double.parseDouble(new DecimalFormat("#.##").format((((s.getPriceUSD()+s.getTaxAmount()-s.getSaleDiscountAmount()) * 100.0) / 100.0))),
                         s.getPaymentType(),
                         s.getCardNo(),
                         s.getPaymentProvider(),
@@ -95,8 +96,8 @@ public class GlobalInterlineSalesReport {
                         s.getSaleCommissionAmount()});
 
                 totalCommission += s.getSaleCommissionAmount();
-                commissionAfterTax += (s.getSaleCommissionAmount());
-                agentsDebit += (s.getPriceUSD() - s.getSaleDiscountAmount() - s.getSaleCommissionAmount());
+                totalDiscounts += (s.getSaleDiscountAmount());
+                agentsDebit += Double.parseDouble(new DecimalFormat("#.##").format(((s.getPriceUSD()+s.getTaxAmount()-s.getSaleDiscountAmount()) * 100.0) / 100.0));
                 totalTax += s.getTaxAmount();
             }
         }
@@ -104,10 +105,10 @@ public class GlobalInterlineSalesReport {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(saleTableModel);
         saleTable.setRowSorter(sorter);
 
-        totaCommissionLabel.setText("Total Commission: " + totalCommission);
-        totaCommissionLabel.setText("Commission After Tax: " + commissionAfterTax);
-        totalAgentsDebitLabel.setText("Total Agent's Debit: " + agentsDebit);
-        totalTaxLabel.setText("Total tax: " + totalTax);
+        totaCommissionLabel.setText("Total Commission: " + Double.parseDouble(new DecimalFormat("#.##").format(totalCommission)));
+        totalDiscountLabel.setText("Total Discounts: " + Double.parseDouble(new DecimalFormat("#.##").format(totalDiscounts)));
+        totalAgentsDebitLabel.setText("Total Agent's Debit: " + Double.parseDouble(new DecimalFormat("#.##").format(agentsDebit)));
+        totalTaxLabel.setText("Total tax: " + Double.parseDouble(new DecimalFormat("#.##").format(totalTax)));
 
     }
 
@@ -115,18 +116,19 @@ public class GlobalInterlineSalesReport {
         return globalInterlineSalesReport;
     }
 
-    public static void main(String[] args){
-        FlatLightLaf.setup();
-
-        GlobalInterlineSalesReport report = new GlobalInterlineSalesReport(Date.valueOf("2023-01-01"),
-                Date.valueOf("2023-05-01"));
-        JFrame frame = new JFrame();
-        frame.add(report.getPanel());
-        frame.pack();
-        frame.setVisible(true);
-        frame.repaint();
-
-        JPanelToPDF jFrameToPDF = new JPanelToPDF();
-        jFrameToPDF.makePDF(report.getPanel());
-    }
+//    public static void main(String[] args){
+//        FlatLightLaf.setup();
+//
+//        GlobalInterlineSalesReport report = new GlobalInterlineSalesReport(Date.valueOf("2023-01-01"),
+//                Date.valueOf("2023-05-01"));
+//        JFrame frame = new JFrame();
+//        frame.add(report.getPanel());
+//        frame.pack();
+//        frame.setSize(1200,3000);
+//        frame.setVisible(true);
+//        frame.repaint();
+//
+//        JPanelToPDF jFrameToPDF = new JPanelToPDF();
+//        jFrameToPDF.makePDF(report.getPanel());
+//    }
 }

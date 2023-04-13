@@ -170,8 +170,11 @@ public class SaleController {
         FlexibleDiscount greatest = new FlexibleDiscount("",0,0,0);
         try {
             double discount = calculateDiscounts(customerEmail, discounts, price);
-            sale.setSaleDiscountAmount(price * 0.01 * discount);
+            java.lang.System.out.println(discount);
+            sale.setSaleDiscountAmount(priceUSD * 0.01 * discount);
+            java.lang.System.out.println(discount);
         }catch (Exception e){
+            e.printStackTrace();
             sale.setSaleDiscountAmount(0);
         }
 
@@ -180,7 +183,7 @@ public class SaleController {
         system = systemController.getLoad();
 
         sale.setTaxAmount(system.getTaxRate() * 0.01 * price);
-        sale.setSaleCommissionAmount(priceUSD * 0.01 / system.getCommissionRate());
+        sale.setSaleCommissionAmount(priceUSD * (0.01 * system.getCommissionRate()));
         sale.setPaid(isPaid);
         if(isPaid){
             sale.setDatePaid(Date.valueOf(LocalDate.now()));

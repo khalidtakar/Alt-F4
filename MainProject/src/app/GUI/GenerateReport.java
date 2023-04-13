@@ -39,12 +39,16 @@ public class GenerateReport extends JDialog {
         SpinnerModel dayModel = new SpinnerNumberModel(1, 1, 31, 1);
         SpinnerModel monthModel = new SpinnerNumberModel(1, 1, 12, 1);
         SpinnerModel yearModel = new SpinnerNumberModel(1, 1, 2023, 1); //TODO set maximum to current year
+        SpinnerModel endDayModel = new SpinnerNumberModel(1, 1, 31, 1);
+        SpinnerModel endMonthModel = new SpinnerNumberModel(1, 1, 12, 1);
+        SpinnerModel endYearModel = new SpinnerNumberModel(1, 1, 2023, 1); //TODO set maximum to current year
+
         startDay.setModel(dayModel);
         startMonth.setModel(monthModel);
         startYear.setModel(yearModel);
-        endDay.setModel(dayModel);
-        endMonth.setModel(monthModel);
-        endYear.setModel(yearModel);
+        endDay.setModel(endDayModel);
+        endMonth.setModel(endMonthModel);
+        endYear.setModel(endYearModel);
 
         //TODO edit combobox based on user
         /*
@@ -83,26 +87,34 @@ public class GenerateReport extends JDialog {
     }
 
     private void onOK() {
-        String startDate = String.format("%d/%d/%d/", startDay.getValue(), startMonth.getValue(), startYear.getValue());
-        String endDate = String.format("%d/%d/%d/", endDay.getValue(), endMonth.getValue(), endYear.getValue());
+        // Create the start date string with the desired format (yyyy-MM-dd)
+        String startDate = String.format("%04d-%02d-%02d", startYear.getValue(), startMonth.getValue(), startDay.getValue());
+
+        // Create the end date string with the desired format (yyyy-MM-dd)
+        String endDate = String.format("%04d-%02d-%02d", endYear.getValue(), endMonth.getValue(), endDay.getValue());
+
+        java.sql.Date sqlStartDate = java.sql.Date.valueOf(startDate);
+        java.sql.Date sqlEndDate = java.sql.Date.valueOf(endDate);
 
         if(reportType.getSelectedItem().toString().equals("Interline")){
-            GlobalInterlineSalesReport report = new GlobalInterlineSalesReport(Date.valueOf("2023-01-01"),
-                    Date.valueOf("2023-05-01"));
+            GlobalInterlineSalesReport report = new GlobalInterlineSalesReport(sqlStartDate,
+                    sqlEndDate);
             JFrame frame = new JFrame();
             frame.add(report.getPanel());
             frame.pack();
+            frame.setSize(1200,3000);
             frame.setVisible(true);
             frame.repaint();
 
             JPanelToPDF jFrameToPDF = new JPanelToPDF();
             jFrameToPDF.makePDF(report.getPanel());
         } else {
-            StockTurnoverReport report = new StockTurnoverReport(Date.valueOf("2023-01-01"),
-                    Date.valueOf("2023-05-01"));
+            StockTurnoverReport report = new StockTurnoverReport(sqlStartDate,
+                    sqlEndDate);
             JFrame frame = new JFrame();
             frame.add(report.getPanel());
             frame.pack();
+            frame.setSize(1200,3000);
             frame.setVisible(true);
             frame.repaint();
 
