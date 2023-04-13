@@ -110,7 +110,7 @@ public class AdvisorAssignTicket extends JDialog {
 
                     SaleController saleController = new SaleController();
 
-                    long cardNo = 0;
+                    Long cardNo = null;
                     if(!cardNoTextField.getText().isEmpty()){
                         cardNo = Long.parseLong(cardNoTextField.getText());
                     }

@@ -223,7 +223,7 @@ public class SaleController {
         return greatest.getDiscountRate();
     }
 
-    public void makeLatePayment(Sale sale, int cardNo, String provider,String paymentType){
+    public void makeLatePayment(Sale sale, Long cardNo, String provider,String paymentType){
         sale.setCardNo(cardNo);
         sale.setPaymentProvider(provider);
         sale.setPaymentType(paymentType);

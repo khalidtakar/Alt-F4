@@ -72,9 +72,9 @@ public class AdvisorLatePayment extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                int cardNo = 0;
+                Long cardNo = 0l;
                 if(!cardNoTextField.getText().isEmpty()){
-                    cardNo = Integer.parseInt(cardNoTextField.getText());
+                    cardNo = Long.parseLong(cardNoTextField.getText());
                 }
                 //confirm this payment
                 int confirmation = JOptionPane.showConfirmDialog(null, "Confirm this sale?", "Confirm Sale", JOptionPane.YES_NO_OPTION);
