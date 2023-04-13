@@ -13,6 +13,7 @@ public class Login{
     private JButton loginButton;
     private JPasswordField tfPassword;
     private JPanel loginPanel;
+    private JButton showPasswordButton;
 
     private EmployeeController employeeController;
 
@@ -25,6 +26,16 @@ public class Login{
                 }else{
                     employeeController = new EmployeeController(main, employee);
                     employeeController.login(tfEmail.getText(), tfPassword.getText());
+                }
+            }
+        });
+        showPasswordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (tfPassword.getEchoChar() == '•') {
+                    tfPassword.setEchoChar((char) 0);
+                } else {
+                    tfPassword.setEchoChar('•');
                 }
             }
         });
