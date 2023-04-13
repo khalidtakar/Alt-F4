@@ -76,7 +76,9 @@ public class MainPageManager {
         manEmail.setText(employee.getEmail());
 
         taxRate.setText(String.valueOf(system.getTaxRate()));
+        taxRate.setText("Current rate: " + Double.parseDouble(taxRate.getText()));
         commissionRate.setText(String.valueOf(system.getCommissionRate()));
+        commissionRateDisplay.setText("Current rate: " + Double.parseDouble(commissionRate.getText()));
 
         generateReportPDFButton.addActionListener(new ActionListener() {
             @Override
@@ -103,12 +105,6 @@ public class MainPageManager {
                 //change tax rate to taxRate
                 systemController.setTaxRate(Double.parseDouble(taxRate.getText()));
                 taxRate.setText("Current rate: " + Double.parseDouble(taxRate.getText()));
-            }
-        });
-        changeDiscountButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO change global discount to discountRate
             }
         });
         addNewAdvisorButton.addActionListener(new ActionListener() {
