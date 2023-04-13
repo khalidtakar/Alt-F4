@@ -135,6 +135,32 @@ public class SalesAdvisor {
                 }
             }
         });
+        ListSelectionModel selectionModel = salesTable.getSelectionModel();
+        selectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting()) {
+                    //open sale viewer
+                    int selectedRow = salesTable.getSelectedRow();
+                    int saleID = (int) salesTable.getValueAt(selectedRow, 0);
+                    Sale sale = null;
+
+                    ArrayList<Sale> sales = saleController.getAllSales();
+                    for(Sale i : sales){
+                        if(i.getSaleID() == saleID) {
+                            sale = i;
+                            JDialog dialog = new AdvisorViewSale(sale);
+                            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+                            dialog.setLocationRelativeTo(null);
+                            dialog.pack();
+                            dialog.setVisible(true);
+                        }
+                    }
+                    updateSalesTable();
+                }
+            }
+        });
     }
 
     public void updateSalesTable(){

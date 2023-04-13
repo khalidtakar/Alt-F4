@@ -7,6 +7,7 @@ import app.System.SystemController;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.Window;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import javax.swing.event.DocumentEvent;
@@ -47,6 +48,8 @@ public class AdvisorAssignTicket extends JDialog {
         FlexibleDiscountController flexibleDiscountController = new FlexibleDiscountController();
         systemController = new SystemController();
         system = systemController.getLoad();
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
         ticketType.setText(String.valueOf(ticket.getTicketType()));
         ticketNumber.setText("Ticket No." + String.valueOf(ticket.getTicketNumber()));
@@ -195,16 +198,16 @@ public class AdvisorAssignTicket extends JDialog {
                             double discount = saleController.calculateDiscounts(email, discounts, convertedPrice);
                             double discountedPrice = convertedPrice - (convertedPrice * 0.01 * discount);
 
-                            priceDisplay.setText("Initial price: " + convertedPrice + " USD");
-                            finalPriceDisplay.setText("Final price: " + (discountedPrice * (1 + system.getTaxRate()/100)) + " USD");
+                            priceDisplay.setText("Initial price: " + decimalFormat.format(convertedPrice) + " USD");
+                            finalPriceDisplay.setText("Final price: " + decimalFormat.format(discountedPrice * (1 + system.getTaxRate()/100)) + " USD");
                         }catch (Exception e){
-                            priceDisplay.setText("Initial price: " + convertedPrice + " USD");
-                            finalPriceDisplay.setText("Final price: " + (convertedPrice * (1 + system.getTaxRate()/100)) + " USD");
+                            priceDisplay.setText("Initial price: " + decimalFormat.format(convertedPrice) + " USD");
+                            finalPriceDisplay.setText("Final price: " + decimalFormat.format(convertedPrice * (1 + system.getTaxRate()/100)) + " USD");
                         }
                     } else {
                         //user is not registered - no discount
-                        priceDisplay.setText("Initial price: " + convertedPrice + " USD");
-                        finalPriceDisplay.setText("Final price: " + (convertedPrice * (1 + system.getTaxRate()/100)) + " USD");
+                        priceDisplay.setText("Initial price: " + decimalFormat.format(convertedPrice) + " USD");
+                        finalPriceDisplay.setText("Final price: " + decimalFormat.format(convertedPrice * (1 + system.getTaxRate()/100)) + " USD");
                     }
                 } catch (NumberFormatException e) {
                     if (Objects.equals(priceInput, "")) {

@@ -24,9 +24,17 @@ public class AdvisorViewSale extends JDialog {
         SaleController saleController = new SaleController();
 
         //TODO display sale details
-        priceLabel.setText(sale.getPriceUSD() + sale.getLocalCurrency() + "via" + sale.getPaymentProvider() + sale.getPaymentType());
+        priceLabel.setText(String.format("Initial price is %.2f %s via %s %s",
+                sale.getPriceUSD(), sale.getLocalCurrency(), sale.getPaymentProvider(),
+                sale.getPaymentType()));
         discountLabel.setText("Final price: " );
-        dateLabel.setText("");
+        if (!sale.isPaid()) {
+            //sale was not late payment
+            dateLabel.setText("Sale made on " + sale.getDateSold());
+        } else {
+            //sale was late payment
+            dateLabel.setText("Sale made on " + sale.getDateSold() + " and paid late on " + sale.getDatePaid());
+        }
         ticketType.setText("");
         ticketNumber.setText("");
 
