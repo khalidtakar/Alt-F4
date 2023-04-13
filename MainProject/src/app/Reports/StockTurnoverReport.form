@@ -15,7 +15,7 @@
           </grid>
         </constraints>
         <properties>
-          <autoCreateRowSorter value="true"/>
+          <autoCreateRowSorter value="false"/>
         </properties>
       </component>
       <component id="155f" class="javax.swing.JTable" binding="oldAssignedUnusedStock">

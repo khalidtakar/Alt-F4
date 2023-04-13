@@ -8,6 +8,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class GlobalInterlineSalesReport {
         double totalCommission = 0;
         double commissionAfterTax = 0;
         double agentsDebit = 0;
+        double totalTax = 0;
 
         for (Sale s : sales){
             Ticket t = null;
@@ -93,14 +95,19 @@ public class GlobalInterlineSalesReport {
                         s.getSaleCommissionAmount()});
 
                 totalCommission += s.getSaleCommissionAmount();
-                commissionAfterTax += (s.getSaleCommissionAmount() - s.getTaxAmount());
+                commissionAfterTax += (s.getSaleCommissionAmount());
                 agentsDebit += (s.getPriceUSD() - s.getSaleDiscountAmount() - s.getSaleCommissionAmount());
+                totalTax += s.getTaxAmount();
             }
         }
+
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(saleTableModel);
+        saleTable.setRowSorter(sorter);
 
         totaCommissionLabel.setText("Total Commission: " + totalCommission);
         totaCommissionLabel.setText("Commission After Tax: " + commissionAfterTax);
         totalAgentsDebitLabel.setText("Total Agent's Debit: " + agentsDebit);
+        totalTaxLabel.setText("Total tax: " + totalTax);
 
     }
 

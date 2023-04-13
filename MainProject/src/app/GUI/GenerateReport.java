@@ -86,8 +86,6 @@ public class GenerateReport extends JDialog {
         String startDate = String.format("%d/%d/%d/", startDay.getValue(), startMonth.getValue(), startYear.getValue());
         String endDate = String.format("%d/%d/%d/", endDay.getValue(), endMonth.getValue(), endYear.getValue());
 
-        System.out.println(startDate);
-
         if(reportType.getSelectedItem().toString().equals("Interline")){
             GlobalInterlineSalesReport report = new GlobalInterlineSalesReport(Date.valueOf("2023-01-01"),
                     Date.valueOf("2023-05-01"));
