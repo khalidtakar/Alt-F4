@@ -65,7 +65,7 @@ public class MainPageAdmin{
 
         backupFrequency.setText(String.valueOf(system.getAutoBackupFreqDays()));
         daysDisplay.setText(String.valueOf(systemController.checkLastBackup(system)) + " days since last backup");
-        frequencyDisplay.setText("Backup frequency: " + Integer.parseInt(backupFrequency.getText() + " days"));
+        //frequencyDisplay.setText("Backup frequency: " + Integer.parseInt(backupFrequency.getText() + " days"));
 
         addBlanksButton.addActionListener(new ActionListener() {
             @Override
@@ -81,7 +81,7 @@ public class MainPageAdmin{
             public void actionPerformed(ActionEvent e) {
                 tickets = ticketController.removeTickets(Integer.parseInt(deleteBlanksType.getSelectedItem().toString()) ,(Integer.parseInt(deleteBlanksStartVal.getText()))
                         , Integer.parseInt(deleteBlanksEndVal.getText()));
-                updateTable();
+                update();
 
             }
         });
