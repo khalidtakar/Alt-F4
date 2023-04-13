@@ -75,7 +75,7 @@ CREATE TABLE Sale(
 
 	dateSold date,
 	paymentType varchar(4) NULL,
-	cardNo integer(16),
+	cardNo bigint(16),
 	paymentProvider varchar(10),
 	localCurrency varchar(5),
 	exchangeRate decimal(9,4) NULL,
@@ -156,7 +156,7 @@ INSERT INTO RegisteredCustomer VALUES
 
 INSERT INTO FlexibleDiscount(`email`, `discountRate`, `lowerBoundary`, `upperBoundary`) 
 VALUES 
-	('david@gmail.com', 0,Null,100),
+	('david@gmail.com', 0,Null,1000),
 	('david@gmail.com', 1,1000,2000),
 	('david@gmail.com', 2,2000,null),
 	("sarah@gmail.com", 2, null, null);
@@ -182,27 +182,28 @@ INSERT INTO Manager VALUES
 
 
 
+/*
 	INSERT INTO Sale
 	(`saleID`, `advisorID`, `customerEmail`, `dateSold`, `paymentType`, `cardNo`, `paymentProvider`, `localCurrency`, `exchangeRate`, `priceLocal`, `priceUSD`, `saleDiscountAmount`, `taxAmount`, `saleCommissionAmount`, `isDomestic`, `isPaid`, `datePaid`, `refundRequested`, `isRefunded`) 
 	VALUES 
-	(11,250,"sarah@gmail.com",'01-01-2023','Cash',NULL,NULL,'GBP',0.8054,220.00,118.80,2,58,0.0486,False,True,NULL,False,False),
+	(11,250,"sarah@gmail.com",'01-01-2023','Cash',NULL,NULL,'GBP',0.8054, 220, 273.16, 2, 44, 9,False,True,NULL,False,False),
 
-	(12,250,NULL,'01-01-2023','Card', 4901 0002 2345 3456,"VISA",'GBP',0.8054, 230.00,124.20,NULL,98,0.0486,False,False,NULL,True,True),
+	(12,250,NULL,'01-01-2023','Card', 4901000223453456, 'VISA','GBP',0.8054,273.16, 0, NULL, 44,9,False,False,NULL,True,True),
+ 
+	(13,250,NULL,'01-01-2023','Cash', NULL,NULL,'USD',1.0000,43,43,8.6,NULL,5,True,True,NULL,False,False),
 
-	(13,250,NULL,'01-01-2023','Cash', NULL,NULL,'USD',1.0000,86.00,46.44,NULL,15.60,0.05,True,True,NULL,False,False),
+	(28,250,"david@gmail.com",'02-02-2023','Card', 5899455432655121,"VISA",'GBP',0.8054,'[value-10]','[value-11]','[value-12]','[value-13]',9,False,True,"15-03-2023",False,False),
 
-	(28,250,"david@gmail.com",'02-02-2023','Card', 5899 4554 3265 5121,"VISA",'GBP',0.8054,220.00,94.60,0.0043,138,0.0387,False,True,"15-03-2023",False,False),
+	(29,250,"chris@gmail.com",'02-02-2023',NULL, NULL,"Chris Smart",'GBP',0.8054,'[value-10]','[value-11]','[value-12]','[value-13]',9,False,False,NULL,False,False),
 
-	(29,250,"chris@gmail.com",'02-02-2023',NULL, NULL,"Chris Smart",'GBP',0.8054,230.00,98.90,0.0043,58,0.0387,False,False,NULL,False,False),
+	(30,250,NULL,'02-02-2023',Card,6454986387338876,"VISA",'USD',1.0000,'[value-10]','[value-11]',NULL,'[value-13]',5,False,True,NULL,False,False),
 
-	(30,250,NULL,'02-02-2023',Card,6454 9863 8733 8876,"VISA",'USD',1.0000,75.00,32.25,NULL,13.80,0.05,False,True,NULL,False,False),
+	(45,211,"sarah@gmail.com",'02-02-2023',Card,"MC 5301 0234 5698 1234",'Sarah Broklehurst','GBP',0.8054,'[value-10]','[value-11]',2,'[value-13]',9,False,True,'13-02-2023',False,False),
 
-	(45,211,"sarah@gmail.com",'02-02-2023',Card,5301 0234 5698 1234,'MC','GBP',0.8054,250.00,107.50,2,60,0.0387,False,True,'13-02-2023',False,False),
+	(46,211,NULL,'02-02-2023',Card,"VISA 7449 1555 4589 3456",NULL,'GBP',0.8054,'[value-10]','[value-11]',NULL,'[value-13]',9,False,True,NULL,False,False),
 
-	(46,211,NULL,'02-02-2023',Card,7449 1555 4589 3456,"VISA",'GBP',0.8054,300.00,129.00,NULL,65,0.0387,False,True,NULL,False,False),
-
-	(47,211,NULL,'02-02-2023',Cash,NULL,NULL,'USD',1.0000, 75.00,32.25,NULL,13.80,0.05,True,True,NULL,True,True);
-
+	(47,211,NULL,'02-02-2023',Cash,NULL,NULL,'USD',1.0000,'[value-10]','[value-11]',NULL,'[value-13]',5,True,True,NULL,True,True);
+*/
 
 
 
@@ -214,6 +215,7 @@ INSERT INTO Manager VALUES
 
 /* INSERT STATEMENTS */
 /*new ticket stocks added to system*/
+/*
 INSERT INTO Ticket (ticketType, ticketNumber, advisorId, saleID, isValid, dateReceived, dateAssigned) VALUES
 	(444, 1, NULL, NULL, False, "2023-02-15", NULL),
 	(444, 2, 1, 1, True, "2023-02-15", "2023-02-20"),
@@ -230,7 +232,7 @@ INSERT INTO Ticket (ticketType, ticketNumber, advisorId, saleID, isValid, dateRe
 	(444, 11, NULL, NULL, True, "2023-02-15", NULL),
 	(444, 12, NULL, NULL, False, "2023-02-15", NULL),
 	(451, 3, NULL, NULL, True, "2023-02-15", NULL);
-
+*/
 
 
 
