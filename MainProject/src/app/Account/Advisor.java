@@ -1,5 +1,8 @@
 package app.Account;
 
+/**
+ * Stores Advisor ID
+ */
 public class Advisor {
     private int advisorID;
     private String username;

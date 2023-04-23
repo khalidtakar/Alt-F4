@@ -1,5 +1,8 @@
 package app.Account;
 
+/**
+ * Stores manager ID
+ */
 public class Manager {
     private int manID;
     private String username;

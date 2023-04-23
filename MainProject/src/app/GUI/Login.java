@@ -32,10 +32,10 @@ public class Login{
         showPasswordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (tfPassword.getEchoChar() == '•') {
+                if (tfPassword.getEchoChar() == '.') {
                     tfPassword.setEchoChar((char) 0);
                 } else {
-                    tfPassword.setEchoChar('•');
+                    tfPassword.setEchoChar('.');
                 }
             }
         });
